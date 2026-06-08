@@ -944,10 +944,10 @@
         const volumeSlider = document.getElementById('volume-slider');
         const volumeBar = document.getElementById('volume-bar');
 
-        // Set initial volume to 20%
-        audio.volume = 0.2;
+        // Set initial volume to 0.5%
+        audio.volume = 0.005;
         if (volumeBar) {
-            volumeBar.style.height = '20%';
+            volumeBar.style.height = '10%';
         }
 
         function formatTime(seconds) {
