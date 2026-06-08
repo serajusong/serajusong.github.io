@@ -743,7 +743,18 @@
             left: -2px;
             top: -4px;
         }
+    <style>
+        /* ... existing styles ... */
+        .map-container {
+            width: 100%;
+            height: 350px;
+            margin-top: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
     </style>
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=f9zb7s7erg"></script>
 </head>
 <body class="modal-open">
     <!-- Ticket Overlay -->
@@ -884,11 +895,12 @@
             <h2>오시는 길</h2>
             <p class="date-location">
                 2026년 10월 17일 토요일 18시<br>
-                <!-- 오하 하우스 웨딩 (네비 오하농원 / 오하포도농원 검색) -->  
+                오하 하우스 웨딩<br>
+                (경기 안성시 서운면 신능길 83-15)
             </p>
-            <div class="map-placeholder">지도 영역 (카카오맵, 네이버맵 등 연동)</div>
+            <div id="map" class="map-container"></div>
             <p style="text-align: center; margin-top: 10px;">
-                <a href="#" style="color: #b76e79; text-decoration: none;">모바일 길찾기</a>
+                <a href="https://map.naver.com/v5/search/%EA%B2%BD%EA%B8%B0%20%EC%95%88%EC%84%B1%EC%8B%9C%20%EC%84%9C%EC%9A%B4%EB%A9%B4%20%EC%8B%A0%EB%8A%A5%EA%B8%B8%2083-15" target="_blank" style="color: #b76e79; text-decoration: none;">네이버 지도로 보기</a>
             </p>
         </section>
 
@@ -1048,6 +1060,48 @@
         window.addEventListener('load', () => {
             // audio.play().then(updatePlayIcon).catch(e => console.log('Autoplay blocked on load'));
         });
+
+        // Naver Map Initialization
+        function initMap() {
+            var mapOptions = {
+                center: new naver.maps.LatLng(36.9716950, 127.2722666), // 경기 안성시 서운면 신능길 83-15
+                zoom: 15,
+                minZoom: 10,
+                maxZoom: 19,
+                zoomControl: true,
+                zoomControlOptions: {
+                    position: naver.maps.Position.TOP_RIGHT
+                }
+            };
+
+            var map = new naver.maps.Map('map', mapOptions);
+
+            var marker = new naver.maps.Marker({
+                position: new naver.maps.LatLng(36.9716950, 127.2722666),
+                map: map,
+                title: '오하 하우스 웨딩'
+            });
+
+            var infowindow = new naver.maps.InfoWindow({
+                content: '<div style="padding:10px;min-width:150px;line-height:150%;text-align:center;"><strong>오하 하우스 웨딩</strong><br />경기 안성시 서운면 신능길 83-15</div>'
+            });
+
+            naver.maps.Event.addListener(marker, "click", function(e) {
+                if (infowindow.getMap()) {
+                    infowindow.close();
+                } else {
+                    infowindow.open(map, marker);
+                }
+            });
+
+            // 기본적으로 인포윈도우 열어두기
+            infowindow.open(map, marker);
+        }
+
+        // 스크립트 로드 후 초기화 실행 (비동기 방식이 아닐 경우 직접 호출)
+        if (typeof naver !== 'undefined') {
+            initMap();
+        }
     </script>
 </body>
 </html>
