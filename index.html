@@ -939,10 +939,10 @@
         const volumeSlider = document.getElementById('volume-slider');
         const volumeBar = document.getElementById('volume-bar');
 
-        // Set initial volume to 10%
-        audio.volume = 0.005;
+        // Set initial volume to 20%
+        audio.volume = 0.2;
         if (volumeBar) {
-            volumeBar.style.height = '10%';
+            volumeBar.style.height = '20%';
         }
 
         function formatTime(seconds) {
@@ -1002,7 +1002,14 @@
             document.getElementById('ticket-wrapper').style.display = 'none';
             document.querySelector('.container').style.display = 'block';
             document.body.classList.remove('modal-open');
-            audio.play().then(updatePlayIcon).catch(e => console.log('Autoplay blocked'));
+            
+            // Re-check and play audio
+            audio.play().then(() => {
+                updatePlayIcon();
+                console.log('Playback started successfully');
+            }).catch(e => {
+                console.log('Playback failed:', e);
+            });
         }
 
         function openGoogleFormModal() {
