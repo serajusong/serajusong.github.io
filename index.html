@@ -992,7 +992,23 @@
         });
 
         volumeBtn.addEventListener('click', () => {
-            volumeControls.classList.toggle('hidden');
+            if (audio.muted) {
+                audio.muted = false;
+                volumeBar.style.height = (audio.volume * 100) + '%';
+            } else {
+                audio.muted = true;
+                volumeBar.style.height = '0%';
+            }
+        });
+
+        // Show/hide volume slider on hover instead of click if you prefer, 
+        // but here we keep the original logic and fix the mute function.
+        const volumeWrapper = document.querySelector('.volume');
+        volumeWrapper.addEventListener('mouseenter', () => {
+            volumeControls.classList.remove('hidden');
+        });
+        volumeWrapper.addEventListener('mouseleave', () => {
+            volumeControls.classList.add('hidden');
         });
 
         volumeSlider.addEventListener('click', (e) => {
@@ -1000,6 +1016,7 @@
             let ratio = (rect.bottom - e.clientY) / rect.height;
             ratio = Math.max(0, Math.min(1, ratio));
             audio.volume = ratio;
+            audio.muted = false;
             volumeBar.style.height = ratio * 100 + '%';
         });
 
