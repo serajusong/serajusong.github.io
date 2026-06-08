@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>신랑이름 ❤️ 신부이름 결혼합니다.</title>
+    <!-- Naver Map API -->
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f9zb7s7erg"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Ticket Overlay Styles */
@@ -448,17 +450,10 @@
             line-height: 1.6;
         }
 
-        .map-placeholder {
+        .map-container {
             width: 100%;
             height: 350px;
-            background-color: #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 1.2em;
             margin-top: 30px;
-            border-radius: 0;
         }
 
         .contact-info { animation-delay: 3.0s; }
@@ -743,18 +738,7 @@
             left: -2px;
             top: -4px;
         }
-    <style>
-        /* ... existing styles ... */
-        .map-container {
-            width: 100%;
-            height: 350px;
-            margin-top: 30px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
     </style>
-    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=f9zb7s7erg&callback=initMap"></script>
 </head>
 <body class="modal-open">
     <!-- Ticket Overlay -->
@@ -846,7 +830,7 @@
                         </div>
                     </div>
                     <audio id="bgm" loop autoplay>
-                        <source src="asset/bgm/bgm.mp3" type="audio/mpeg">
+                        <source src="/asset/bgm/bgm.mp3" type="audio/mpeg">
                     </audio>
                 </div>
             </div>
@@ -859,8 +843,8 @@
 
         <section class="main-visual">
             <div class="main-images">
-                <img src="asset/image/jusong.jpg" alt="메인 이미지 1">
-                <img src="asset/image/sera.jpg" alt="메인 이미지 2">
+                <img src="/asset/image/jusong.jpg" alt="메인 이미지 1">
+                <img src="/asset/image/sera.jpg" alt="메인 이미지 2">
             </div>
         </section>
 
@@ -956,7 +940,7 @@
         const volumeSlider = document.getElementById('volume-slider');
         const volumeBar = document.getElementById('volume-bar');
 
-        // Set initial volume to 0.5%
+        // Set initial volume to 10%
         audio.volume = 0.005;
         if (volumeBar) {
             volumeBar.style.height = '10%';
@@ -1004,23 +988,7 @@
         });
 
         volumeBtn.addEventListener('click', () => {
-            if (audio.muted) {
-                audio.muted = false;
-                volumeBar.style.height = (audio.volume * 100) + '%';
-            } else {
-                audio.muted = true;
-                volumeBar.style.height = '0%';
-            }
-        });
-
-        // Show/hide volume slider on hover instead of click if you prefer, 
-        // but here we keep the original logic and fix the mute function.
-        const volumeWrapper = document.querySelector('.volume');
-        volumeWrapper.addEventListener('mouseenter', () => {
-            volumeControls.classList.remove('hidden');
-        });
-        volumeWrapper.addEventListener('mouseleave', () => {
-            volumeControls.classList.add('hidden');
+            volumeControls.classList.toggle('hidden');
         });
 
         volumeSlider.addEventListener('click', (e) => {
@@ -1028,7 +996,6 @@
             let ratio = (rect.bottom - e.clientY) / rect.height;
             ratio = Math.max(0, Math.min(1, ratio));
             audio.volume = ratio;
-            audio.muted = false;
             volumeBar.style.height = ratio * 100 + '%';
         });
 
@@ -1036,14 +1003,7 @@
             document.getElementById('ticket-wrapper').style.display = 'none';
             document.querySelector('.container').style.display = 'block';
             document.body.classList.remove('modal-open');
-            
-            // Re-check and play audio
-            audio.play().then(() => {
-                updatePlayIcon();
-                console.log('Playback started successfully');
-            }).catch(e => {
-                console.log('Playback failed:', e);
-            });
+            audio.play().then(updatePlayIcon).catch(e => console.log('Autoplay blocked'));
         }
 
         function openGoogleFormModal() {
@@ -1062,46 +1022,15 @@
         });
 
         // Naver Map Initialization
-        function initMap() {
-            var mapOptions = {
-                center: new naver.maps.LatLng(36.9716950, 127.2722666), // 경기 안성시 서운면 신능길 83-15
-                zoom: 15,
-                minZoom: 10,
-                maxZoom: 19,
-                zoomControl: true,
-                zoomControlOptions: {
-                    position: naver.maps.Position.TOP_RIGHT
-                }
-            };
-
-            var map = new naver.maps.Map('map', mapOptions);
-
-            var marker = new naver.maps.Marker({
-                position: new naver.maps.LatLng(36.9716950, 127.2722666),
-                map: map,
-                title: '오하 하우스 웨딩'
-            });
-
-            var infowindow = new naver.maps.InfoWindow({
-                content: '<div style="padding:10px;min-width:150px;line-height:150%;text-align:center;"><strong>오하 하우스 웨딩</strong><br />경기 안성시 서운면 신능길 83-15</div>'
-            });
-
-            naver.maps.Event.addListener(marker, "click", function(e) {
-                if (infowindow.getMap()) {
-                    infowindow.close();
-                } else {
-                    infowindow.open(map, marker);
-                }
-            });
-
-            // 기본적으로 인포윈도우 열어두기
-            infowindow.open(map, marker);
-        }
-
-        // 스크립트 로드 후 초기화 실행 (비동기 방식이 아닐 경우 직접 호출)
-        if (typeof naver !== 'undefined') {
-            initMap();
-        }
+        var mapOptions = {
+            center: new naver.maps.LatLng(37.0373, 127.2464), // 오하 하우스 웨딩 좌표 (대략적)
+            zoom: 16
+        };
+        var map = new naver.maps.Map('map', mapOptions);
+        var marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(37.0373, 127.2464),
+            map: map
+        });
     </script>
 </body>
 </html>
