@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>신랑이름 ❤️ 신부이름 결혼합니다.</title>
-    <!-- Naver Map API -->
-    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=f9zb7s7erg"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Ticket Overlay Styles */
@@ -882,7 +880,11 @@
                 오하 하우스 웨딩<br>
                 (경기 안성시 서운면 신능길 83-15)
             </p>
-            <div id="map" class="map-container"></div>
+            <div id="map" class="map-container">
+                <img src="https://maps.apigw.ntruss.com/map-static/v2/raster-cors?w=768&h=350&center=127.2464,37.0373&level=16&markers=type:t|size:mid|pos:127.2464,37.0373&X-NCP-APIGW-API-KEY-ID=f9zb7s7erg" 
+                     alt="웨딩홀 지도" 
+                     style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
         </section>
 
         <section class="contact-info">
@@ -1016,17 +1018,6 @@
         // Try autoplay on load - disabled because we want it to start on ticket click
         window.addEventListener('load', () => {
             // audio.play().then(updatePlayIcon).catch(e => console.log('Autoplay blocked on load'));
-        });
-
-        // Naver Map Initialization
-        var mapOptions = {
-            center: new naver.maps.LatLng(37.0373, 127.2464), // 오하 하우스 웨딩 좌표 (대략적)
-            zoom: 16
-        };
-        var map = new naver.maps.Map('map', mapOptions);
-        var marker = new naver.maps.Marker({
-            position: new naver.maps.LatLng(37.0373, 127.2464),
-            map: map
         });
     </script>
 </body>
