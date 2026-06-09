@@ -6,7 +6,7 @@
     <title>신랑이름 ❤️ 신부이름 결혼합니다.</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Ticket Overlay Styles */
+        /* New Ticket Overlay Styles from uicode2.html */
         #ticket-wrapper {
             position: fixed;
             top: 0;
@@ -22,273 +22,250 @@
             overflow: hidden;
         }
 
-        /* From Uiverse.io by marcelodolza */ 
-        .output {
-          align-self: center;
-          background: inherit;
-          border-radius: 100px;
-          padding: 0 12px 0 10px;
-          height: 36px;
-          min-width: 350px;
+        .card {
+          --width: 280px;
+          --height: 480px;
+          --perforation-size: 18px;
+          --cutouts-adjust: 110px;
+
           position: relative;
-          top: -140px;
+          display: grid;
+          grid-template-rows: auto 1fr auto;
+          gap: 1.5rem;
+          grid-template-areas:
+            "header"
+            "body"
+            "footer";
+
+          width: var(--width);
+          height: var(--height);
+          padding: var(--perforation-size) 0;
+
+          font-family: 'Noto Serif KR', serif;
+          font-size: 1.1rem;
+          user-select: none;
+          overflow: hidden;
+
+          filter: drop-shadow(0 2px 1px #00000025) drop-shadow(0 4px 3px #00000025)
+            drop-shadow(0 10px 9px #00000025) drop-shadow(0 20px 20px #00000025)
+            drop-shadow(0 40px 40px #00000025);
+          animation: hover 3s ease infinite;
+          will-change: transform, filter;
         }
-        .output .cover {
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            bottom: 2px;
-            left: 2px;
-            border-radius: 100px;
-            clip-path: inset(0 0 0 0 round 100px);
-            background: #101216;
-            transition: filter 1000ms cubic-bezier(0, 0, 0, 1);
-            filter: blur(5px);
+
+        @keyframes hover {
+          50% {
+            filter: drop-shadow(0 4px 3px #00000015) drop-shadow(0 6px 6px #00000015)
+              drop-shadow(0 16px 14px #00000015) drop-shadow(0 30px 28px #00000015)
+              drop-shadow(0 60px 60px #00000015);
+            transform: translateY(-10px) scale(1.02);
+          }
         }
-        .output .cover::after {
-            content: "";
-            top: -10px;
-            right: -10px;
-            bottom: -10px;
-            left: -10px;
-            border-radius: 100px;
-            position: absolute;
-            background: inherit;
-            opacity: 0.5;
+
+        .filter {
+          position: absolute;
         }
-        .output .wrap-colors-1,
-        .output .wrap-colors-2 {
-            overflow: hidden;
-            border-radius: 100px;
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            pointer-events: none;
+
+        .bg {
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          background-color: #fff;
+          filter: url(#bump);
+          mask:
+            /* top perforations */
+            radial-gradient(
+              circle at 50% 0,
+              #fff0 calc(var(--perforation-size) - 5px),
+              #000 calc(var(--perforation-size) - 4px)
+            ),
+            /* bottom perforations */
+              radial-gradient(
+                circle at 50% 100%,
+                #fff0 calc(var(--perforation-size) - 5px),
+                #000 calc(var(--perforation-size) - 4px)
+              ),
+            /* left notch */
+              radial-gradient(circle 12px at left center, #000 98%, #0000 100%),
+            /* right notch */
+              radial-gradient(circle 12px at right center, #000 98%, #0000 100%),
+            /* cut perforation */
+              repeating-linear-gradient(
+                90deg,
+                #000 15px,
+                #000 22px,
+                #0000 23px,
+                #0000 35px
+              );
+
+          mask-repeat: repeat-x, repeat-x, no-repeat, no-repeat, repeat-x;
+
+          mask-size:
+            calc(var(--perforation-size) * 2) 100%,
+            calc(var(--perforation-size) * 2) 100%,
+            24px 24px,
+            24px 24px,
+            15px 3px;
+
+          mask-position:
+            calc(0.5 * var(--perforation-size)) top,
+            calc(0.5 * var(--perforation-size)) bottom,
+            left var(--cutouts-adjust),
+            right var(--cutouts-adjust),
+            0 calc(var(--cutouts-adjust) + 10px);
+
+          mask-composite: intersect, exclude, add, add;
         }
-        .output .wrap-colors-1 {
-            opacity: 0.35;
-            filter: blur(3px);
-        }
-        .output .bg-colors {
-            background: conic-gradient(
-                transparent 0deg,
-                #8400ff 65deg,
-                #00ccff 144deg,
-                #1356b4 180deg,
-                transparent 324deg,
-                transparent 360deg
+
+        .holographic {
+          background-image: linear-gradient(to bottom, #fe58, 90%, #0002),
+            conic-gradient(
+              at 60% 50%,
+              #ccc,
+              #ff6bfe,
+              #00f9f8,
+              #ddd,
+              #0081fd,
+              #eef0bc,
+              #0081fd,
+              #ff6bfe,
+              #0002,
+              #0081fd,
+              #ddd,
+              #01fefb,
+              #ccc
             );
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            margin: auto;
-            inset: 0;
-            left: 50%;
-            transform: translateX(-50%) rotate(220deg);
-            border-radius: 50%;
-            animation: cycle-rotate 3s ease-in-out infinite;
         }
-        .output::before {
-            content: "";
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            border-radius: inherit;
-            position: absolute;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: #ffffff14;
-            opacity: 0.4;
-            transition: opacity 400ms linear, background-color 400ms linear;
+        .holographic::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          background: radial-gradient(circle at 70% 20%, #f0f, #0000),
+            repeating-radial-gradient(circle at 30% 80%, #fff, #f4a 72px, #eeeeee 225px);
+          mix-blend-mode: color-burn;
         }
-        .output::after {
-            content: "";
-            position: absolute;
-            left: 12px;
-            right: 12px;
-            top: 14px;
-            background: linear-gradient(0deg, transparent, black);
-            height: 9px;
-            mix-blend-mode: soft-light;
-            border-radius: 100px;
+        .holographic::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          background: linear-gradient(to bottom, #f205, #f00, #0f0, #f205);
+          mix-blend-mode: difference;
+
+          animation: bg-pos 3s ease-in-out infinite alternate;
+          background-position: 0 0;
+          background-size: 100% 300%;
+          background-repeat: repeat;
         }
 
-        @keyframes cycle-rotate {
-            from { transform: translateX(-50%) rotate(0deg); }
-            to { transform: translateX(-50%) rotate(360deg); }
+        @keyframes bg-pos {
+          to {
+            background-position: 0 500px;
+          }
         }
 
-        .area {
-            --ease-elastic: cubic-bezier(0.5, 2, 0.3, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: absolute;
-            inset: 0;
-        }
-        .area::after {
-            pointer-events: none;
-            content: "";
-            position: absolute;
-            top: 66%;
-            left: 0;
-            right: 0;
-            height: 100px;
-            width: 30%;
-            margin: auto;
-            background-color: #648cc630;
-            filter: blur(2em);
-            opacity: 0.7;
-            transform: perspective(10px) rotateX(5deg) scale(1, 0.5);
-            z-index: 0;
+        .ticket-header {
+          position: relative;
+          grid-area: header;
+          margin: 0 12px;
+          padding-top: 15px;
+          text-align: center;
+          z-index: 2;
+          font-family: "Impact", sans-serif;
+          font-size: 3.5rem;
+          letter-spacing: 2px;
+          color: #ffffff9f;
+          text-shadow: 0 0 0 #000;
+          -webkit-text-stroke: #fff 0.5px;
+          mix-blend-mode: difference;
         }
 
-        .ticket-mask {
-            position: absolute;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            mask-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, white 20px);
-            perspective: 1000px;
-            top: calc(50% - 142px);
-            left: 0;
-            right: 0;
-            height: 100%;
-            min-height: 1500px;
+        .ticket-body-new {
+          grid-area: body;
+          margin: 0 1.5em;
+          padding: 1em 0.5em;
+          font-weight: 400;
+          z-index: 2;
+          text-align: center;
+          line-height: 1.8;
+          color: #222;
         }
 
-        .ticket {
-            float: left;
-            animation: ticket-move 11s ease-in-out infinite;
-            transform: translateY(50px);
-            perspective: 3000px;
+        .ticket-footer {
+          grid-area: footer;
+          z-index: 2;
+          margin: 0 1.5em 2em 1.5em;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
 
-        @keyframes ticket-move {
-            0% { transform: translateY(-300px); }
-            7% { transform: translateY(-250px); }
-            12% { transform: translateY(-200px); }
-            16% { transform: translateY(-170px); }
-            22% { transform: translateY(-100px); }
-            27% { transform: translateY(-40px); }
-            34%, 88% { transform: translateY(45px); }
-            100% { transform: translateY(100%) rotateX(160deg) scale(5); }
+        .number {
+          margin-bottom: 1.25rem;
+          text-align: center;
+          color: #000;
+          font-weight: 300;
+          font-size: 1.2rem;
         }
-
-        .ticket-flip-container {
-            transition: 0.6s;
-            transform-style: preserve-3d;
-            position: relative;
+        .number .bold {
+          font-weight: 700;
         }
-
-        .float {
-            transform-style: preserve-3d;
-            pointer-events: none;
-            animation: float 3s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        .front, .back {
-            display: inline-block;
-            backface-visibility: hidden;
-            transform-style: preserve-3d;
-        }
-        .front { z-index: 1; }
-        .back {
-            display: none;
-        }
-
-        .ticket-body {
-            display: block;
-            position: relative;
-            width: 320px;
-            margin-bottom: 20px;
-            padding: 0;
-            border-radius: 7px 7px 0px 0px;
-            background: linear-gradient(to bottom, white, #dcfffd);
-            color: black;
-            text-align: center;
-        }
-        .ticket-body::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            mask-image: linear-gradient(white 50%, transparent 100%);
-            border-radius: 7px 7px 0px 0px;
-            background: radial-gradient(at 30% -5%, #90f1f1, #d3ccf0, rgba(255, 255, 255, 0) 25%),
-                        radial-gradient(at 30% 40%, #aad1f0, rgba(255, 255, 255, 0) 20%),
-                        radial-gradient(at 50% 70%, #c4f2e5, rgba(255, 255, 255, 0) 30%);
-        }
-
-        .ticket-body header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 15px;
-            border-bottom: 1px dashed rgba(0, 0, 0, 0.4);
-            height: 54px;
-            background: transparent;
-            opacity: 1;
-            animation: none;
-        }
-
-        .ticket-name {
-            font-weight: 300;
-            font-size: 1.05em;
-            display: flex;
-            gap: 4px;
-            letter-spacing: -2px;
-            text-align: center;
-        }
-        .bold { font-weight: 800; }
 
         .barcode {
-            display: none;
+          width: 0;
+          height: 48px;
+          box-shadow:
+            0px 0 0 1px #000,
+            5px 0 0 1px #000,
+            7px 0 0 1px #000,
+            11px 0 0 1px #000,
+            15px 0 0 1px #000,
+            16px 0 0 1px #000,
+            22px 0 0 1px #000,
+            27px 0 0 1px #000,
+            30px 0 0 1px #000,
+            35px 0 0 1px #000,
+            36px 0 0 1px #000,
+            39px 0 0 1px #000,
+            43px 0 0 1px #000,
+            47px 0 0 1px #000,
+            50px 0 0 1px #000,
+            55px 0 0 1px #000,
+            59px 0 0 1px #000,
+            60px 0 0 1px #000,
+            64px 0 0 1px #000,
+            69px 0 0 1px #000,
+            70px 0 0 1px #000,
+            74px 0 0 1px #000;
+          transform: translateX(-37px);
         }
 
-        .ticket-body .contents {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            min-height: 180px;
-            position: relative;
+        .symbol {
+          position: absolute;
+          top: 1.2em;
+          right: 0px;
+          rotate: 185deg;
+          font-size: 1.2rem;
+          color: #fff;
+          line-height: 0.5;
+          opacity: 0.3;
         }
-
-        .event {
-            display: flex;
-            flex-direction: column;
-            margin-top: 0;
-            font-weight: 600;
-            text-align: center;
-            color: black;
+        .notes {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          font-size: 7rem;
+          color: #e7e7e7;
+          mix-blend-mode: color-burn;
+          transform: translateY(20%);
+          z-index: 1;
         }
-        .event span { 
-            font-size: 2rem; 
-            font-weight: 400; 
-            line-height: 1.2; 
-            display: block; 
-            height: auto;
-            white-space: nowrap;
-            color: black;
+        .notes:nth-child(2) {
+          transform: translateY(40%);
         }
-        .event span.bold { font-size: 2.18rem; font-weight: 800; margin-bottom: 10px; }
-        .event div:nth-child(2) { font-size: 1.1rem; letter-spacing: 0.1em; color: black; margin-top: 5px; font-weight: 400; }
-
-        .qrcode { display: none; }
-
-        .noise {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            opacity: 0.07;
-            pointer-events: none;
-            z-index: 1;
+        .notes:nth-child(3) {
+          transform: translateY(60%);
         }
 
         /* Original Styles Adjustment */
@@ -741,47 +718,53 @@
 <body class="modal-open">
     <!-- Ticket Overlay -->
     <div id="ticket-wrapper" onclick="openInvitation()">
-        <div class="output">
-          <div class="wrap-colors-1"><div class="bg-colors"></div></div>
-          <div class="wrap-colors-2"><div class="bg-colors"></div></div>
-          <div class="cover"></div>
-        </div>
+        <div class="card">
+          <div class="notes">♪♪♪♪♪</div>
+          <div class="notes">♪♪♪♪</div>
+          <div class="notes">♪♪♪♪♪</div>
 
-        <div class="area">
-          <div class="area-wrapper">
-            <div class="ticket-mask">
-              <div class="ticket">
-                <div class="ticket-flip-container">
-                  <div class="float">
-                    <div class="front">
-                      <div class="ticket-body">
-                        <header>
-                          <div class="ticket-name">
-                            <span class="bold">INVITATION</span>
-                          </div>
-                        </header>
-                        <div class="contents">
-                          <div class="event">
-                            <div><span class="bold">Wedding Day</span></div>
-                            <div>2026. 10. 17. SAT. 18:00</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="back">
-                      <div class="ticket-body">
-                        <header>
-                          <div class="ticket-name">
-                            <span class="bold">CLICK TO OPEN</span>
-                          </div>
-                        </header>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="ticket-header">
+            INVITATION
+            <div class="symbol">✁</div>
           </div>
+          <div class="ticket-body-new">
+            <em style="font-size: 1.2rem; font-weight: 600;">Wedding Day</em><br />
+            2026. 10. 17. SAT. 18:00<br />
+            오하 하우스 웨딩
+          </div>
+          <div class="ticket-footer">
+            <div class="number">Special <span class="bold">GUEST</span></div>
+            <div class="barcode"></div>
+          </div>
+
+          <div class="bg holographic"></div>
+          <svg class="filter">
+            <filter id="bump">
+              <feTurbulence
+                result="noise"
+                numOctaves="3"
+                baseFrequency="0.7"
+                type="fractalNoise"
+              ></feTurbulence>
+              <feSpecularLighting
+                in="noise"
+                result="specular"
+                lighting-color="#fffffc"
+                specularExponent="25"
+                specularConstant="0.8"
+                surfaceScale="0.15"
+              >
+                <fePointLight z="210" y="100" x="100"></fePointLight>
+              </feSpecularLighting>
+              <feComposite
+                result="noise2"
+                operator="in"
+                in="specular"
+                in2="SourceGraphic"
+              ></feComposite>
+              <feBlend mode="screen" in2="noise2" in="SourceGraphic"></feBlend>
+            </filter>
+          </svg>
         </div>
     </div>
 
