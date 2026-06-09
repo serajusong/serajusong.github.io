@@ -6,7 +6,7 @@
     <title>신랑이름 ❤️ 신부이름 결혼합니다.</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* New Ticket Overlay Styles from uicode2.html */
+        /* New Ticket Overlay Styles with Animation */
         #ticket-wrapper {
             position: fixed;
             top: 0;
@@ -22,6 +22,38 @@
             overflow: hidden;
         }
 
+        .ticket-mask {
+            position: absolute;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            mask-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, white 20px);
+            perspective: 1000px;
+            top: calc(50% - 240px); /* .card height 480px / 2 */
+            left: 0;
+            right: 0;
+            height: 100%;
+            min-height: 1500px;
+        }
+
+        .ticket-animation-container {
+            float: left;
+            animation: ticket-move 11s ease-in-out infinite;
+            transform: translateY(50px);
+            perspective: 3000px;
+        }
+
+        @keyframes ticket-move {
+            0% { transform: translateY(-400px); }
+            7% { transform: translateY(-350px); }
+            12% { transform: translateY(-300px); }
+            16% { transform: translateY(-270px); }
+            22% { transform: translateY(-200px); }
+            27% { transform: translateY(-140px); }
+            34%, 88% { transform: translateY(45px); }
+            100% { transform: translateY(100%) rotateX(160deg) scale(5); }
+        }
+
         .card {
           --width: 280px;
           --height: 480px;
@@ -31,7 +63,7 @@
           position: relative;
           display: grid;
           grid-template-rows: auto 1fr auto;
-          gap: 1.5rem;
+          gap: 1rem;
           grid-template-areas:
             "header"
             "body"
@@ -42,24 +74,13 @@
           padding: var(--perforation-size) 0;
 
           font-family: 'Noto Serif KR', serif;
-          font-size: 1.1rem;
           user-select: none;
           overflow: hidden;
 
           filter: drop-shadow(0 2px 1px #00000025) drop-shadow(0 4px 3px #00000025)
             drop-shadow(0 10px 9px #00000025) drop-shadow(0 20px 20px #00000025)
             drop-shadow(0 40px 40px #00000025);
-          animation: hover 3s ease infinite;
           will-change: transform, filter;
-        }
-
-        @keyframes hover {
-          50% {
-            filter: drop-shadow(0 4px 3px #00000015) drop-shadow(0 6px 6px #00000015)
-              drop-shadow(0 16px 14px #00000015) drop-shadow(0 30px 28px #00000015)
-              drop-shadow(0 60px 60px #00000015);
-            transform: translateY(-10px) scale(1.02);
-          }
         }
 
         .filter {
@@ -169,11 +190,11 @@
           position: relative;
           grid-area: header;
           margin: 0 12px;
-          padding-top: 15px;
+          padding-top: 25px;
           text-align: center;
           z-index: 2;
           font-family: "Impact", sans-serif;
-          font-size: 3.5rem;
+          font-size: 2.5rem;
           letter-spacing: 2px;
           color: #ffffff9f;
           text-shadow: 0 0 0 #000;
@@ -184,61 +205,27 @@
         .ticket-body-new {
           grid-area: body;
           margin: 0 1.5em;
-          padding: 1em 0.5em;
+          padding: 1.5em 0.5em;
           font-weight: 400;
           z-index: 2;
           text-align: center;
-          line-height: 1.8;
+          line-height: 2;
           color: #222;
+          font-size: 1.2rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
         }
 
         .ticket-footer {
           grid-area: footer;
           z-index: 2;
-          margin: 0 1.5em 2em 1.5em;
+          margin: 0 1.5em 3em 1.5em;
           display: flex;
           flex-direction: column;
           align-items: center;
-        }
-
-        .number {
-          margin-bottom: 1.25rem;
-          text-align: center;
-          color: #000;
-          font-weight: 300;
-          font-size: 1.2rem;
-        }
-        .number .bold {
-          font-weight: 700;
-        }
-
-        .barcode {
-          width: 0;
-          height: 48px;
-          box-shadow:
-            0px 0 0 1px #000,
-            5px 0 0 1px #000,
-            7px 0 0 1px #000,
-            11px 0 0 1px #000,
-            15px 0 0 1px #000,
-            16px 0 0 1px #000,
-            22px 0 0 1px #000,
-            27px 0 0 1px #000,
-            30px 0 0 1px #000,
-            35px 0 0 1px #000,
-            36px 0 0 1px #000,
-            39px 0 0 1px #000,
-            43px 0 0 1px #000,
-            47px 0 0 1px #000,
-            50px 0 0 1px #000,
-            55px 0 0 1px #000,
-            59px 0 0 1px #000,
-            60px 0 0 1px #000,
-            64px 0 0 1px #000,
-            69px 0 0 1px #000,
-            70px 0 0 1px #000,
-            74px 0 0 1px #000;
-          transform: translateX(-37px);
+          justify-content: center;
+          min-height: 40px;
         }
 
         .symbol {
@@ -718,53 +705,55 @@
 <body class="modal-open">
     <!-- Ticket Overlay -->
     <div id="ticket-wrapper" onclick="openInvitation()">
-        <div class="card">
-          <div class="notes">♪♪♪♪♪</div>
-          <div class="notes">♪♪♪♪</div>
-          <div class="notes">♪♪♪♪♪</div>
+        <div class="ticket-mask">
+            <div class="ticket-animation-container">
+                <div class="card">
+                  <div class="notes">♪♪♪♪♪</div>
+                  <div class="notes">♪♪♪♪</div>
+                  <div class="notes">♪♪♪♪♪</div>
 
-          <div class="ticket-header">
-            INVITATION
-            <div class="symbol">✁</div>
-          </div>
-          <div class="ticket-body-new">
-            <em style="font-size: 1.2rem; font-weight: 600;">Wedding Day</em><br />
-            2026. 10. 17. SAT. 18:00<br />
-            오하 하우스 웨딩
-          </div>
-          <div class="ticket-footer">
-            <div class="number">Special <span class="bold">GUEST</span></div>
-            <div class="barcode"></div>
-          </div>
+                  <div class="ticket-header">
+                    INVITATION
+                    <div class="symbol">✁</div>
+                  </div>
+                  <div class="ticket-body-new">
+                    <em style="font-size: 1.4rem; font-weight: 600; color: #b76e79;">Wedding Day</em><br />
+                    2026. 10. 17. SAT. 18:00<br />
+                    오하 하우스 웨딩
+                  </div>
+                  <div class="ticket-footer">
+                  </div>
 
-          <div class="bg holographic"></div>
-          <svg class="filter">
-            <filter id="bump">
-              <feTurbulence
-                result="noise"
-                numOctaves="3"
-                baseFrequency="0.7"
-                type="fractalNoise"
-              ></feTurbulence>
-              <feSpecularLighting
-                in="noise"
-                result="specular"
-                lighting-color="#fffffc"
-                specularExponent="25"
-                specularConstant="0.8"
-                surfaceScale="0.15"
-              >
-                <fePointLight z="210" y="100" x="100"></fePointLight>
-              </feSpecularLighting>
-              <feComposite
-                result="noise2"
-                operator="in"
-                in="specular"
-                in2="SourceGraphic"
-              ></feComposite>
-              <feBlend mode="screen" in2="noise2" in="SourceGraphic"></feBlend>
-            </filter>
-          </svg>
+                  <div class="bg holographic"></div>
+                  <svg class="filter">
+                    <filter id="bump">
+                      <feTurbulence
+                        result="noise"
+                        numOctaves="3"
+                        baseFrequency="0.7"
+                        type="fractalNoise"
+                      ></feTurbulence>
+                      <feSpecularLighting
+                        in="noise"
+                        result="specular"
+                        lighting-color="#fffffc"
+                        specularExponent="25"
+                        specularConstant="0.8"
+                        surfaceScale="0.15"
+                      >
+                        <fePointLight z="210" y="100" x="100"></fePointLight>
+                      </feSpecularLighting>
+                      <feComposite
+                        result="noise2"
+                        operator="in"
+                        in="specular"
+                        in2="SourceGraphic"
+                      ></feComposite>
+                      <feBlend mode="screen" in2="noise2" in="SourceGraphic"></feBlend>
+                    </filter>
+                  </svg>
+                </div>
+            </div>
         </div>
     </div>
 
