@@ -217,6 +217,34 @@
           justify-content: center;
         }
 
+        /* Mobile Optimization */
+        @media (max-width: 480px) {
+            .card {
+                --width: 240px;
+                --height: 400px;
+                --cutouts-adjust: 90px;
+            }
+            .ticket-mask {
+                top: calc(50% - 200px);
+            }
+            .ticket-header {
+                font-size: 2.1rem;
+                padding-top: 15px;
+            }
+            .ticket-body-new {
+                font-size: 1rem;
+                padding: 1em 0.2em;
+                line-height: 1.6;
+            }
+            .ticket-body-new em {
+                font-size: 1.2rem !important;
+            }
+            .ticket-footer {
+                margin-bottom: 2em;
+                min-height: 30px;
+            }
+        }
+
         .ticket-footer {
           grid-area: footer;
           z-index: 2;
