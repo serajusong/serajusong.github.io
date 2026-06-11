@@ -107,6 +107,46 @@
             transform: rotateY(110deg);
         }
 
+        /* Touch Hint Style with Ripple Animation */
+        .touch-hint {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            background: rgba(183, 110, 121, 0.9);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+            white-space: nowrap;
+        }
+
+        .touch-hint.visible {
+            opacity: 1;
+        }
+
+        .touch-hint::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 30px;
+            border: 2px solid rgba(183, 110, 121, 0.8);
+            animation: ripple 2s linear infinite;
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
         .hidden {
             display: none !important;
         }
@@ -570,6 +610,7 @@
         <div id="image-ticket" class="ticket-animation-container" onclick="startOpening()">
             <div class="door door-left"></div>
             <div class="door door-right"></div>
+            <div id="touch-hint" class="touch-hint">터치해주세요</div>
         </div>
     </div>
 
@@ -794,6 +835,10 @@
             const ticket = document.getElementById('image-ticket');
             ticket.classList.add('opening');
             
+            // 안내 문구 숨기기
+            const hint = document.getElementById('touch-hint');
+            if (hint) hint.style.display = 'none';
+
             // 문이 열리기 시작할 때 배경음악 재생
             audio.play().then(updatePlayIcon).catch(e => console.log('Autoplay blocked'));
 
@@ -803,25 +848,12 @@
             }, 1000);
         }
 
-        function openInvitation() {
-            document.getElementById('ticket-wrapper').style.display = 'none';
-            document.querySelector('.container').style.display = 'block';
-            document.body.classList.remove('modal-open');
-        }
-
-        function openGoogleFormModal() {
-            document.getElementById('googleFormModal').classList.add('active');
-            document.body.classList.add('modal-open');
-        }
-
-        function closeGoogleFormModal() {
-            document.getElementById('googleFormModal').classList.remove('active');
-            document.body.classList.remove('modal-open');
-        }
-
-        // Try autoplay on load - disabled because we want it to start on ticket click
+        // 3초 뒤에 '터치해주세요' 안내 표시
         window.addEventListener('load', () => {
-            // audio.play().then(updatePlayIcon).catch(e => console.log('Autoplay blocked on load'));
+            setTimeout(() => {
+                const hint = document.getElementById('touch-hint');
+                if (hint) hint.classList.add('visible');
+            }, 3000);
         });
         /*]]>*/
     </script>
