@@ -49,7 +49,7 @@
             animation: ticket-move 8s ease-in-out infinite;
         }
 
-        /* State 1: Original CSS Ticket (No Text) */
+        /* State 1: Original CSS Ticket */
         .card {
           --width: 280px;
           --height: 480px;
@@ -57,17 +57,74 @@
           --cutouts-adjust: 110px;
 
           position: relative;
+          display: grid;
+          grid-template-rows: auto 1fr auto;
+          gap: 1rem;
+          grid-template-areas:
+            "header"
+            "body"
+            "footer";
+
           width: var(--width);
           height: var(--height);
           padding: var(--perforation-size) 0;
           overflow: hidden;
           filter: drop-shadow(0 40px 40px #00000025);
+          font-family: 'Noto Serif KR', serif;
+          user-select: none;
+        }
+
+        .filter {
+          position: absolute;
+        }
+
+        .ticket-header {
+          position: relative;
+          grid-area: header;
+          margin: 0 12px;
+          padding-top: 25px;
+          text-align: center;
+          z-index: 2;
+          font-family: "Impact", sans-serif;
+          font-size: 2.5rem;
+          letter-spacing: 2px;
+          color: #ffffff9f;
+          text-shadow: 0 0 0 #000;
+          -webkit-text-stroke: #fff 0.5px;
+          mix-blend-mode: difference;
+        }
+
+        .ticket-body-new {
+          grid-area: body;
+          margin: 0 1.5em;
+          padding: 1.5em 0.5em;
+          font-weight: 400;
+          z-index: 2;
+          text-align: center;
+          line-height: 2;
+          color: #222;
+          font-size: 1.2rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .ticket-footer {
+          grid-area: footer;
+          z-index: 2;
+          margin: 0 1.5em 3em 1.5em;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 40px;
         }
 
         .bg {
           position: absolute;
           inset: 0;
           background-color: #fff;
+          filter: url(#bump);
           mask:
             radial-gradient(circle at 50% 0, #fff0 13px, #000 14px),
             radial-gradient(circle at 50% 100%, #fff0 13px, #000 14px),
@@ -85,35 +142,8 @@
             conic-gradient(at 60% 50%, #ccc, #ff6bfe, #00f9f8, #ddd, #0081fd, #eef0bc, #0081fd, #ff6bfe, #0002, #0081fd, #ddd, #01fefb, #ccc);
         }
 
-        /* Ticket Content Text Styles */
-        .ticket-header {
-          position: relative;
-          margin-top: 25px;
-          text-align: center;
-          z-index: 2;
-          font-family: "Impact", sans-serif;
-          font-size: 2.5rem;
-          letter-spacing: 2px;
-          color: #ffffff9f;
-          text-shadow: 0 0 0 #000;
-          -webkit-text-stroke: #fff 0.5px;
-          mix-blend-mode: difference;
-        }
-
-        .ticket-body-new {
-          margin-top: 60px;
-          padding: 0 20px;
-          font-weight: 400;
-          z-index: 2;
-          text-align: center;
-          line-height: 2;
-          color: #222;
-          font-size: 1.2rem;
-        }
-
-        /* State 2: Image Ticket */
+        /* State 2: Image Ticket (Only Image) */
         .image-card {
-            position: relative;
             width: 280px;
             height: 480px;
             background-image: url('asset/image/ticket.jpg');
@@ -121,26 +151,6 @@
             background-position: center;
             border-radius: 15px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: white;
-            font-family: 'Noto Serif KR', serif;
-        }
-
-        .image-card .ticket-header {
-            color: #fff;
-            -webkit-text-stroke: transparent;
-            mix-blend-mode: normal;
-        }
-
-        .image-card .ticket-body-new {
-            color: #fff;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 10px;
-            width: 80%;
-            margin-top: 40px;
         }
 
         .hidden {
