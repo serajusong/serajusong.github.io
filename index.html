@@ -50,6 +50,17 @@
             filter: drop-shadow(0 20px 50px rgba(0,0,0,0.6));
         }
 
+        /* Mobile Optimization: 티켓 크기를 화면에 더 꽉 차게 조절 */
+        @media (max-width: 480px) {
+            .ticket-animation-container {
+                width: 80vw; /* 화면 너비의 80% */
+                height: calc(80vw * 1.714); /* 원래 비율 280:480 유지 */
+            }
+            .door {
+                background-size: 80vw calc(80vw * 1.714) !important;
+            }
+        }
+
         .ticket-animation-container.opening {
             animation: none; /* Stop floating when opening */
             filter: none; /* 개별 문이 열릴 때 필터 제거 */
