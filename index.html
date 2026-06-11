@@ -6,7 +6,7 @@
     <title>신랑이름 ❤️ 신부이름 결혼합니다.</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&amp;family=Nanum+Myeongjo:wght@400;700&amp;display=swap" rel="stylesheet">
     <style>
-        /* New Ticket Overlay Styles with Animation */
+        /* New Image Ticket Overlay Styles */
         #ticket-wrapper {
             position: fixed;
             top: 0;
@@ -22,265 +22,62 @@
             overflow: hidden;
         }
 
-        .ticket-mask {
-            position: absolute;
-            overflow: hidden;
+        .ticket-container {
+            position: relative;
+            width: 300px;
+            height: 500px;
+            background-image: url('asset/image/ticket.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            mask-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, white 20px);
-            perspective: 1000px;
-            top: calc(50% - 240px); /* .card height 480px / 2 */
-            left: 0;
-            right: 0;
-            height: 100%;
-            min-height: 1500px;
+            color: white;
+            text-align: center;
+            font-family: 'Noto Serif KR', serif;
+            transition: transform 0.3s ease;
         }
 
-        .ticket-animation-container {
-            float: left;
-            animation: ticket-move 11s ease-in-out infinite;
-            transform: translateY(50px);
-            perspective: 3000px;
+        .ticket-container:hover {
+            transform: scale(1.05);
         }
 
-        @keyframes ticket-move {
-            0% { transform: translateY(-400px); }
-            7% { transform: translateY(-350px); }
-            12% { transform: translateY(-300px); }
-            16% { transform: translateY(-270px); }
-            22% { transform: translateY(-200px); }
-            27% { transform: translateY(-140px); }
-            34%, 88% { transform: translateY(45px); }
-            100% { transform: translateY(100%) rotateX(160deg) scale(5); }
+        .ticket-content {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
         }
 
-        .card {
-          --width: 280px;
-          --height: 480px;
-          --perforation-size: 18px;
-          --cutouts-adjust: 110px;
-
-          position: relative;
-          display: grid;
-          grid-template-rows: auto 1fr auto;
-          gap: 1rem;
-          grid-template-areas:
-            "header"
-            "body"
-            "footer";
-
-          width: var(--width);
-          height: var(--height);
-          padding: var(--perforation-size) 0;
-
-          font-family: 'Noto Serif KR', serif;
-          user-select: none;
-          overflow: hidden;
-
-          filter: drop-shadow(0 2px 1px #00000025) drop-shadow(0 4px 3px #00000025)
-            drop-shadow(0 10px 9px #00000025) drop-shadow(0 20px 20px #00000025)
-            drop-shadow(0 40px 40px #00000025);
-          will-change: transform, filter;
+        .ticket-content em {
+            font-style: normal;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 10px;
         }
 
-        .filter {
-          position: absolute;
+        .ticket-content p {
+            margin: 5px 0;
+            font-size: 1rem;
+            letter-spacing: 1px;
         }
 
-        .bg {
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          background-color: #fff;
-          filter: url(#bump);
-          mask:
-            /* top perforations */
-            radial-gradient(
-              circle at 50% 0,
-              #fff0 calc(var(--perforation-size) - 5px),
-              #000 calc(var(--perforation-size) - 4px)
-            ),
-            /* bottom perforations */
-              radial-gradient(
-                circle at 50% 100%,
-                #fff0 calc(var(--perforation-size) - 5px),
-                #000 calc(var(--perforation-size) - 4px)
-              ),
-            /* left notch */
-              radial-gradient(circle 12px at left center, #000 98%, #0000 100%),
-            /* right notch */
-              radial-gradient(circle 12px at right center, #000 98%, #0000 100%),
-            /* cut perforation */
-              repeating-linear-gradient(
-                90deg,
-                #000 15px,
-                #000 22px,
-                #0000 23px,
-                #0000 35px
-              );
-
-          mask-repeat: repeat-x, repeat-x, no-repeat, no-repeat, repeat-x;
-
-          mask-size:
-            calc(var(--perforation-size) * 2) 100%,
-            calc(var(--perforation-size) * 2) 100%,
-            24px 24px,
-            24px 24px,
-            15px 3px;
-
-          mask-position:
-            calc(0.5 * var(--perforation-size)) top,
-            calc(0.5 * var(--perforation-size)) bottom,
-            left var(--cutouts-adjust),
-            right var(--cutouts-adjust),
-            0 calc(var(--cutouts-adjust) + 10px);
-
-          mask-composite: intersect, exclude, add, add;
+        .click-hint {
+            position: absolute;
+            bottom: 30px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            animation: pulse 2s infinite;
         }
 
-        .holographic {
-          background-image: linear-gradient(to bottom, #fe58, 90%, #0002),
-            conic-gradient(
-              at 60% 50%,
-              #ccc,
-              #ff6bfe,
-              #00f9f8,
-              #ddd,
-              #0081fd,
-              #eef0bc,
-              #0081fd,
-              #ff6bfe,
-              #0002,
-              #0081fd,
-              #ddd,
-              #01fefb,
-              #ccc
-            );
-        }
-        .holographic::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          background: radial-gradient(circle at 70% 20%, #f0f, #0000),
-            repeating-radial-gradient(circle at 30% 80%, #fff, #f4a 72px, #eeeeee 225px);
-          mix-blend-mode: color-burn;
-        }
-        .holographic::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          background: linear-gradient(to bottom, #f205, #f00, #0f0, #f205);
-          mix-blend-mode: difference;
-
-          animation: bg-pos 3s ease-in-out infinite alternate;
-          background-position: 0 0;
-          background-size: 100% 300%;
-          background-repeat: repeat;
-        }
-
-        @keyframes bg-pos {
-          to {
-            background-position: 0 500px;
-          }
-        }
-
-        .ticket-header {
-          position: relative;
-          grid-area: header;
-          margin: 0 12px;
-          padding-top: 25px;
-          text-align: center;
-          z-index: 2;
-          font-family: "Impact", sans-serif;
-          font-size: 2.5rem;
-          letter-spacing: 2px;
-          color: #ffffff9f;
-          text-shadow: 0 0 0 #000;
-          -webkit-text-stroke: #fff 0.5px;
-          mix-blend-mode: difference;
-        }
-
-        .ticket-body-new {
-          grid-area: body;
-          margin: 0 1.5em;
-          padding: 1.5em 0.5em;
-          font-weight: 400;
-          z-index: 2;
-          text-align: center;
-          line-height: 2;
-          color: #222;
-          font-size: 1.2rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-
-        /* Mobile Optimization */
-        @media (max-width: 480px) {
-            .card {
-                --width: 240px;
-                --height: 400px;
-                --cutouts-adjust: 90px;
-            }
-            .ticket-mask {
-                top: calc(50% - 200px);
-            }
-            .ticket-header {
-                font-size: 2.1rem;
-                padding-top: 15px;
-            }
-            .ticket-body-new {
-                font-size: 1rem;
-                padding: 1em 0.2em;
-                line-height: 1.6;
-            }
-            .ticket-body-new em {
-                font-size: 1.2rem !important;
-            }
-            .ticket-footer {
-                margin-bottom: 2em;
-                min-height: 30px;
-            }
-        }
-
-        .ticket-footer {
-          grid-area: footer;
-          z-index: 2;
-          margin: 0 1.5em 3em 1.5em;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          min-height: 40px;
-        }
-
-        .symbol {
-          position: absolute;
-          top: 1.2em;
-          right: 0px;
-          rotate: 185deg;
-          font-size: 1.2rem;
-          color: #fff;
-          line-height: 0.5;
-          opacity: 0.3;
-        }
-        .notes {
-          position: absolute;
-          inset: 0;
-          overflow: hidden;
-          font-size: 7rem;
-          color: #e7e7e7;
-          mix-blend-mode: color-burn;
-          transform: translateY(20%);
-          z-index: 1;
-        }
-        .notes:nth-child(2) {
-          transform: translateY(40%);
-        }
-        .notes:nth-child(3) {
-          transform: translateY(60%);
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
         }
 
         /* Original Styles Adjustment */
@@ -733,50 +530,13 @@
 <body class="modal-open">
     <!-- Ticket Overlay -->
     <div id="ticket-wrapper" onclick="openInvitation()">
-        <div class="ticket-mask">
-            <div class="ticket-animation-container">
-                <div class="card">
-                  <div class="ticket-header">
-                    TICKET
-                  </div>
-                  <div class="ticket-body-new">
-                    <em style="font-size: 1.4rem; font-weight: 600; color: #b76e79;">ㅁㅁ❤️ㅁㅁ결혼식</em><br />
-                    2026. 10. 17. (토). 18:00<br />
-                    오하 하우스 웨딩
-                  </div>
-                  <div class="ticket-footer">
-                  </div>
-
-                  <div class="bg holographic"></div>
-                  <svg class="filter">
-                    <filter id="bump">
-                      <feTurbulence
-                        result="noise"
-                        numOctaves="3"
-                        baseFrequency="0.7"
-                        type="fractalNoise"
-                      ></feTurbulence>
-                      <feSpecularLighting
-                        in="noise"
-                        result="specular"
-                        lighting-color="#fffffc"
-                        specularExponent="25"
-                        specularConstant="0.8"
-                        surfaceScale="0.15"
-                      >
-                        <fePointLight z="210" y="100" x="100"></fePointLight>
-                      </feSpecularLighting>
-                      <feComposite
-                        result="noise2"
-                        operator="in"
-                        in="specular"
-                        in2="SourceGraphic"
-                      ></feComposite>
-                      <feBlend mode="screen" in2="noise2" in="SourceGraphic"></feBlend>
-                    </filter>
-                  </svg>
-                </div>
+        <div class="ticket-container">
+            <div class="ticket-content">
+                <em>ㅁㅁ ❤️ ㅁㅁ 결혼식</em>
+                <p>2026. 10. 17. (토) 18:00</p>
+                <p>오하 하우스 웨딩</p>
             </div>
+            <div class="click-hint">티켓을 터치하여 입장하세요</div>
         </div>
     </div>
 
