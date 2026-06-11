@@ -36,7 +36,7 @@
             justify-content: center;
             cursor: pointer;
             overflow: hidden;
-            perspective: 2000px;
+            perspective: 1200px; /* 더 강한 입체감을 위해 투영 거리 단축 */
         }
 
         .ticket-animation-container {
@@ -46,6 +46,7 @@
             animation: floating 3s ease-in-out infinite;
             display: flex;
             transition: opacity 0.5s ease;
+            transform-style: preserve-3d; /* 자식 요소의 3D 공간 유지 */
             /* 통합된 그림자 (이음새가 보이지 않게 함) */
             filter: drop-shadow(0 20px 50px rgba(0,0,0,0.6));
         }
@@ -66,45 +67,49 @@
             filter: none; /* 개별 문이 열릴 때 필터 제거 */
         }
 
-        /* State: Image Ticket Split into Two Doors */
+        /* Door Open Animation - Classic Swing Door Effect */
         .door {
             position: absolute;
             top: 0;
-            width: 50.5%; /* 미세한 틈을 방지하기 위해 0.5% 오버랩 */
+            width: 50.1%;
             height: 100%;
             background-image: url('asset/image/ticket.jpg?v=2');
-            background-size: 280px 480px; /* Original full size */
+            background-size: 280px 480px;
             background-repeat: no-repeat;
-            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 2;
             backface-visibility: hidden;
+        }
+
+        @media (max-width: 480px) {
+            .door {
+                background-size: 80vw calc(80vw * 1.714) !important;
+            }
         }
 
         .door-left {
             left: 0;
             background-position: left center;
             border-radius: 15px 0 0 15px;
-            transform-origin: left center;
+            transform-origin: left center; /* 왼쪽 끝을 축으로 회전 */
         }
 
         .door-right {
             right: 0;
             background-position: right center;
             border-radius: 0 15px 15px 0;
-            transform-origin: right center;
+            transform-origin: right center; /* 오른쪽 끝을 축으로 회전 */
         }
 
-        /* 문이 열릴 때 개별 그림자 추가 */
-        .opening .door {
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
+        /* 문이 양옆으로 활짝 열리는 효과 */
         .opening .door-left {
             transform: rotateY(-110deg);
+            opacity: 0;
         }
 
         .opening .door-right {
             transform: rotateY(110deg);
+            opacity: 0;
         }
 
         /* Touch Hint Style with Area Ripple Animation */
@@ -848,6 +853,23 @@
             setTimeout(() => {
                 openInvitation();
             }, 1000);
+        }
+
+        function openInvitation() {
+            document.getElementById('ticket-wrapper').style.display = 'none';
+            document.querySelector('.container').style.display = 'block';
+            document.body.classList.remove('modal-open');
+            audio.play().then(updatePlayIcon).catch(e => console.log('Autoplay blocked'));
+        }
+
+        function openGoogleFormModal() {
+            document.getElementById('googleFormModal').classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeGoogleFormModal() {
+            document.getElementById('googleFormModal').classList.remove('active');
+            document.body.classList.remove('modal-open');
         }
 
         // 3초 뒤에 '터치해주세요' 안내 표시
