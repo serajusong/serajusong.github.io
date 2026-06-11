@@ -85,8 +85,35 @@
             conic-gradient(at 60% 50%, #ccc, #ff6bfe, #00f9f8, #ddd, #0081fd, #eef0bc, #0081fd, #ff6bfe, #0002, #0081fd, #ddd, #01fefb, #ccc);
         }
 
-        /* State 2: Image Ticket (No Text) */
+        /* Ticket Content Text Styles */
+        .ticket-header {
+          position: relative;
+          margin-top: 25px;
+          text-align: center;
+          z-index: 2;
+          font-family: "Impact", sans-serif;
+          font-size: 2.5rem;
+          letter-spacing: 2px;
+          color: #ffffff9f;
+          text-shadow: 0 0 0 #000;
+          -webkit-text-stroke: #fff 0.5px;
+          mix-blend-mode: difference;
+        }
+
+        .ticket-body-new {
+          margin-top: 60px;
+          padding: 0 20px;
+          font-weight: 400;
+          z-index: 2;
+          text-align: center;
+          line-height: 2;
+          color: #222;
+          font-size: 1.2rem;
+        }
+
+        /* State 2: Image Ticket */
         .image-card {
+            position: relative;
             width: 280px;
             height: 480px;
             background-image: url('asset/image/ticket.jpg');
@@ -94,6 +121,26 @@
             background-position: center;
             border-radius: 15px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .image-card .ticket-header {
+            color: #fff;
+            -webkit-text-stroke: transparent;
+            mix-blend-mode: normal;
+        }
+
+        .image-card .ticket-body-new {
+            color: #fff;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            width: 80%;
+            margin-top: 40px;
         }
 
         .hidden {
@@ -551,16 +598,29 @@
     <!-- Ticket Overlay -->
     <div id="ticket-wrapper">
         <div class="ticket-mask">
-            <!-- Stage 1: Original CSS Ticket (No Text) -->
+            <!-- Stage 1: Original CSS Ticket -->
             <div id="css-ticket" class="ticket-animation-container" onclick="showImageTicket()">
                 <div class="card">
                     <div class="bg holographic"></div>
+                    <div class="ticket-header">TICKET</div>
+                    <div class="ticket-body-new">
+                        <em style="font-size: 1.4rem; font-weight: 600; color: #b76e79;">ㅁㅁ ❤️ ㅁㅁ 결혼식</em><br />
+                        2026. 10. 17. (토) 18:00<br />
+                        오하 하우스 웨딩
+                    </div>
                 </div>
             </div>
             
-            <!-- Stage 2: Image Ticket (No Text, Hidden initially) -->
+            <!-- Stage 2: Image Ticket (Hidden initially) -->
             <div id="image-ticket" class="ticket-animation-container hidden" onclick="openInvitation()">
-                <div class="image-card"></div>
+                <div class="image-card">
+                    <div class="ticket-header">TICKET</div>
+                    <div class="ticket-body-new">
+                        <em style="font-size: 1.4rem; font-weight: 600;">ㅁㅁ ❤️ ㅁㅁ 결혼식</em><br />
+                        2026. 10. 17. (토) 18:00<br />
+                        오하 하우스 웨딩
+                    </div>
+                </div>
             </div>
         </div>
     </div>
