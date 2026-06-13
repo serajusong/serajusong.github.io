@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>신랑이름 ❤️ 신부이름 결혼합니다.</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&amp;family=Nanum+Myeongjo:wght@400;700&amp;display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=f9zb7s7erg"></script>
     <style>
         /* Floating Animation */
         @keyframes floating {
@@ -213,9 +214,6 @@
             padding: 40px 0 30px;
             border-bottom: 1px solid #e0eee0;
             position: relative; /* For absolute positioning of audio player */
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-            animation-delay: 1.5s;
         }
 
         header p {
@@ -236,8 +234,6 @@
         section {
             padding: 40px 0;
             border-bottom: 1px solid #e0eee0;
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
         }
 
         section:last-of-type {
@@ -271,8 +267,6 @@
             flex-direction: column;
             gap: 20px;
             width: 100%;
-            opacity: 0;
-            animation: fadeInScale 1.5s ease-out forwards;
         }
 
         .main-images img {
@@ -292,7 +286,6 @@
             max-width: 600px;
         }
 
-        .parents-names { animation-delay: 2.0s; }
         .parents-names .details-grid {
             grid-template-columns: 1fr;
             text-align: center;
@@ -313,7 +306,6 @@
             margin-bottom: 0;
         }
 
-        .when-where { animation-delay: 2.5s; }
         .date-location {
             font-size: 1.1em;
             color: #555;
@@ -327,7 +319,6 @@
             margin-top: 30px;
         }
 
-        .contact-info { animation-delay: 3.0s; }
         .contact-info .details-grid {
             grid-template-columns: 1fr;
             text-align: center;
@@ -364,7 +355,6 @@
             border-color: #5d7a63;
         }
 
-        .bank-info { animation-delay: 3.5s; }
         .bank-info {
             text-align: center;
             font-size: 1.0em;
@@ -384,9 +374,6 @@
             border-top: 1px solid #f0f0f0;
             color: #999;
             font-size: 0.85em;
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-            animation-delay: 4.0s;
         }
 
         @media (min-width: 768px) {
@@ -716,14 +703,60 @@
                 오하 하우스 웨딩<br>
                 (경기 안성시 서운면 신능길 83-15)
             </p>
-            <div id="map" class="map-container">
-                <p style="text-align: center; margin-bottom: 10px; font-weight: bold;">오하 하우스 웨딩</p>
-                <a href="https://map.naver.com/v5/search/%EC%98%A4%ED%95%98%ED%95%98%EC%9A%B0%EC%8A%A4%EC%9B%A8%EB%94%A9" target="_blank" style="display: block; width: 100%; height: 100%;">
-                    <img src="https://maps.apigw.ntruss.com/map-static/v2/raster-cors?w=768&amp;h=350&amp;center=127.2464,37.0373&amp;level=16&amp;markers=type:t|size:mid|pos:127.2464%2037.0373&amp;X-NCP-APIGW-API-KEY-ID=f9zb7s7erg" 
-                         alt="웨딩홀 지도" 
-                         style="width: 100%; height: 100%; object-fit: cover;">
-                </a>
+            <div class="custom-map-guide" style="text-align: center; margin-bottom: 40px;">
+                <p style="font-weight: bold; font-size: 1.1em; color: #5d7a63; margin-bottom: 15px;">[ 약 도 ]</p>
+                <img src="asset/image/map.jpg" alt="약도" style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
             </div>
+            <div id="map" class="map-container"></div>
+            <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=f9zb7s7erg"></script>
+            <script type="text/javascript">
+                var weddingLocation = new naver.maps.LatLng(37.0373, 127.2464);
+                var map = new naver.maps.Map('map', {
+                    center: weddingLocation,
+                    zoom: 16
+                });
+
+                var marker = new naver.maps.Marker({
+                    map: map,
+                    position: weddingLocation
+                });
+
+                var contentString = [
+                    '<div style="padding:15px; min-width:200px; font-family:\'Noto Serif KR\', serif; border-radius:10px;">',
+                    '   <div style="margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid #e0eee0;">',
+                    '       <h4 style="margin:0; color:#5d7a63; font-size:16px;">오하 하우스 웨딩</h4>',
+                    '   </div>',
+                    '   <div style="font-size:13px; color:#666; line-height:1.6;">',
+                    '       <p style="margin:0 0 5px 0;">경기 안성시 서운면 신능길 83-15</p>',
+                    '       <p style="margin:0 0 10px 0;">(구. 신능리 55)</p>',
+                    '       <a href="https://map.naver.com/v5/search/%EC%98%A4%ED%95%98%ED%95%98%EC%9A%B0%EC%8A%A4%EC%9B%A8%EB%94%A9" target="_blank" style="display:inline-block; color:#5d7a63; text-decoration:none; font-weight:bold; border:1px solid #5d7a63; padding:4px 10px; border-radius:4px; font-size:12px;">네이버 지도로 보기</a>',
+                    '   </div>',
+                    '</div>'
+                ].join('');
+
+                var infowindow = new naver.maps.InfoWindow({
+                    content: contentString,
+                    backgroundColor: "#ffffff",
+                    borderColor: "#5d7a63",
+                    borderWidth: 2,
+                    anchorSize: new naver.maps.Size(15, 15),
+                    anchorSkew: true,
+                    anchorColor: "#ffffff",
+                    pixelOffset: new naver.maps.Point(20, -10),
+                    disableAutoPan: true
+                });
+
+                infowindow.open(map, marker);
+                map.setCenter(weddingLocation);
+
+                naver.maps.Event.addListener(marker, "click", function() {
+                    if (infowindow.getMap()) {
+                        infowindow.close();
+                    } else {
+                        infowindow.open(map, marker);
+                    }
+                });
+            </script>
         </section>
 
         <section class="contact-info">
