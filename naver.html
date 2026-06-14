@@ -141,3 +141,50 @@ naver.maps.Event.addListener(marker, "click", function(e) {
         infowindow.open(map, marker);
     }
 });
+
+**마커 해결법 **
+카테고리에 따라 마커를 표시하는 작업을 하고 있던 중에
+
+아래 사진처럼 마커를 위치시키고자 하는 곳이 text의 길이에 따라서 달라지게 되는 현상이 발생했다.
+그래서 마커의 전체 넓이의 반만큼 왼쪽으로 이동, 전체 높이만큼의 반만큼 위로 이동시켜 마커를 정상적으로 위치시키고자 했다.
+
+//getMarkers에서는 활성화된 카테고리에 따라서 해당하는 마커를 반환한다.
+const newMarkers = getMarkers(activeCategory).map(data => {
+
+  const markerDiv = document.createElement('div');
+    // 마커마다 적용될 HTML 요소를 생성한다.(임시로 생성하는거임)
+  markerDiv.style.position = 'absolute';  // 안보이게 하기 위해 다른 공간에 absolute
+  markerDiv.innerHTML = `
+    <div style="${markerStyle}">
+      <img style="${imgStyle}" src="${data.markerImg}" />
+      <div style="${textStyle}">${data.name}</div>
+    </div>
+  `;  // 마커로 만들어질 div를 미리 만들어 그 DOM을 적용시킨다.
+
+  // width와 height 측정을 하기 위해 DOM에 요소를 임시로 추가한다.
+  document.body.appendChild(markerDiv);
+  const width = markerDiv.offsetWidth;  // width 측정
+  const height = markerDiv.offsetHeight;  // height 측정
+  document.body.removeChild(markerDiv);  // 크기 측정 후 요소 제거.
+
+
+  const marker = new naver.maps.Marker({
+    position: new naver.maps.LatLng(data.lat, data.lng), 
+    map: mapRef.current,
+    icon: {
+      content: markerDiv.outerHTML,  // 마커의 모양
+      size: new naver.maps.Size(width, height),  // 아까 측정한 크기만큼 할당
+      anchor: new naver.maps.Point(width / 2, height / 2)  
+      // 절반으로 나눠 정중앙으로 올 수 있도록 한다.
+    }
+  });
+ 
+
+ 여기서 innerHtml은 markerDiv의 요소 내부를 다음과 같이 만든 것이고
+
+<div style="${markerStyle}">
+      <img style="${imgStyle}" src="${data.markerImg}" />
+      <div style="${textStyle}">${data.name}</div>
+  </div>
+
+  outerHtml은 markerDiv 전체를 가져오는 것이다.
