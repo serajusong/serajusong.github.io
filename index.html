@@ -279,6 +279,27 @@
             max-width: 600px;
         }
 
+        .invitation-poem {
+            text-align: center;
+        }
+        .invitation-poem > div {
+            display: inline-block;
+            text-align: left;
+        }
+        .invitation-poem p {
+            text-align: left;
+            margin: 0 0 6px 0;
+            color: #555;
+            font-size: 1.05em;
+            line-height: 1.9;
+        }
+        .poem-initial {
+            display: inline;
+            font-size: 1.2em;
+            color: #5d7a63;
+            font-weight: bold;
+        }
+
         .parents-names .details-grid {
             grid-template-columns: 1fr;
             text-align: center;
@@ -304,6 +325,64 @@
             color: #555;
             text-align: center;
             line-height: 1.6;
+            position: relative;
+        }
+
+        .copy-address-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 6px;
+            margin-left: 6px;
+            border-radius: 6px;
+            color: #9b8ea0;
+            transition: background 0.2s, color 0.2s, transform 0.15s;
+            vertical-align: middle;
+            position: relative;
+        }
+        .copy-address-btn:hover {
+            background: rgba(155, 142, 160, 0.15);
+            color: #7a5c8a;
+            transform: scale(1.15);
+        }
+        .copy-address-btn svg {
+            width: 18px;
+            height: 18px;
+            display: block;
+            transition: opacity 0.2s;
+        }
+        .copy-address-btn .icon-check {
+            display: none;
+            color: #6ab04c;
+        }
+        .copy-address-btn.copied .icon-copy {
+            display: none;
+        }
+        .copy-address-btn.copied .icon-check {
+            display: block;
+        }
+        .copy-tooltip {
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%) translateY(4px);
+            background: #3d3340;
+            color: #fff;
+            font-size: 0.72em;
+            padding: 4px 10px;
+            border-radius: 8px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+            z-index: 100;
+        }
+        .copy-address-btn.copied .copy-tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
 
         .map-container {
@@ -782,11 +861,13 @@
 
         <section class="invitation">
             <h2>모시는 글</h2>
-            <div class="details-grid">
+            <div class="details-grid invitation-poem">
                 <div>
-                    <p>사랑하는 가족과 친구 여러분,</p>
-                    <p>저희 두 사람이 새로운 인생의 시작을 함께 하려 합니다.</p>
-                    <p>함께 축하해주시고 자리를 빛내주시면 감사하겠습니다.</p>
+                    <p><strong class="poem-initial">세</strong> 상 그 수많은 인연 중 모르고도, 알고도 지나쳤던 저희</p>
+                    <p><strong class="poem-initial">라</strong> 디오 사연보다 더 영화 같은 운명으로 손을 꼭 잡게 되었습니다.</p>
+                    <p><strong class="poem-initial">주</strong> 인공이 된 저희 두 사람, 서로를 더 많이 아끼고 신뢰하며</p>
+                    <p><strong class="poem-initial">송</strong> 이송이 피어날 행복으로 미래를 채워가려 합니다.</p>
+                    <p>따뜻한 걸음으로 저희의 첫걸음을 함께해 주시면 감사하겠습니다.</p><br>
                 </div>
             </div>
             <div class="details-grid">
@@ -945,11 +1026,17 @@
                 2026년 10월 17일 토요일 18시<br>
                 오하 하우스 웨딩<br>
                 (경기 안성시 서운면 신능길 83-15)
+                <button class="copy-address-btn" id="copyAddressBtn" title="주소 복사" aria-label="주소 복사">
+                    <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span class="copy-tooltip">복사됨!</span>
+                </button>
             </p>
-            <div class="custom-map-guide" style="text-align: center; margin-bottom: 40px;">
-                <p style="font-weight: bold; font-size: 1.1em; color: #5d7a63; margin-bottom: 15px;">[ 약 도 ]</p>  
-                <img src="asset/image/map.jpg" alt="약도" style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-            </div>
             <div id="map" class="map-container"></div>
             <div class="c-map-navi-wrapper">
                 <a href="https://map.naver.com/v5/search/%EC%98%A4%ED%95%98%ED%95%98%EC%9A%B0%EC%8A%A4%EC%9B%A8%EB%94%A9" target="_blank" class="c-map-navi-item">
@@ -966,6 +1053,10 @@
                     <img src="asset/image/icon_tmap_w48.png" alt="티맵">
                     <span>티맵</span>
                 </a>
+            </div>
+            <div class="custom-map-guide" style="text-align: center; margin-bottom: 40px;">
+                <p style="font-weight: bold; font-size: 1.1em; color: #5d7a63; margin-bottom: 15px;">[ 약 도 ]</p>  
+                <img src="asset/image/map.jpg" alt="약도" style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
             </div>
         </section>
 
@@ -1323,6 +1414,37 @@
             document.getElementById('days-total').textContent = days;
             }, 1000);
         });
+    </script>
+    <script>
+        // 주소 복사 버튼
+        (function() {
+            var btn = document.getElementById('copyAddressBtn');
+            if (!btn) return;
+            btn.addEventListener('click', function() {
+                var address = '경기 안성시 서운면 신능길 83-15';
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(address).then(showCopied, fallbackCopy);
+                } else {
+                    fallbackCopy();
+                }
+                function fallbackCopy() {
+                    var ta = document.createElement('textarea');
+                    ta.value = address;
+                    ta.style.position = 'fixed';
+                    ta.style.opacity = '0';
+                    document.body.appendChild(ta);
+                    ta.focus();
+                    ta.select();
+                    try { document.execCommand('copy'); } catch(e) {}
+                    document.body.removeChild(ta);
+                    showCopied();
+                }
+                function showCopied() {
+                    btn.classList.add('copied');
+                    setTimeout(function() { btn.classList.remove('copied'); }, 2000);
+                }
+            });
+        })();
     </script>
 </body>
 </html>
