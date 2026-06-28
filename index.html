@@ -2,11 +2,28 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>신랑이름 ❤️ 신부이름 결혼합니다1.</title>       
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>신랑이름 ❤️ 신부이름 결혼합니다.</title>       
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&amp;family=Nanum+Myeongjo:wght@400;700&amp;display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=f9zb7s7erg"></script>
     <style>
+        *, *:before, *:after {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body.ticket-open {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
         /* Floating Animation */
         @keyframes floating {
             0% { transform: translateY(0); }
@@ -55,14 +72,21 @@
 
         .ticket-animation-container {
             position: relative;
-            width: 80vw;
-            height: calc(80vw * 1.714);
+            width: 280px;
+            height: 480px;
             animation: floating 3s ease-in-out infinite;  
             display: flex;
             transition: all 0.3s ease;
             transform-style: preserve-3d;
             filter: drop-shadow(0 20px 50px rgba(0,0,0,0.6));
             cursor: pointer;
+        }
+
+        @media (max-width: 480px) {
+            .ticket-animation-container {
+                width: 80vw;
+                height: calc(80vw * 1.714);
+            }
         }
 
         .ticket-animation-container.opening {
@@ -76,17 +100,11 @@
             width: 50.1%;
             height: 100%;
             background-image: url('asset/image/ticket.jpg?v=2');
-            background-size: 280px 480px;
+            background-size: 200% 100%;
             background-repeat: no-repeat;
             transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 2;
             backface-visibility: hidden;
-        }
-
-        @media (max-width: 480px) {
-            .door {
-                background-size: 80vw calc(80vw * 1.714) !important;
-            }
         }
 
         .door-left {
@@ -568,9 +586,137 @@
             left: -2px;
             top: -4px;
         }
+
+        /* Map Navigation Bar Styles */
+        .c-map-navi-wrapper {
+            margin-top: 16px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            align-items: center;
+            padding: 10px 0;
+
+        }
+        .c-map-navi-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #555;
+            font-size: 0.85em;
+            font-weight: 600;
+            gap: 8px;
+            padding: 8px 0;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+        .c-map-navi-item:hover {
+            transform: translateY(-1px);
+            color: #5d7a63;
+        }
+        .c-map-navi-item img {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        .c-map-navi-divider {
+            color: #ccc;
+            font-size: 1.2em;
+            font-weight: 300;
+            user-select: none;
+        }
+
+        /* Information Tab Section Styles */
+        .notice-tab-wrap {
+            padding: 20px 0;
+            width: 100%;
+        }
+        .notice-tab-wrap .m-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .notice-tab-wrap .m-subtitle {
+            font-size: 0.85em;
+            letter-spacing: 2px;
+            color: #88a48e;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .notice-tab-wrap .greetings-title {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 1.6em;
+            color: #5d7a63;
+            font-weight: bold;
+        }
+        .ntab {
+            width: 100%;
+            border: 1px solid #e0eee0;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fafdfa;
+        }
+        .ntab-titles {
+            display: flex;
+            background-color: #f1f8f1;
+            border-bottom: 1px solid #e0eee0;
+        }
+        .ntab-title {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            cursor: pointer;
+            font-size: 1.05em;
+            color: #666;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .ntab-title:not(:last-child) {
+            border-right: 1px solid #e0eee0;
+        }
+        .ntab-title.active {
+            background-color: #ffffff;
+            color: #5d7a63;
+            font-weight: bold;
+        }
+        .ntab-contents {
+            padding: 30px 20px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .ntab-panel {
+            display: none;
+            animation: fadeInTab 0.5s ease forwards;
+        }
+        .ntab-panel.active {
+            display: block;
+        }
+        .ntab-text {
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: #555;
+            text-align: center;
+        }
+        .ntab-text strong {
+            color: #5d7a63;
+        }
+        .ntab-img-wrap {
+            max-width: 100%;
+            margin: 0 auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
-<body class="modal-open">
+<body class="ticket-open modal-open">
     <div id="ticket-wrapper">
         <div id="image-ticket" class="ticket-animation-container" onclick="startOpening()">
             <div class="door door-left"></div>
@@ -695,49 +841,91 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td style="padding: 8px 0;"></td><td style="padding: 8px 0;"></td><td style="padding: 8px 0;"></td><td style="padding: 8px 0;"></td>
-                            <td style="padding: 8px 0;">1</td><td style="padding: 8px 0;">2</td><td style="padding: 8px 0;">3</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 8px 0;">4</td><td style="padding: 8px 0;">5</td><td style="padding: 8px 0;">6</td><td style="padding: 8px 0;">7</td>
-                            <td style="padding: 8px 0;">8</td><td style="padding: 8px 0;">9</td><td style="padding: 8px 0;">10</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 8px 0;">11</td><td style="padding: 8px 0;">12</td><td style="padding: 8px 0;">13</td><td style="padding: 8px 0;">14</td>
-                            <td style="padding: 8px 0;">15</td><td style="padding: 8px 0;">16</td>
-                            <td style="padding: 8px 0;">
-                                <div style="width: 25px; height: 25px; border: 1px solid #f75555; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; color: #f75555; font-weight: bold;">17</div>
+                            <td style="padding: 8px 0; vertical-align: top;"></td>
+                            <td style="padding: 8px 0; vertical-align: top;"></td>
+                            <td style="padding: 8px 0; vertical-align: top;"></td>
+                            <td style="padding: 8px 0; vertical-align: top;"></td>
+                            <td style="padding: 8px 0; vertical-align: top;">1</td>
+                            <td style="padding: 8px 0; vertical-align: top;">2</td>
+                            <td style="padding: 8px 0; vertical-align: top;">
+                                <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; margin: 0 auto; width: 100%;">
+                                    <div style="color: #f75555; font-weight: bold; height: 25px; display: flex; align-items: center; justify-content: center;">3</div>
+                                    <div style="font-size: 8px; color: #f75555; line-height: 1.2; margin-top: 4px; font-weight: bold; text-align: center; width: 100%;">개천절</div>
+                                </div>
                             </td>
                         </tr>
                         <tr>
-                            <td style="padding: 8px 0;">18</td><td style="padding: 8px 0;">19</td><td style="padding: 8px 0;">20</td><td style="padding: 8px 0;">21</td>
-                            <td style="padding: 8px 0;">22</td><td style="padding: 8px 0;">23</td><td style="padding: 8px 0;">24</td>
+                            <td style="padding: 8px 0; vertical-align: top; color: #f75555; font-weight: bold;">4</td>
+                            <td style="padding: 8px 0; vertical-align: top;">
+                                <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; margin: 0 auto; width: 100%;">
+                                    <div style="color: #f75555; font-weight: bold; height: 25px; display: flex; align-items: center; justify-content: center;">5</div>
+                                    <div style="font-size: 8px; color: #f75555; line-height: 1.2; margin-top: 4px; font-weight: bold; text-align: center; width: 100%;">대체 휴일</div>
+                                </div>
+                            </td>
+                            <td style="padding: 8px 0; vertical-align: top;">6</td>
+                            <td style="padding: 8px 0; vertical-align: top;">7</td>
+                            <td style="padding: 8px 0; vertical-align: top;">8</td>
+                            <td style="padding: 8px 0; vertical-align: top;">
+                                <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; margin: 0 auto; width: 100%;">
+                                    <div style="color: #f75555; font-weight: bold; height: 25px; display: flex; align-items: center; justify-content: center;">9</div>
+                                    <div style="font-size: 8px; color: #f75555; line-height: 1.2; margin-top: 4px; font-weight: bold; text-align: center; width: 100%;">한글날</div>
+                                </div>
+                            </td>
+                            <td style="padding: 8px 0; vertical-align: top; color: #1e88e5; font-weight: bold;">10</td>
                         </tr>
                         <tr>
-                            <td style="padding: 8px 0;">25</td><td style="padding: 8px 0;">26</td><td style="padding: 8px 0;">27</td><td style="padding: 8px 0;">28</td>
-                            <td style="padding: 8px 0;">29</td><td style="padding: 8px 0;">30</td><td style="padding: 8px 0;">31</td>
+                            <td style="padding: 8px 0; vertical-align: top; color: #f75555; font-weight: bold;">11</td>
+                            <td style="padding: 8px 0; vertical-align: top;">12</td>
+                            <td style="padding: 8px 0; vertical-align: top;">13</td>
+                            <td style="padding: 8px 0; vertical-align: top;">14</td>
+                            <td style="padding: 8px 0; vertical-align: top;">15</td>
+                            <td style="padding: 8px 0; vertical-align: top;">16</td>
+                            <td style="padding: 8px 0; vertical-align: top;">
+                                <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; margin: 0 auto; width: 100%;">
+                                    <div style="width: 25px; height: 25px; border: 1px solid #f75555; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; color: #f75555; font-weight: bold;">17</div>
+                                    <div style="font-size: 8px; color: #f75555; line-height: 1.2; margin-top: 4px; font-weight: bold; text-align: center; width: 100%;">Wedding<br>Day</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px 0; vertical-align: top; color: #f75555; font-weight: bold;">18</td>
+                            <td style="padding: 8px 0; vertical-align: top;">19</td>
+                            <td style="padding: 8px 0; vertical-align: top;">20</td>
+                            <td style="padding: 8px 0; vertical-align: top;">21</td>
+                            <td style="padding: 8px 0; vertical-align: top;">22</td>
+                            <td style="padding: 8px 0; vertical-align: top;">23</td>
+                            <td style="padding: 8px 0; vertical-align: top; color: #1e88e5; font-weight: bold;">24</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px 0; vertical-align: top; color: #f75555; font-weight: bold;">25</td>
+                            <td style="padding: 8px 0; vertical-align: top;">26</td>
+                            <td style="padding: 8px 0; vertical-align: top;">27</td>
+                            <td style="padding: 8px 0; vertical-align: top;">28</td>
+                            <td style="padding: 8px 0; vertical-align: top;">29</td>
+                            <td style="padding: 8px 0; vertical-align: top;">30</td>
+                            <td style="padding: 8px 0; vertical-align: top; color: #1e88e5; font-weight: bold;">31</td>
                         </tr>
                     </tbody>
                 </table>
 
                 <!-- 박스형 카운트다운 -->
                 <div class="countdown-boxes" style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 20px;">
-                    <div style="background: #f1f8f1; padding: 10px; border-radius: 5px; min-width: 40px;">
+                    <div style="background: #f1f8f1; padding: 10px; border-radius: 5px; min-width: 60px;">
                         <span id="days" style="display: block; font-size: 1.2em; font-weight: bold; color: #5d7a63;">00</span>
                         <span style="font-size: 0.7em; color: #666;">DAYS</span>
                     </div>
                     <span style="font-weight: bold; color: #5d7a63;">:</span>
-                    <div style="background: #f1f8f1; padding: 10px; border-radius: 5px; min-width: 40px;">
+                    <div style="background: #f1f8f1; padding: 10px; border-radius: 5px; min-width: 60px;">
                         <span id="hours" style="display: block; font-size: 1.2em; font-weight: bold; color: #5d7a63;">00</span>
                         <span style="font-size: 0.7em; color: #666;">HOURS</span>
                     </div>
                     <span style="font-weight: bold; color: #5d7a63;">:</span>
-                    <div style="background: #f1f8f1; padding: 10px; border-radius: 5px; min-width: 40px;">
+                    <div style="background: #f1f8f1; padding: 10px; border-radius: 5px; min-width: 60px;">
                         <span id="minutes" style="display: block; font-size: 1.2em; font-weight: bold; color: #5d7a63;">00</span>
                         <span style="font-size: 0.7em; color: #666;">MIN</span>
                     </div>
                     <span style="font-weight: bold; color: #5d7a63;">:</span>
-                    <div style="background: #f1f8f1; padding: 10px; border-radius: 5px; min-width: 40px;">
+                    <div style="background: #f1f8f1; padding: 10px; border-radius: 5px; min-width: 60px;">
                         <span id="seconds" style="display: block; font-size: 1.2em; font-weight: bold; color: #5d7a63;">00</span>
                         <span style="font-size: 0.7em; color: #666;">SEC</span>
                     </div>
@@ -762,9 +950,22 @@
                 <p style="font-weight: bold; font-size: 1.1em; color: #5d7a63; margin-bottom: 15px;">[ 약 도 ]</p>  
                 <img src="asset/image/map.jpg" alt="약도" style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
             </div>
-            <div style="position: relative;">
-                <div id="map" class="map-container"></div>
-                <a href="https://map.naver.com/v5/search/%EC%98%A4%ED%95%98%ED%95%98%EC%9A%B0%EC%8A%A4%EC%9B%A8%EB%94%A9" target="_blank" style="position: absolute; bottom: 20px; right: 20px; z-index: 1000; background: white; color:#5d7a63; text-decoration:none; font-weight:bold; border:1px solid #5d7a63; padding:8px 15px; border-radius:4px; font-size:13px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">네이버 지도로 보기</a>
+            <div id="map" class="map-container"></div>
+            <div class="c-map-navi-wrapper">
+                <a href="https://map.naver.com/v5/search/%EC%98%A4%ED%95%98%ED%95%98%EC%9A%B0%EC%8A%A4%EC%9B%A8%EB%94%A9" target="_blank" class="c-map-navi-item">
+                    <img src="asset/image/icon_navermap_w48.png" alt="네이버 지도">
+                    <span>네이버 지도</span>
+                </a>
+                <span class="c-map-navi-divider">|</span>
+                <a href="https://map.kakao.com/link/to/오하하우스웨딩,37.0373,127.2464" target="_blank" class="c-map-navi-item">
+                    <img src="asset/image/icon_kakaonavi_w48.png" alt="카카오 내비">
+                    <span>카카오 내비</span>
+                </a>
+                <span class="c-map-navi-divider">|</span>
+                <a href="tmap://route?rGoName=오하하우스웨딩&rGoX=127.2464&rGoY=37.0373" class="c-map-navi-item">
+                    <img src="asset/image/icon_tmap_w48.png" alt="티맵">
+                    <span>티맵</span>
+                </a>
             </div>
         </section>
 
@@ -795,15 +996,70 @@
         </section>
 
         <section class="rsvp">
-            <h2>Information</h2>
-            <p style="text-align: center;">결혼식장 특성 상 참석 여부를 미리 알려주시면<br>
-                식사 준비에 큰 도움이 됩니다.<br>
-                또, 축하 화환은 불가하오나 <br>
-                결혼식장의 꽃은 신부 한 사람으로 충분합니다.<br>
-                축하해 주시는 마음만 감사히 받겠습니다.<br>
-                또, ATM기기가 식장 내부에 없습니다.<br>
+            <div class="notice-tab-wrap white">
+                <div class="m-title">
+                    <div class="m-subtitle">INFORMATION</div>
+                    <div class="greetings-title">예식정보 및 안내사항</div>
+                </div>
+                
+                <div class="ntab">
+                    <!-- 탭 버튼들 -->
+                    <div class="ntab-titles">
+                        <div class="ntab-title active" onclick="switchInfoTab(0)"><span>주차안내</span></div>
+                        <div class="ntab-title" onclick="switchInfoTab(1)"><span>식장공지</span></div>
+                        <div class="ntab-title" onclick="switchInfoTab(2)"><span>포토부스</span></div>
+                    </div>
+                    
+                    <!-- 탭 콘텐츠 내용들 -->
+                    <div class="ntab-contents">
+                        <!-- 탭 0: 주차안내 -->
+                        <div class="ntab-panel active" id="info-tab-0">
+                            <div class="ntab-text">
+                                웨딩홀 지하 3층 ~ 7층 주차 시<br>
+                                <strong>2시간 무료 주차</strong>가 가능합니다.<br><br>
+                                웨딩홀 주차장 만차 시<br>
+                                웨딩홀 뒷편의 공용 주차장에<br>
+                                <strong>1시간 무료 주차</strong>가 가능합니다.
+                            </div>
+                        </div>
+                        
+                        <!-- 탭 1: 식장공지 -->
+                        <div class="ntab-panel" id="info-tab-1">
+                            <div class="ntab-text">
+                                축하 화환은 정중히 사양하오나,<br>
+                                결혼식장의 꽃은 신부 한 사람으로 충분합니다.<br>
+                                보내주시는 축하의 마음만 감사히 받겠습니다.<br><br>
+                                또한, 식장 내부에 ATM 기기가 없사오니<br>
+                                하객 여러분의 너른 양해 부탁드립니다.
+                            </div>
+                        </div>
+                        
+                        <!-- 탭 2: 포토부스 -->
+                        <div class="ntab-panel" id="info-tab-2">
+                            <!-- 포토부스 안내 이미지 ( photo.jpg 적용 ) -->
+                            <div class="ntab-img-wrap" style="margin-bottom: 20px; max-width: 500px;">
+                                <img src="asset/image/photo.jpg" alt="포토부스" style="width: 100%; border-radius: 8px; object-fit: cover;">
+                            </div>
+                            <div class="ntab-text">
+                                식장 로비에 <strong>포토부스</strong>가 설치될 예정입니다.<br>
+                                귀한 발걸음 해주신 여러분의<br>
+                                환한 미소와 따뜻한 말씀 남겨주시면<br>
+                                평생 소중히 간직하도록 하겠습니다.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 참석여부 설문 섹션 (독립 분리) -->
+        <section class="rsvp-survey" style="padding: 40px 0; border-top: 1px solid #e0eee0; text-align: center;">
+            <h2>참석 여부</h2>
+            <p style="font-size: 1.05em; line-height: 1.8; color: #555; margin-bottom: 25px;">
+                결혼식장 특성 상 참석 여부를 미리 알려주시면<br>
+                식사 준비에 큰 도움이 됩니다.
             </p>
-            <div style="text-align: center; margin-top: 20px;">
+            <div style="text-align: center;">
                 <button class="rsvp-button" onclick="openGoogleFormModal()">참석여부 제출하기</button>
             </div>
         </section>
@@ -867,7 +1123,23 @@
             audio.currentTime = ratio * audio.duration;   
         });
 
-        volumeBtn.addEventListener('click', () => volumeControls.classList.toggle('hidden'));
+        let isMuted = false;
+        let prevVolume = audio.volume;
+
+        volumeBtn.addEventListener('click', () => {
+            if (isMuted) {
+                audio.volume = prevVolume || 0.1;
+                isMuted = false;
+                volumeBar.style.height = (audio.volume * 100) + '%';
+                volumeBtn.querySelector('path').setAttribute('fill', '#566574');
+            } else {
+                prevVolume = audio.volume;
+                audio.volume = 0;
+                isMuted = true;
+                volumeBar.style.height = '0%';
+                volumeBtn.querySelector('path').setAttribute('fill', '#bbb');
+            }
+        });
 
         volumeSlider.addEventListener('click', (e) => {   
             const rect = volumeSlider.getBoundingClientRect();
@@ -944,6 +1216,7 @@
             if (wrapper) {
                 wrapper.style.display = 'none';
             }
+            document.body.classList.remove('ticket-open');
             document.body.classList.remove('modal-open');
             audio.play().then(updatePlayIcon).catch(e => console.log('Autoplay blocked'));
             initMap();
@@ -999,6 +1272,28 @@
                 } else {
                     thumb.style.border = '2px solid transparent';
                     thumb.classList.remove('active');
+                }
+            });
+        }
+
+        function switchInfoTab(index) {
+            // 모든 탭 제목의 active 제거 및 선택 탭 active 추가
+            const titles = document.querySelectorAll('.ntab-title');
+            titles.forEach((title, i) => {
+                if (i === index) {
+                    title.classList.add('active');
+                } else {
+                    title.classList.remove('active');
+                }
+            });
+            
+            // 모든 탭 콘텐츠 active 제거 및 선택 탭 패널 표시
+            const panels = document.querySelectorAll('.ntab-panel');
+            panels.forEach((panel, i) => {
+                if (i === index) {
+                    panel.classList.add('active');
+                } else {
+                    panel.classList.remove('active');
                 }
             });
         }
