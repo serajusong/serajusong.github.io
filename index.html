@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>신랑이름 ❤️ 신부이름 결혼합니다.</title>       
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&amp;family=Cormorant+Garamond:wght@500;600;700&amp;family=Great+Vibes&amp;family=Noto+Serif+KR:wght@300;400;700&amp;family=Nanum+Myeongjo:wght@400;700&amp;display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css" rel="stylesheet">
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=f9zb7s7erg"></script>
     <style>
         *, *:before, *:after {
             box-sizing: border-box;
+        }
+
+        /* 모든 글씨체 페이퍼로지 */
+        html, body, input, button, textarea, select,
+        h1, h2, h3, h4, h5, h6, p, span, div, a, li, td, th {
+            font-family: 'Paperlogy', sans-serif !important;
         }
 
         html, body {
@@ -240,6 +247,31 @@
         }
         body.modal-open {
             overflow: hidden;
+        }
+
+        /* 최상단 시간·장소 + D-Day */
+        .top-info-bar {
+            text-align: center;
+            padding: 18px 0 14px;
+            background: #ffffff;
+            border-bottom: 1px solid #e8e0d0;
+            margin: 0 -20px;
+        }
+        .top-info-bar .top-datetime {
+            font-size: 0.92rem;
+            font-weight: 500;
+            color: #5a5a5a;
+            letter-spacing: 0.02em;
+            margin-bottom: 6px;
+        }
+        .top-info-bar .top-dday {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #5d7a63;
+            letter-spacing: 0.04em;
+        }
+        @media (min-width: 768px) {
+            .top-info-bar { margin: 0 -40px; }
         }
 
         .container {
@@ -932,6 +964,10 @@
     </div>
 
     <div class="container">
+        <div class="top-info-bar">
+            <div class="top-datetime">2026년 10월 17일 토요일 18시, 오하하우스웨딩</div>
+            <div class="top-dday" id="topDday">D-00</div>
+        </div>
         <header>
             <div class="audio-player-wrapper">
                 <div class="audio green-audio-player">    
@@ -1542,6 +1578,13 @@
             // 실시간 카운트다운
             const weddingDate = new Date('2026-10-17T18:00:00').getTime();
 
+            function updateTopDday(d){
+                var el = document.getElementById('topDday');
+                if (!el) return;
+                if (d > 0) el.textContent = 'D-' + String(d).padStart(2, '0');
+                else if (d === 0) el.textContent = 'D-Day';
+                else el.textContent = 'D+' + String(Math.abs(d)).padStart(2, '0');
+            }
             setInterval(() => {
             const now = new Date().getTime();
             const distance = weddingDate - now;
@@ -1556,7 +1599,15 @@
             document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
             document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
             document.getElementById('days-total').textContent = days;
+            updateTopDday(days);
             }, 1000);
+            // 초기 1회 즉시 반영
+            (function(){
+                var now = new Date().getTime();
+                var distance = weddingDate - now;
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                updateTopDday(days);
+            })();
         });
     </script>
     <script>
