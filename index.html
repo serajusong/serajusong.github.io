@@ -302,6 +302,91 @@
             padding: 20px 0;
         }
 
+        /* 프로필 섹션 – 예시 이미지 스타일 */
+        .profile-section {
+            background: #f8f6f1;
+            padding: 28px 12px;
+            border-top: 1px solid #e9e1d0;
+            border-bottom: 1px solid #e9e1d0;
+        }
+        .profile-card {
+            max-width: 560px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 1px solid #f0ece3;
+        }
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        .profile-item {
+            text-align: center;
+            padding-bottom: 22px;
+            position: relative;
+        }
+        .profile-item + .profile-item {
+            border-left: 1px solid #f0ece3;
+        }
+        .profile-img-wrap {
+            width: 100%;
+            aspect-ratio: 1 / 1.15;
+            overflow: hidden;
+            background: #f0ece3;
+        }
+        .profile-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .profile-label {
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            color: #9aa09a;
+            margin: 14px 0 4px;
+            font-weight: 500;
+        }
+        .profile-label.bride { color: #d48a8a; }
+        .profile-label.groom { color: #7aa0c9; }
+        .profile-role {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #3a3a3a;
+            margin: 0 0 14px;
+        }
+        .profile-role .emoji { font-size: 0.85rem; margin-left: 2px; }
+        .profile-details {
+            font-size: 0.84rem;
+            line-height: 1.65;
+            color: #5a5a5a;
+            padding: 0 10px;
+        }
+        .profile-details .birth {
+            color: #444;
+        }
+        .profile-details .mbti {
+            color: #5b6abf;
+            font-weight: 700;
+        }
+        .profile-details .hash {
+            color: #8e8e8e;
+            font-size: 0.80rem;
+        }
+        .profile-divider {
+            width: 1px;
+            background: #f0ece3;
+        }
+        @media (max-width: 480px) {
+            .profile-section { padding: 20px 8px; }
+            .profile-card { border-radius: 8px; }
+            .profile-label { font-size: 0.68rem; }
+            .profile-role { font-size: 0.86rem; }
+            .profile-details { font-size: 0.78rem; padding: 0 6px; }
+        }
+
         .invitation-text {
             font-size: 1.1em;
             color: #555;
@@ -889,8 +974,37 @@
             <p>결혼합니다</p>
         </header>
 
-        <section class="main-visual">
-            <div class="main-images-placeholder" style="width: 100%; aspect-ratio: 1 / 0.8; border: 2px solid #5d7a63; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #5d7a63; font-size: 1.2em; background-color: #f9fdf9; box-sizing: border-box;">이미지 부분</div>
+        <section class="main-visual profile-section">
+            <div class="profile-card">
+                <div class="profile-grid">
+                    <!-- 왼쪽: 신부 오세라 -->
+                    <div class="profile-item">
+                        <div class="profile-img-wrap">
+                            <img src="asset/image/sera.jpg" alt="신부 오세라">
+                        </div>
+                        <div class="profile-label bride">신부 오세라 🤍</div>
+                        <div class="profile-role">오늘의 주인공 <span class="emoji">✌️</span></div>
+                        <div class="profile-details">
+                            <div class="birth">1994년생, 안성사람</div>
+                            <div>세상의 소금형 <span class="mbti">ISTJ</span></div>
+                            <div class="hash">#차가운데 #가끔따뜻</div>
+                        </div>
+                    </div>
+                    <!-- 오른쪽: 신랑 이주송 -->
+                    <div class="profile-item">
+                        <div class="profile-img-wrap">
+                            <img src="asset/image/jusong.jpg" alt="신랑 이주송">
+                        </div>
+                        <div class="profile-label groom">신랑 이주송 🤍</div>
+                        <div class="profile-role">오늘의 주인공 <span class="emoji">✌️</span></div>
+                        <div class="profile-details">
+                            <div class="birth">1995년생, 안성사람</div>
+                            <div>다정한 리더형 <span class="mbti">ENTJ</span></div>
+                            <div class="hash">#똑똑한데 #가끔바보</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section class="invitation">
