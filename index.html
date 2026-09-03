@@ -1433,7 +1433,7 @@
             
             const hint = document.getElementById('touch-hint');
             if (hint) hint.style.display = 'none';        
-            audio.play().then(updatePlayIcon).catch(e => console.log('Autoplay blocked'));
+            // 노래는 사용자가 재생 버튼을 누를 때만 재생 (자동 재생 안 함)
             // 문 열림 및 페이드아웃 트랜지션 시간인 1.5초(1500ms) 후에 openInvitation 실행
             setTimeout(openInvitation, 1500);
         }
@@ -1490,7 +1490,6 @@
             }
             document.body.classList.remove('ticket-open');
             document.body.classList.remove('modal-open');
-            audio.play().then(updatePlayIcon).catch(e => console.log('Autoplay blocked'));
             initMap();
             setTimeout(() => {
                 if (map) {
