@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -765,6 +765,63 @@
             margin-top: 10px;
         }
 
+        /* RSVP 폼 */
+        .rsvp-form {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            text-align: left;
+        }
+        .rsvp-form label {
+            font-size: 0.88rem;
+            color: #444;
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .rsvp-form input,
+        .rsvp-form select,
+        .rsvp-form textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d8e0d8;
+            border-radius: 6px;
+            font-size: 0.93rem;
+            font-family: 'Paperlogy', sans-serif;
+            background: #fff;
+        }
+        .rsvp-form input:focus,
+        .rsvp-form select:focus,
+        .rsvp-form textarea:focus {
+            outline: none;
+            border-color: #8aa48e;
+            box-shadow: 0 0 0 2px rgba(136,164,142,0.15);
+        }
+        .rsvp-submit {
+            background: #5d7a63;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+        .rsvp-submit:disabled {
+            background: #a8b5a8;
+            cursor: not-allowed;
+        }
+        .rsvp-msg {
+            font-size: 0.88rem;
+            text-align: center;
+            min-height: 1.2em;
+        }
+        .rsvp-msg.ok { color: #2e7d32; }
+        .rsvp-msg.err { color: #c62828; }
+
         .audio-player-wrapper {
             position: absolute;
             top: 10px;
@@ -1042,8 +1099,49 @@
 
     <div class="modal-overlay" id="googleFormModal">      
         <div class="modal-content">
-            <p>참석 여부를 작성해 주세요.</p>
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe4_pecZI1DQY7O8GFsmmBCeCC4dAVdHDOG0a5ulCAb1TWGng/viewform?embedded=true" width="640" height="812" frameborder="0" marginheight="0" marginwidth="0">로드 중…</iframe> 
+            <h3 style="margin:0 0 8px; color:#344a38; font-size:1.15rem;">참석 여부 알려주기</h3>
+            <p style="font-size:0.88rem; color:#666; margin:0 0 16px;">소중한 시간을 내어 알려주시면 감사하겠습니다.</p>
+            <form id="rsvpForm" class="rsvp-form" onsubmit="submitRsvp(event)">
+                <div>
+                    <label>성함 *</label>
+                    <input name="name" required maxlength="30" placeholder="홍길동">
+                </div>
+                <div>
+                    <label>연락처</label>
+                    <input name="phone" maxlength="20" placeholder="010-1234-5678">
+                </div>
+                <div style="display:flex; gap:12px;">
+                    <div style="flex:1;">
+                        <label>참석 여부 *</label>
+                        <select name="attending" required>
+                            <option value="">선택</option>
+                            <option value="true">참석</option>
+                            <option value="false">불참</option>
+                        </select>
+                    </div>
+                    <div style="flex:1;">
+                        <label>인원수</label>
+                        <select name="guestCount">
+                            <option value="1">1명</option>
+                            <option value="2" selected>2명</option>
+                            <option value="3">3명</option>
+                            <option value="4">4명</option>
+                            <option value="5">5명</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label>동반 참석자 성함 (여러 명이면 ,로 구분)</label>
+                    <input name="companions" maxlength="500" placeholder="예: 김철수, 박영희">
+                </div>
+                <div>
+                    <label>전할 말씀</label>
+                    <textarea name="message" rows="3" maxlength="500" placeholder="축하 메시지나 알레르기 등을 적어주세요"></textarea>
+                </div>
+                <button type="submit" class="rsvp-submit" id="rsvpSubmitBtn">제출하기</button>
+                <div id="rsvpMsg" class="rsvp-msg"></div>
+                <p style="font-size:0.72rem; color:#999; text-align:center; margin:4px 0 0;">제출된 정보는 서버에 저장됩니다. Pages 단독에서는 Boot 서버 배포 후 저장됩니다.</p>
+            </form>
             <button class="modal-close-button" onclick="closeGoogleFormModal()">닫기</button>
         </div>
     </div>
@@ -1615,6 +1713,62 @@
         function closeGoogleFormModal() {
             document.getElementById('googleFormModal').classList.remove('active');
             document.body.classList.remove('modal-open'); 
+        }
+
+        // RSVP API base – Pages에서는 Boot 서버 주소로 교체하세요. 예: window.RSVP_API_BASE='https://your-boot.onrender.com'
+        // 로컬 Boot로 서빙 시 빈 문자열이면 /api/rsvp 로 요청
+        function submitRsvp(e){
+            e.preventDefault();
+            var form = e.target;
+            var btn = document.getElementById('rsvpSubmitBtn');
+            var msg = document.getElementById('rsvpMsg');
+            var data = {
+                name: form.name.value.trim(),
+                phone: form.phone.value.trim(),
+                attending: form.attending.value === 'true',
+                guestCount: parseInt(form.guestCount.value,10) || 1,
+                companions: form.companions ? form.companions.value.trim() : '',
+                message: form.message.value.trim()
+            };
+            if (!data.name || form.attending.value === '') {
+                msg.textContent = '성함과 참석 여부를 입력해 주세요.';
+                msg.className = 'rsvp-msg err';
+                return;
+            }
+            btn.disabled = true;
+            btn.textContent = '제출 중...';
+            msg.textContent = '';
+            msg.className = 'rsvp-msg';
+            var apiBase = window.RSVP_API_BASE || '';
+            var url = apiBase ? apiBase.replace(/\/$/, '') + '/api/rsvp' : '/api/rsvp';
+            fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(data)
+            }).then(function(r){
+                if (!r.ok) throw new Error('서버 오류 ' + r.status);
+                return r.json();
+            }).then(function(){
+                msg.textContent = '감사합니다! 정상적으로 전달되었습니다.';
+                msg.className = 'rsvp-msg ok';
+                form.reset();
+                setTimeout(closeGoogleFormModal, 1400);
+            }).catch(function(err){
+                console.warn('RSVP API failed, fallback localStorage', err);
+                try {
+                    var arr = JSON.parse(localStorage.getItem('rsvp_fallback')||'[]');
+                    arr.push(Object.assign({}, data, {createdAt: new Date().toISOString(), _fallback:true}));
+                    localStorage.setItem('rsvp_fallback', JSON.stringify(arr));
+                    msg.textContent = '현재 정적 페이지라 브라우저에 임시 저장했습니다. Boot 배포 후 서버에 저장됩니다.';
+                    msg.className = 'rsvp-msg ok';
+                } catch(ex){
+                    msg.textContent = '제출 실패: ' + err.message;
+                    msg.className = 'rsvp-msg err';
+                }
+            }).finally(function(){
+                btn.disabled = false;
+                btn.textContent = '제출하기';
+            });
         }
 
         let currentImgIndex = 0;
