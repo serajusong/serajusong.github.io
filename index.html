@@ -1121,13 +1121,7 @@
                     </div>
                     <div style="flex:1;">
                         <label>인원수</label>
-                        <select name="guestCount">
-                            <option value="1">1명</option>
-                            <option value="2" selected>2명</option>
-                            <option value="3">3명</option>
-                            <option value="4">4명</option>
-                            <option value="5">5명</option>
-                        </select>
+                        <input name="guestCount" type="number" min="1" max="10" step="1" value="2" inputmode="numeric">
                     </div>
                 </div>
                 <div>
@@ -1730,11 +1724,12 @@
             var form = e.target;
             var btn = document.getElementById('rsvpSubmitBtn');
             var msg = document.getElementById('rsvpMsg');
+            var guestCount = Math.max(1, Math.min(10, parseInt(form.guestCount.value,10) || 1));
             var data = {
                 name: form.name.value.trim(),
                 phone: form.phone.value.trim(),
                 attending: form.attending.value === 'true',
-                guestCount: parseInt(form.guestCount.value,10) || 1,
+                guestCount: guestCount,
                 companions: form.companions ? form.companions.value.trim() : '',
                 message: form.message.value.trim()
             };
@@ -1750,18 +1745,22 @@
             var apiBase = window.RSVP_API_BASE || 'https://script.google.com/macros/s/AKfycbyjeCErtPcYro4g1f2KX90nrQ8Hewl9sMSaxkYE2366sG0z_uqxGP_0wWuywgshw0yKZw/exec';
             var isAppsScript = apiBase.indexOf('script.google.com') !== -1;
             var url = isAppsScript ? apiBase : (apiBase ? apiBase.replace(/\/$/, '') + '/api/rsvp' : '/api/rsvp');
-            fetch(url, {
-                method: 'POST',
-                headers: {'Content-Type':'text/plain;charset=utf-8'},
-                body: JSON.stringify(data)
-            }).then(function(r){
-                if (!r.ok) throw new Error('서버 오류 ' + r.status);
-                try { return r.json(); } catch(e) { return {}; }
-            }).then(function(){
+            // Apps Script는 CORS 헤더를 주지 않아 일반 fetch가 실패하므로 no-cors로 전송 (opaque 응답 = 전송 성공으로 간주)
+            var fetchOpt = isAppsScript
+                ? {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(data)}
+                : {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)};
+            var handleOk = function(){
                 msg.textContent = '감사합니다! 정상적으로 전달되었습니다.';
                 msg.className = 'rsvp-msg ok';
                 form.reset();
                 setTimeout(closeGoogleFormModal, 1400);
+            };
+            fetch(url, fetchOpt).then(function(r){
+                if (isAppsScript || r.type === 'opaque') { handleOk(); return null; }
+                if (!r.ok) throw new Error('서버 오류 ' + r.status);
+                return r.json();
+            }).then(function(res){
+                if (res !== null) handleOk();
             }).catch(function(err){
                 console.warn('RSVP API failed, fallback localStorage', err);
                 try {
