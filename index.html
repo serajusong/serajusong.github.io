@@ -1054,34 +1054,32 @@
             </div>
         </section>
 
-        <section class="invitation">
-            <h2>모시는 글</h2>
-            <div class="details-grid invitation-poem">
-                <div>
-                    <!--<p><strong class="poem-initial">세</strong> 상 그 수많은 인연 중 모르고도, 알고도 지나쳤던 저희</p>
-                    <p><strong class="poem-initial">라</strong> 디오 사연보다 더 영화 같은 운명으로 손을 꼭 잡게 되었습니다.</p>
-                    <p><strong class="poem-initial">주</strong> 인공이 된 저희 두 사람, 서로를 더 많이 아끼고 신뢰하며</p>
-                    <p><strong class="poem-initial">송</strong> 이송이 피어날 행복으로 미래를 채워가려 합니다.</p> -->
-                    <p>따뜻한 걸음으로 저희의 첫걸음을 함께해 주시면 감사하겠습니다.</p><br>
-                </div>
-            </div>
         </section>
 
                 <section class="gallery">
             <h2>갤러리</h2>
             <div class="gallery-container">
                 <div class="main-gallery-view" style="width: 100%; aspect-ratio: 1 / 0.8; margin-bottom: 15px; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                    <img id="main-gallery-img" src="asset/image/jusong.jpg" alt="갤러리 메인" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.3s ease;">
+                    <img id="main-gallery-img" src="asset/image/01.jpg" alt="갤러리 메인" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.3s ease;">
                 </div>
                 <div class="thumbnail-wrapper" style="display: flex; align-items: center; justify-content: space-between; gap: 5px; width: 100%;">
                     <button class="nav-btn" onclick="prevImage()" style="background: none; border: none; font-size: 1.8rem; color: #5d7a63; cursor: pointer; font-weight: bold; flex-shrink: 0; padding: 0 5px;"> &lt; </button>
-                    <div class="thumbnail-list-container" style="flex-grow: 1; overflow: hidden;">
-                        <div class="thumbnail-list" id="thumb-list" style="display: flex; gap: 5px; justify-content: center; width: 100%;">
-                            <img src="asset/image/jusong.jpg" class="active" onclick="selectGalleryImage(0)" style="width: calc(20% - 4px); aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid #5d7a63;">
-                            <img src="asset/image/sera.jpg" onclick="selectGalleryImage(1)" style="width: calc(20% - 4px); aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
-                            <img src="asset/image/ticket.jpg" onclick="selectGalleryImage(2)" style="width: calc(20% - 4px); aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
-                            <img src="asset/image/map.jpg" onclick="selectGalleryImage(3)" style="width: calc(20% - 4px); aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
-                            <img src="asset/image/jusong.jpg" onclick="selectGalleryImage(4)" style="width: calc(20% - 4px); aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                    <div class="thumbnail-list-container" style="flex-grow: 1; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -ms-overflow-style: none;">
+                        <div class="thumbnail-list" id="thumb-list" style="display: flex; gap: 5px; width: max-content; padding: 2px 0;">
+                            <img src="asset/image/01.jpg" class="active" onclick="selectGalleryImage(0)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid #5d7a63;">
+                            <img src="asset/image/02.jpg" onclick="selectGalleryImage(1)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/03.jpg" onclick="selectGalleryImage(2)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/04.jpg" onclick="selectGalleryImage(3)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/05.JPG" onclick="selectGalleryImage(4)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/06.JPG" onclick="selectGalleryImage(5)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/07.jpg" onclick="selectGalleryImage(6)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/08.jpg" onclick="selectGalleryImage(7)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/09.jpg" onclick="selectGalleryImage(8)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/10.jpg" onclick="selectGalleryImage(9)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/11.jpg" onclick="selectGalleryImage(10)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/웨딩포스터 (1).jpg" onclick="selectGalleryImage(11)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/웨딩포스터 (2).jpg" onclick="selectGalleryImage(12)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/웨딩포스터 (3)_원본.jpg" onclick="selectGalleryImage(13)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
                         </div>
                     </div>
                     <button class="nav-btn" onclick="nextImage()" style="background: none; border: none; font-size: 1.8rem; color: #5d7a63; cursor: pointer; font-weight: bold; flex-shrink: 0; padding: 0 5px;"> &gt; </button>
@@ -1514,11 +1512,20 @@
 
         let currentImgIndex = 0;
         const galleryImages = [
-            'asset/image/jusong.jpg',
-            'asset/image/sera.jpg',
-            'asset/image/ticket.jpg',
-            'asset/image/map.jpg',
-            'asset/image/jusong.jpg'
+            'asset/image/01.jpg',
+            'asset/image/02.jpg',
+            'asset/image/03.jpg',
+            'asset/image/04.jpg',
+            'asset/image/05.JPG',
+            'asset/image/06.JPG',
+            'asset/image/07.jpg',
+            'asset/image/08.jpg',
+            'asset/image/09.jpg',
+            'asset/image/10.jpg',
+            'asset/image/11.jpg',
+            'asset/image/웨딩포스터 (1).jpg',
+            'asset/image/웨딩포스터 (2).jpg',
+            'asset/image/웨딩포스터 (3)_원본.jpg'
         ];
 
         function selectGalleryImage(index) {
@@ -1543,6 +1550,7 @@
                 if (index === currentImgIndex) {
                     thumb.style.border = '2px solid #5d7a63';
                     thumb.classList.add('active');
+                    try { thumb.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'}); } catch(e){}
                 } else {
                     thumb.style.border = '2px solid transparent';
                     thumb.classList.remove('active');
