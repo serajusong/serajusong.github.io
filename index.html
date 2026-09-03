@@ -1131,10 +1131,6 @@
                     </div>
                 </div>
                 <div>
-                    <label>동반 참석자 성함 (여러 명이면 ,로 구분)</label>
-                    <input name="companions" maxlength="500" placeholder="예: 김철수, 박영희">
-                </div>
-                <div>
                     <label>전할 말씀</label>
                     <textarea name="message" rows="3" maxlength="500" placeholder="축하 메시지나 알레르기 등을 적어주세요"></textarea>
                 </div>
@@ -1205,32 +1201,40 @@
         </header>
 
         <section class="main-visual profile-section">
+            <div style="text-align:center; margin-bottom:18px; line-height:1.75; color:#4a4a4a; font-size:0.93rem;">
+                이운수 이명희의 장남 <strong style="color:#333; font-weight:700;">이주송</strong><br>
+                오삼환 조화숙의 차녀 <strong style="color:#333; font-weight:700;">오세라</strong>
+            </div>
             <div class="profile-card">
                 <div class="profile-grid">
-                    <!-- 왼쪽: 신부 오세라 -->
-                    <div class="profile-item">
-                        <div class="profile-img-wrap">
-                            <img src="asset/image/sera.jpg" alt="신부 오세라">
-                        </div>
-                        <div class="profile-label bride">신부 오세라 🤍</div>
-                        <div class="profile-role">오늘의 주인공 <span class="emoji">✌️</span></div>
-                        <div class="profile-details">
-                            <div class="birth">1994년생, 안성사람</div>
-                            <div>세상의 소금형 <span class="mbti">ISTJ</span></div>
-                            <div class="hash">#차가운데 #가끔따뜻</div>
-                        </div>
-                    </div>
-                    <!-- 오른쪽: 신랑 이주송 -->
+                    <!-- 왼쪽: 신랑 이주송 (구도 동일) -->
                     <div class="profile-item">
                         <div class="profile-img-wrap">
                             <img src="asset/image/jusong.jpg" alt="신랑 이주송">
                         </div>
-                        <div class="profile-label groom">신랑 이주송 🤍</div>
-                        <div class="profile-role">오늘의 주인공 <span class="emoji">✌️</span></div>
+                        <div class="profile-label groom">🤵‍♂️신랑 이주송</div>
                         <div class="profile-details">
-                            <div class="birth">1995년생, 안성사람</div>
-                            <div>다정한 리더형 <span class="mbti">ENTJ</span></div>
+                            <div>1995.02.15.</div>
+                            <div style="height:8px"></div>
+                            <div class="hash">#귀한 외동아들</div>
+                            <div class="hash">#엄친아</div>
+                            <div class="hash">#ENTJ</div>
                             <div class="hash">#똑똑한데 #가끔바보</div>
+                        </div>
+                    </div>
+                    <!-- 오른쪽: 신부 오세라 (구도 동일) -->
+                    <div class="profile-item">
+                        <div class="profile-img-wrap">
+                            <img src="asset/image/sera.jpg" alt="신부 오세라">
+                        </div>
+                        <div class="profile-label bride">👰신부 오세라</div>
+                        <div class="profile-details">
+                            <div>1994.01.19.</div>
+                            <div style="height:8px"></div>
+                            <div class="hash">#소문난 효녀</div>
+                            <div class="hash">#엄친딸</div>
+                            <div class="hash">#ISTJ</div>
+                            <div class="hash">#차가운데 #가끔따뜻</div>
                         </div>
                     </div>
                 </div>
@@ -1727,7 +1731,6 @@
                 phone: form.phone.value.trim(),
                 attending: form.attending.value === 'true',
                 guestCount: parseInt(form.guestCount.value,10) || 1,
-                companions: form.companions ? form.companions.value.trim() : '',
                 message: form.message.value.trim()
             };
             if (!data.name || form.attending.value === '') {
@@ -1739,15 +1742,16 @@
             btn.textContent = '제출 중...';
             msg.textContent = '';
             msg.className = 'rsvp-msg';
-            var apiBase = window.RSVP_API_BASE || '';
-            var url = apiBase ? apiBase.replace(/\/$/, '') + '/api/rsvp' : '/api/rsvp';
+            var apiBase = window.RSVP_API_BASE || 'https://script.google.com/macros/s/AKfycbyjeCErtPcYro4g1f2KX90nrQ8Hewl9sMSaxkYE2366sG0z_uqxGP_0wWuywgshw0yKZw/exec';
+            var isAppsScript = apiBase.indexOf('script.google.com') !== -1;
+            var url = isAppsScript ? apiBase : (apiBase ? apiBase.replace(/\/$/, '') + '/api/rsvp' : '/api/rsvp');
             fetch(url, {
                 method: 'POST',
-                headers: {'Content-Type':'application/json'},
+                headers: {'Content-Type':'text/plain;charset=utf-8'},
                 body: JSON.stringify(data)
             }).then(function(r){
                 if (!r.ok) throw new Error('서버 오류 ' + r.status);
-                return r.json();
+                try { return r.json(); } catch(e) { return {}; }
             }).then(function(){
                 msg.textContent = '감사합니다! 정상적으로 전달되었습니다.';
                 msg.className = 'rsvp-msg ok';
