@@ -38,3 +38,6 @@ out/
 
 # Ignore doc folder
 doc/
+
+# Personal secrets (Naver keys, Apps Script URLs)
+key.md
