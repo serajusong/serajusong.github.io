@@ -1237,20 +1237,17 @@
             <h2>갤러리</h2>
             <div class="gallery-container">
                 <div class="main-gallery-view" style="width: 100%; aspect-ratio: 1 / 0.8; margin-bottom: 15px; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: #f8f6f1; position: relative; display: block;">
-                    <img id="main-gallery-img" src="asset/image/편집본/20260717_014305632_iOS.jpg" alt="갤러리 메인" style="position: absolute; inset: 0; margin: auto; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; transition: opacity 0.3s ease;">
+                    <img id="main-gallery-img" src="asset/image/편집본/1.jpg" alt="갤러리 메인" style="position: absolute; inset: 0; margin: auto; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; transition: opacity 0.3s ease;">
                 </div>
                 <div class="thumbnail-wrapper" style="display: flex; align-items: center; justify-content: space-between; gap: 5px; width: 100%;">
                     <button class="nav-btn" onclick="prevImage()" style="background: none; border: none; font-size: 1.8rem; color: #5d7a63; cursor: pointer; font-weight: bold; flex-shrink: 0; padding: 0 5px;"> &lt; </button>
                     <div class="thumbnail-list-container" style="flex-grow: 1; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -ms-overflow-style: none;">
                         <div class="thumbnail-list" id="thumb-list" style="display: flex; gap: 5px; width: max-content; padding: 2px 0;">
-                            <img src="asset/image/편집본/20260717_014305632_iOS.jpg" class="active" onclick="selectGalleryImage(0)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid #5d7a63;">
-                            <img src="asset/image/편집본/20260717_015437327_iOS.jpg" onclick="selectGalleryImage(1)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
-                            <img src="asset/image/편집본/20260717_015750257_iOS.jpg" onclick="selectGalleryImage(2)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
-                            <img src="asset/image/편집본/20260727_012611000_iOS.jpg" onclick="selectGalleryImage(3)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
-                            <img src="asset/image/편집본/20260727_012612000_iOS 1.jpg" onclick="selectGalleryImage(4)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
-                            <img src="asset/image/편집본/20260727_012612000_iOS.jpg" onclick="selectGalleryImage(5)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
-                            <img src="asset/image/편집본/20260823_112909000_iOS.jpg" onclick="selectGalleryImage(6)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
-                            <img src="asset/image/편집본/20260823_112912000_iOS.jpg" onclick="selectGalleryImage(7)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/편집본/1.jpg" class="active" onclick="selectGalleryImage(0)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid #5d7a63;">
+                            <img src="asset/image/편집본/2.jpg" onclick="selectGalleryImage(1)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/편집본/3.jpg" onclick="selectGalleryImage(2)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/편집본/4.png" onclick="selectGalleryImage(3)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
+                            <img src="asset/image/편집본/5.jpg" onclick="selectGalleryImage(4)" style="width: 64px; height: 64px; flex: 0 0 64px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent;">
                         </div>
                     </div>
                     <button class="nav-btn" onclick="nextImage()" style="background: none; border: none; font-size: 1.8rem; color: #5d7a63; cursor: pointer; font-weight: bold; flex-shrink: 0; padding: 0 5px;"> &gt; </button>
@@ -1765,14 +1762,11 @@
 
         let currentImgIndex = 0;
         const galleryImages = [
-            'asset/image/편집본/20260717_014305632_iOS.jpg',
-            'asset/image/편집본/20260717_015437327_iOS.jpg',
-            'asset/image/편집본/20260717_015750257_iOS.jpg',
-            'asset/image/편집본/20260727_012611000_iOS.jpg',
-            'asset/image/편집본/20260727_012612000_iOS 1.jpg',
-            'asset/image/편집본/20260727_012612000_iOS.jpg',
-            'asset/image/편집본/20260823_112909000_iOS.jpg',
-            'asset/image/편집본/20260823_112912000_iOS.jpg'
+            'asset/image/편집본/1.jpg',
+            'asset/image/편집본/2.jpg',
+            'asset/image/편집본/3.jpg',
+            'asset/image/편집본/4.png',
+            'asset/image/편집본/5.jpg'
         ];
 
         function selectGalleryImage(index) {
