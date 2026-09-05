@@ -1995,20 +1995,69 @@
             'asset/image/편집본/5.jpg'
         ];
 
-        // 원본 사이트 추적 타이밍 그대로 (hw-trace: 8,7 동시 시작 후 500ms 간격, 0 마지막)
-        var HW_DELAYS = [0, 0, 250, 750, 1250, 1750, 2250, 2750, 3250];
-        // gemini.md 필기체 SVG 한 획씩 그리기 (파일 역순 = 왼쪽→오른쪽 읽기 순서, rAF 직접 렌더)
-        function playHandwrite() {
-            var paths = Array.prototype.slice.call(document.querySelectorAll('#handwriteOverlay .typing-svg path')).reverse();
-            if (!paths.length) return;
-            var items = paths.map(function(path, idx) {
-                var len;
-                try { len = path.getTotalLength(); } catch (e) { len = 300; }
+        // 필기체 SVG: 복합 패스를 개별 서브패스로 분리 → 왼쪽→오른쪽 순서대로 한획씩 애니메이션
+        (function playHandwrite() {
+            var svg = document.querySelector('#handwriteOverlay .typing-svg');
+            if (!svg) { console.error('handwrite: svg not found'); return; }
+            var innerG = svg.querySelector('g[transform]');
+            if (!innerG) { console.error('handwrite: g[transform] not found'); return; }
+            var allPaths = svg.querySelectorAll('path');
+            var originalPaths = [];
+            for (var i = 0; i < allPaths.length; i++) {
+                if (allPaths[i].parentNode === innerG) originalPaths.push(allPaths[i]);
+            }
+            if (!originalPaths.length) { console.error('handwrite: no paths found'); return; }
+            // 1) 복합 패스 → 개별 서브패스(M 명령 기준 분리)
+            var subpathData = [];
+            originalPaths.forEach(function(path) {
+                var d = path.getAttribute('d');
+                if (!d) return;
+                var segments = d.match(/M[\s\dEe\.\,\-\+CQLAZcqlaz]*/g);
+                if (!segments || segments.length <= 1) {
+                    var mx = 0;
+                    var m = d.match(/M\s*(-?\d+\.?\d*)/);
+                    if (m) mx = parseFloat(m[1]);
+                    subpathData.push({ d: d, orig: path, avgX: mx });
+                    return;
+                }
+                segments.forEach(function(seg) {
+                    seg = seg.trim();
+                    if (!seg || seg.length < 5) return;
+                    var m = seg.match(/M\s*(-?\d+\.?\d*)/);
+                    var mx = m ? parseFloat(m[1]) : 0;
+                    subpathData.push({ d: seg, orig: path, avgX: mx });
+                });
+            });
+            if (!subpathData.length) { console.error('handwrite: no subpaths'); return; }
+            // 2) x좌표 기준 왼쪽→오른쪽 정렬
+            subpathData.sort(function(a, b) { return a.avgX - b.avgX; });
+            // 3) 기존 패스 숨기고 새 개별 패스 생성
+            originalPaths.forEach(function(p) { p.style.display = 'none'; });
+            var newPaths = [];
+            subpathData.forEach(function(sd) {
+                var np = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                np.setAttribute('d', sd.d);
+                np.setAttribute('stroke-linecap', 'round');
+                np.setAttribute('stroke-linejoin', 'round');
+                np.setAttribute('fill-opacity', '0');
+                np.setAttribute('stroke', '#1a1a1a');
+                np.setAttribute('stroke-opacity', '1');
+                np.setAttribute('stroke-width', '2.5');
+                innerG.appendChild(np);
+                newPaths.push(np);
+            });
+            // 4) 한획 애니메이션: 획 소요 500ms, 간격 250ms (다음획이 반쯤되면 시작)
+            var DURATION = 500, GAP = 250;
+            var items = [];
+            newPaths.forEach(function(path, idx) {
+                var len = 0;
+                try { len = path.getTotalLength(); } catch (e) { len = 200; }
+                if (len < 1) len = 200;
                 path.style.transition = 'none';
                 path.style.strokeDasharray = len;
                 path.style.strokeDashoffset = len;
                 path.style.fillOpacity = '0';
-                return { path: path, len: len, t0: 400 + (HW_DELAYS[idx] != null ? HW_DELAYS[idx] : idx * 500) };
+                items.push({ path: path, len: len, t0: 400 + idx * GAP });
             });
             var tStart = performance.now();
             function frame(now) {
@@ -2018,21 +2067,19 @@
                     var it = items[i];
                     var e = t - it.t0;
                     if (e < 0) { alive = true; continue; }
-                    var p = Math.min(e / 700, 1);
+                    var p = Math.min(e / DURATION, 1);
                     var ez = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
                     it.path.style.strokeDashoffset = it.len * (1 - ez);
-                    var f = Math.max(0, Math.min(1, (e - 560) / 300));
+                    var f = Math.max(0, Math.min(1, (e - DURATION * 0.7) / (DURATION * 0.5)));
                     it.path.style.fillOpacity = f;
                     if (p < 1 || f < 1) alive = true;
                 }
                 if (alive) requestAnimationFrame(frame);
             }
             requestAnimationFrame(frame);
-            // 글씨 완성 후 3초간 가만히 있으면 자동 클릭처럼 넘김
-            var finishAt = 400 + 3250 + 700 + 300;
-            autoAdvanceTimer = setTimeout(autoAdvance, finishAt + 3000);
-        }
-        playHandwrite();
+            var totalTime = 400 + (items.length - 1) * GAP + DURATION + 500;
+            autoAdvanceTimer = setTimeout(autoAdvance, totalTime + 3000);
+        })();
 
         // 갤러리 모자이크 + 전체화면
         function openLightbox(index) {
