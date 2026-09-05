@@ -1715,7 +1715,7 @@
                         <!-- 탭 2: 경품추첨 -->
                         <div class="ntab-panel" id="info-tab-2">
                             <!-- 경품추첨 안내 이미지 ( lucky.jpg 적용 ) -->
-                            <div class="ntab-img-wrap" style="margin: 0 auto 20px; max-width: 500px; background: #5d7a63; text-align: center; padding: 12px;">
+                            <div class="ntab-img-wrap" style="margin: 0 auto 20px; max-width: 500px; background: #33333; text-align: center; padding: 12px;">
                                 <img src="asset/image/lucky.jpg" alt="경품추첨" style="width: 50%; border-radius: 8px; object-fit: cover; display: block; margin: 0 auto; background: #fff;">
                             </div>
                             <div class="ntab-text">
@@ -1995,9 +1995,9 @@
             'asset/image/편집본/5.jpg'
         ];
 
-        // gemini.md 필기체 SVG 한 획씩 그리기 (파일 순서 = 원본 사이트 재생 순서)
+        // gemini.md 필기체 SVG 한 획씩 그리기 (파일 역순 = 왼쪽→오른쪽 읽기 순서)
         function playHandwrite() {
-            var paths = document.querySelectorAll('#handwriteOverlay .typing-svg path');
+            var paths = Array.prototype.slice.call(document.querySelectorAll('#handwriteOverlay .typing-svg path')).reverse();
             if (!paths.length) return;
             paths.forEach(function(path, idx) {
                 var len;
