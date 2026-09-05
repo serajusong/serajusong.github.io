@@ -2003,31 +2003,10 @@
             'asset/image/편집본/5.jpg'
         ];
 
-        // gemini.md 필기체 SVG 한 획씩 그리기 (읽기 순서: 윗줄→아랫줄, 줄 안에서는 왼쪽→오른쪽)
+        // gemini.md 필기체 SVG 한 획씩 그리기 (파일 순서 = 원본 사이트 재생 순서)
         function playHandwrite() {
-            var raw = Array.prototype.slice.call(document.querySelectorAll('#handwriteOverlay .typing-svg path'));
-            if (!raw.length) return;
-            var boxes = raw.map(function(p) {
-                try { var b = p.getBBox(); return { p: p, cx: b.x + b.width / 2, cy: b.y + b.height / 2, h: b.height }; }
-                catch (e) { return { p: p, cx: 0, cy: 0, h: 0 }; }
-            });
-            var hs = boxes.map(function(o) { return o.h; }).sort(function(a, b) { return a - b; });
-            var TOL = (hs[Math.floor(hs.length / 2)] || 40) * 0.5;
-            var rows = [];
-            boxes.forEach(function(o) {
-                var row = null;
-                for (var i = 0; i < rows.length; i++) {
-                    if (Math.abs(rows[i].cy - o.cy) < TOL) { row = rows[i]; break; }
-                }
-                if (row) { row.items.push(o); }
-                else { rows.push({ cy: o.cy, items: [o] }); }
-            });
-            rows.sort(function(a, b) { return a.cy - b.cy; });
-            var paths = [];
-            rows.forEach(function(r) {
-                r.items.sort(function(a, b) { return a.cx - b.cx; });
-                r.items.forEach(function(o) { paths.push(o.p); });
-            });
+            var paths = document.querySelectorAll('#handwriteOverlay .typing-svg path');
+            if (!paths.length) return;
             paths.forEach(function(path, idx) {
                 var len;
                 try { len = path.getTotalLength(); } catch (e) { len = 300; }
