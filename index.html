@@ -380,32 +380,42 @@
             display: block;
         }
 
-        /* 갤러리 페이저 – 하나씩 넘기기 + 전체화면 */
-        .pager-gallery {
-            position: relative;
+        /* 갤러리 모자이크 – 비율 유지, 전체 표시 */
+        .gallery-notice {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #888;
+            margin: 0 0 12px;
+        }
+        .mosaic-gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.15fr;
+            grid-template-rows: 150px 150px;
+            gap: 6px;
             margin-bottom: 15px;
         }
-        .pager-stage {
-            width: 100%;
-            aspect-ratio: 1 / 0.8;
+        .mosaic-item {
             overflow: hidden;
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            background: #f8f6f1;
-            position: relative;
-            display: block;
             cursor: zoom-in;
+            background: #f8f6f1;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+            min-height: 0;
         }
-        .pager-stage img {
-            position: absolute;
-            inset: 0;
-            margin: auto;
+        .mosaic-item img {
             max-width: 100%;
             max-height: 100%;
             width: auto;
             height: auto;
             object-fit: contain;
             display: block;
+        }
+        .mosaic-item.mosaic-tall {
+            grid-row: span 2;
         }
         .pager-btn {
             position: absolute;
@@ -427,12 +437,8 @@
         }
         .pager-btn.prev { left: 10px; }
         .pager-btn.next { right: 10px; }
-        .pager-count {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 0.85rem;
-            color: #888;
-            letter-spacing: 0.08em;
+        @media (max-width: 480px) {
+            .mosaic-gallery { grid-template-rows: 110px 110px; }
         }
         .lightbox {
             position: fixed;
@@ -1347,13 +1353,13 @@
                 <section class="gallery">
             <h2>갤러리</h2>
             <div class="gallery-container">
-                <div class="pager-gallery" id="pager-gallery">
-                    <div class="pager-stage" id="pager-stage" onclick="openLightbox()">
-                        <img id="pager-img" src="asset/image/편집본/1.jpg" alt="갤러리">
-                    </div>
-                    <button class="pager-btn prev" onclick="galleryPrev()" aria-label="이전 사진">‹</button>
-                    <button class="pager-btn next" onclick="galleryNext()" aria-label="다음 사진">›</button>
-                    <div class="pager-count" id="pager-count">1 / 5</div>
+                <p class="gallery-notice">사진을 클릭하시면 전체 화면 보기가 가능합니다</p>
+                <div class="mosaic-gallery" id="mosaic-gallery">
+                    <div class="mosaic-item" onclick="openLightbox(0)"><img src="asset/image/편집본/1.jpg" alt="갤러리 1"></div>
+                    <div class="mosaic-item" onclick="openLightbox(1)"><img src="asset/image/편집본/2.jpg" alt="갤러리 2"></div>
+                    <div class="mosaic-item mosaic-tall" onclick="openLightbox(2)"><img src="asset/image/편집본/3.jpg" alt="갤러리 3"></div>
+                    <div class="mosaic-item" onclick="openLightbox(3)"><img src="asset/image/편집본/4.png" alt="갤러리 4"></div>
+                    <div class="mosaic-item" onclick="openLightbox(4)"><img src="asset/image/편집본/5.jpg" alt="갤러리 5"></div>
                 </div>
                 <div class="lightbox hidden" id="lightbox" onclick="closeLightbox()">
                     <span class="lightbox-close" onclick="closeLightbox()">×</span>
@@ -1909,20 +1915,9 @@
         }
         playHandwrite();
 
-        // 갤러리 페이저 – 하나씩 넘기기 + 전체화면
-        function renderPager() {
-            document.getElementById('pager-img').src = galleryImages[currentImgIndex];
-            document.getElementById('pager-count').textContent = (currentImgIndex + 1) + ' / ' + galleryImages.length;
-        }
-        function galleryPrev() {
-            currentImgIndex = (currentImgIndex - 1 + galleryImages.length) % galleryImages.length;
-            renderPager();
-        }
-        function galleryNext() {
-            currentImgIndex = (currentImgIndex + 1) % galleryImages.length;
-            renderPager();
-        }
-        function openLightbox() {
+        // 갤러리 모자이크 + 전체화면
+        function openLightbox(index) {
+            if (typeof index === 'number') currentImgIndex = index;
             document.getElementById('lightbox-img').src = galleryImages[currentImgIndex];
             document.getElementById('lightbox').classList.remove('hidden');
             document.body.classList.add('modal-open');
@@ -1933,22 +1928,8 @@
         }
         function lightboxNav(d) {
             currentImgIndex = (currentImgIndex + d + galleryImages.length) % galleryImages.length;
-            renderPager();
             document.getElementById('lightbox-img').src = galleryImages[currentImgIndex];
         }
-        (function initPagerSwipe() {
-            var stage = document.getElementById('pager-stage');
-            if (!stage) return;
-            var sx = null;
-            stage.addEventListener('touchstart', function(e) { sx = e.touches[0].clientX; }, {passive: true});
-            stage.addEventListener('touchend', function(e) {
-                if (sx === null) return;
-                var dx = e.changedTouches[0].clientX - sx;
-                sx = null;
-                if (Math.abs(dx) < 40) return;
-                if (dx < 0) galleryNext(); else galleryPrev();
-            });
-        })();
 
         function switchInfoTab(index) {
             // 모든 탭 제목의 active 제거 및 선택 탭 active 추가
