@@ -1727,8 +1727,8 @@
                                 <img src="asset/image/lucky.jpg" alt="경품추첨" style="width: 50%; border-radius: 8px; object-fit: cover; display: block; margin: 0 auto; background: #fff;">
                             </div>
                             <div class="ntab-text">
-                                식 중에 <strong>경품추첨</strong>이 진행될 예정입니다.<br>
-                                <strong>축의대에서 번호를 수령</strong>해주시고<br>
+                                식 중에 <strong>경품추첨</strong>이 진행될 예정이오니<br>
+                                <strong>축의대에서 번호를 수령</strong>해주세요.<br>
                                 즐겁게 참여해주시면 환한 미소와 따뜻한 추억을<br>
                                 평생 소중히 간직하도록 하겠습니다.
                             </div>
@@ -2003,10 +2003,31 @@
             'asset/image/편집본/5.jpg'
         ];
 
-        // gemini.md 필기체 SVG 한 획씩 그리기
+        // gemini.md 필기체 SVG 한 획씩 그리기 (읽기 순서: 윗줄→아랫줄, 줄 안에서는 왼쪽→오른쪽)
         function playHandwrite() {
-            var paths = document.querySelectorAll('#handwriteOverlay .typing-svg path');
-            if (!paths.length) return;
+            var raw = Array.prototype.slice.call(document.querySelectorAll('#handwriteOverlay .typing-svg path'));
+            if (!raw.length) return;
+            var boxes = raw.map(function(p) {
+                try { var b = p.getBBox(); return { p: p, cx: b.x + b.width / 2, cy: b.y + b.height / 2, h: b.height }; }
+                catch (e) { return { p: p, cx: 0, cy: 0, h: 0 }; }
+            });
+            var hs = boxes.map(function(o) { return o.h; }).sort(function(a, b) { return a - b; });
+            var TOL = (hs[Math.floor(hs.length / 2)] || 40) * 0.5;
+            var rows = [];
+            boxes.forEach(function(o) {
+                var row = null;
+                for (var i = 0; i < rows.length; i++) {
+                    if (Math.abs(rows[i].cy - o.cy) < TOL) { row = rows[i]; break; }
+                }
+                if (row) { row.items.push(o); }
+                else { rows.push({ cy: o.cy, items: [o] }); }
+            });
+            rows.sort(function(a, b) { return a.cy - b.cy; });
+            var paths = [];
+            rows.forEach(function(r) {
+                r.items.sort(function(a, b) { return a.cx - b.cx; });
+                r.items.forEach(function(o) { paths.push(o.p); });
+            });
             paths.forEach(function(path, idx) {
                 var len;
                 try { len = path.getTotalLength(); } catch (e) { len = 300; }
