@@ -381,6 +381,11 @@
             height: auto;
             display: block;
         }
+        .profile-album-note {
+            margin-top: 10px;
+            font-size: 0.78rem;
+            color: #999;
+        }
 
         /* 갤러리 모자이크 – 비율 유지, 전체 표시 */
         .gallery-notice {
@@ -390,10 +395,9 @@
             margin: 0 0 12px;
         }
         .mosaic-gallery {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1.15fr;
-            grid-template-rows: 150px 150px;
-            gap: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
             margin-bottom: 15px;
         }
         .mosaic-item {
@@ -402,22 +406,16 @@
             cursor: zoom-in;
             background: #f8f6f1;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 0;
-            min-height: 0;
+            display: block;
         }
         .mosaic-item img {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
+            width: 100%;
             height: auto;
             object-fit: contain;
             display: block;
         }
         .mosaic-item.mosaic-tall {
-            grid-row: span 2;
+            grid-row: auto;
         }
         .pager-btn {
             position: absolute;
@@ -440,7 +438,7 @@
         .pager-btn.prev { left: 10px; }
         .pager-btn.next { right: 10px; }
         @media (max-width: 480px) {
-            .mosaic-gallery { grid-template-rows: 110px 110px; }
+            .mosaic-gallery { gap: 8px; }
         }
         .lightbox {
             position: fixed;
@@ -806,6 +804,20 @@
             font-weight: 600;
             color: #5d7a63;
         }
+        .copy-account-btn {
+            flex-shrink: 0;
+            height: 30px;
+            padding: 0 12px;
+            background: #fff;
+            color: #5d7a63;
+            border: 1px solid #5d7a63;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            font-family: 'Paperlogy', sans-serif;
+        }
         .cb-phone-num {
             font-size: 0.82rem;
             color: #888;
@@ -994,8 +1006,8 @@
             right: 10px;
             z-index: 100;
         }
-        /* 모바일에서 플레이어와 날짜 텍스트 겹침 방지 */
-        @media (max-width: 480px) {
+        /* 모바일·태블릿에서 플레이어와 날짜 텍스트 겹침 방지 */
+        @media (max-width: 768px) {
             .top-info-bar {
                 padding-top: 44px;
             }
@@ -1172,6 +1184,23 @@
             font-size: 1.2em;
             font-weight: 300;
             user-select: none;
+        }
+        @media (max-width: 480px) {
+            .c-map-navi-wrapper {
+                padding: 6px 0;
+            }
+            .c-map-navi-item {
+                font-size: 0.72em;
+                gap: 5px;
+                padding: 6px 0;
+            }
+            .c-map-navi-item img {
+                width: 26px;
+                height: 26px;
+            }
+            .c-map-navi-divider {
+                font-size: 1em;
+            }
         }
 
         /* Information Tab Section Styles */
@@ -1380,6 +1409,7 @@
                             <div class="hash">#ENTJ</div>
                             <div class="hash">#똑똑한데 #가끔바보</div>
                         </div>
+                        <div class="profile-album-note">서로의 앨범에서 찾은 사진입니다</div>
                     </div>
                     <!-- 오른쪽: 신부 오세라 (구도 동일) -->
                     <div class="profile-item">
@@ -1395,6 +1425,7 @@
                             <div class="hash">#ISTJ</div>
                             <div class="hash">#차가운데 #가끔따뜻</div>
                         </div>
+                        <div class="profile-album-note">서로의 앨범에서 찾은 사진입니다</div>
                     </div>
                 </div>
             </div>
@@ -1584,16 +1615,7 @@
                         <div class="cb-info">
                             <div class="cb-name">이주송</div>
                             <div class="cb-account"><span class="cb-bank">[농협은행]</span> 352-0221-7305-53
-                                <button class="copy-address-btn copy-account-btn" data-account="농협은행 352-0221-7305-53" title="계좌 복사" aria-label="계좌 복사">
-                                    <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                    </svg>
-                                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                    <span class="copy-tooltip">복사됨!</span>
-                                </button>
+                                <button class="copy-account-btn" data-account="농협은행 352-0221-7305-53">복사하기</button>
                             </div>
                             <div class="cb-phone-num">010-5682-8295</div>
                         </div>
@@ -1602,16 +1624,7 @@
                         <div class="cb-info">
                             <div class="cb-name">이명희</div>
                             <div class="cb-account"><span class="cb-bank">[농협은행]</span> 237134-56-143357
-                                <button class="copy-address-btn copy-account-btn" data-account="농협 237134-56-143357" title="계좌 복사" aria-label="계좌 복사">
-                                    <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                    </svg>
-                                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                    <span class="copy-tooltip">복사됨!</span>
-                                </button>
+                                <button class="copy-account-btn" data-account="농협 237134-56-143357">복사하기</button>
                             </div>
                             <div class="cb-phone-num">010-3759-8295</div>
                         </div>
@@ -1627,16 +1640,7 @@
                         <div class="cb-info">
                             <div class="cb-name">오세라</div>
                             <div class="cb-account"><span class="cb-bank">[하나은행]</span> 923-910167-34807
-                                <button class="copy-address-btn copy-account-btn" data-account="하나은행 923-910167-34807" title="계좌 복사" aria-label="계좌 복사">
-                                    <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                    </svg>
-                                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                    <span class="copy-tooltip">복사됨!</span>
-                                </button>
+                                <button class="copy-account-btn" data-account="하나은행 923-910167-34807">복사하기</button>
                             </div>
                             <div class="cb-phone-num">010-2932-1819</div>
                         </div>
@@ -1645,16 +1649,7 @@
                         <div class="cb-info">
                             <div class="cb-name">오삼환</div>
                             <div class="cb-account"><span class="cb-bank">[농협은행]</span> 352-2161-3235-73
-                                <button class="copy-address-btn copy-account-btn" data-account="농협은행 352-2161-3235-73" title="계좌 복사" aria-label="계좌 복사">
-                                    <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                    </svg>
-                                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                    <span class="copy-tooltip">복사됨!</span>
-                                </button>
+                                <button class="copy-account-btn" data-account="농협은행 352-2161-3235-73">복사하기</button>
                             </div>
                             <div class="cb-phone-num">010-3083-3131</div>
                         </div>
@@ -1663,16 +1658,7 @@
                         <div class="cb-info">
                             <div class="cb-name">조화숙</div>
                             <div class="cb-account"><span class="cb-bank">[국민은행]</span> 245302-04-099108
-                                <button class="copy-address-btn copy-account-btn" data-account="국민은행 245302-04-099108" title="계좌 복사" aria-label="계좌 복사">
-                                    <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                    </svg>
-                                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                    <span class="copy-tooltip">복사됨!</span>
-                                </button>
+                                <button class="copy-account-btn" data-account="국민은행 245302-04-099108">복사하기</button>
                             </div>
                             <div class="cb-phone-num">010-3478-6030</div>
                         </div>
@@ -1723,7 +1709,7 @@
                         <!-- 탭 2: 경품추첨 -->
                         <div class="ntab-panel" id="info-tab-2">
                             <!-- 경품추첨 안내 이미지 ( lucky.jpg 적용 ) -->
-                            <div class="ntab-img-wrap" style="margin: 0 auto 20px; max-width: 500px; background: #fff; text-align: center;">
+                            <div class="ntab-img-wrap" style="margin: 0 auto 20px; max-width: 500px; background: #5d7a63; text-align: center; padding: 12px;">
                                 <img src="asset/image/lucky.jpg" alt="경품추첨" style="width: 50%; border-radius: 8px; object-fit: cover; display: block; margin: 0 auto; background: #fff;">
                             </div>
                             <div class="ntab-text">
@@ -1768,8 +1754,8 @@
         const volumeSlider = document.getElementById('volume-slider');
         const volumeBar = document.getElementById('volume-bar');
 
-        audio.volume = 0.005;
-        if (volumeBar) volumeBar.style.height = '10%';
+        audio.volume = 0.45;
+        if (volumeBar) volumeBar.style.height = '45%';
 
         function formatTime(seconds) {
             const min = Math.floor(seconds / 60);
@@ -2120,14 +2106,15 @@
                 }
             });
         })();
-        // 계좌번호 복사 버튼 (주소 복사와 동일한 아이콘 동작)
+        // 계좌번호 복사 버튼 ([복사하기] 텍스트 버튼)
         (function() {
             document.querySelectorAll('.copy-account-btn').forEach(function(btn) {
                 btn.addEventListener('click', function() {
                     var text = btn.getAttribute('data-account') || '';
                     function showCopied() {
-                        btn.classList.add('copied');
-                        setTimeout(function() { btn.classList.remove('copied'); }, 2000);
+                        var old = btn.textContent;
+                        btn.textContent = '복사됨!';
+                        setTimeout(function() { btn.textContent = old; }, 1500);
                     }
                     function fallbackCopy() {
                         var ta = document.createElement('textarea');
