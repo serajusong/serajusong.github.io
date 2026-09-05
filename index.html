@@ -262,7 +262,7 @@
             overflow: hidden;
         }
 
-        /* 최상단 시간·장소 + D-Day */
+        /* 최상단 시간·장소 */
         .top-info-bar {
             text-align: center;
             padding: 18px 0 14px;
@@ -276,13 +276,6 @@
             font-weight: 500;
             color: #5a5a5a;
             letter-spacing: 0.02em;
-            margin-bottom: 6px;
-        }
-        .top-info-bar .top-dday {
-            font-size: 1.45rem;
-            font-weight: 800;
-            color: #5d7a63;
-            letter-spacing: 0.04em;
         }
         @media (min-width: 768px) {
             .top-info-bar { margin: 0 -40px; }
@@ -813,6 +806,11 @@
             font-weight: 600;
             color: #5d7a63;
         }
+        .cb-phone-num {
+            font-size: 0.82rem;
+            color: #888;
+            margin-top: 2px;
+        }
         .cb-phone {
             flex-shrink: 0;
             display: inline-flex;
@@ -1327,7 +1325,6 @@
     <div class="container">
         <div class="top-info-bar">
             <div class="top-datetime">2026년 10월 17일 토요일 18시, 오하하우스웨딩</div>
-            <div class="top-dday" id="topDday">D-00</div>
             <div class="audio-player-wrapper">
                 <div class="audio green-audio-player">    
                     <div class="play-pause-btn">
@@ -1593,10 +1590,6 @@
                     <span>티맵</span>
                 </a>
             </div>
-            <div class="custom-map-guide" style="text-align: center; margin-bottom: 40px;">
-                <p style="font-weight: bold; font-size: 1.1em; color: #5d7a63; margin-bottom: 15px;">[ 약 도 ]</p>  
-                <img src="asset/image/map.jpg" alt="약도" style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-            </div>
         </section>
 
         <section class="contact-bank">
@@ -1610,26 +1603,37 @@
                     <div class="cb-item">
                         <div class="cb-info">
                             <div class="cb-name">이주송</div>
-                            <div class="cb-account"><span class="cb-bank">[농협은행]</span> 352-0221-7305-53</div>
-                        </div>
-                        <div class="cb-actions">
-                            <button type="button" class="cb-copy" onclick="copyAccount('농협은행 352-0221-7305-53', this)">복사</button>
-                            <a href="tel:010-5682-8295" class="cb-phone">전화하기</a>
-                        </div>
-                    </div>
-                    <div class="cb-item">
-                        <div class="cb-info">
-                            <div class="cb-name">이운수</div>
+                            <div class="cb-account"><span class="cb-bank">[농협은행]</span> 352-0221-7305-53
+                                <button class="copy-address-btn copy-account-btn" data-account="농협은행 352-0221-7305-53" title="계좌 복사" aria-label="계좌 복사">
+                                    <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <span class="copy-tooltip">복사됨!</span>
+                                </button>
+                            </div>
+                            <div class="cb-phone-num">010-5682-8295</div>
                         </div>
                     </div>
                     <div class="cb-item">
                         <div class="cb-info">
                             <div class="cb-name">이명희</div>
-                            <div class="cb-account"><span class="cb-bank">[농협]</span> 237134-56-143357</div>
-                        </div>
-                        <div class="cb-actions">
-                            <button type="button" class="cb-copy" onclick="copyAccount('농협 237134-56-143357', this)">복사</button>
-                            <a href="tel:010-3759-8295" class="cb-phone">전화하기</a>
+                            <div class="cb-account"><span class="cb-bank">[농협]</span> 237134-56-143357
+                                <button class="copy-address-btn copy-account-btn" data-account="농협 237134-56-143357" title="계좌 복사" aria-label="계좌 복사">
+                                    <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <span class="copy-tooltip">복사됨!</span>
+                                </button>
+                            </div>
+                            <div class="cb-phone-num">010-3759-8295</div>
                         </div>
                     </div>
                 </div>
@@ -1642,31 +1646,55 @@
                     <div class="cb-item">
                         <div class="cb-info">
                             <div class="cb-name">오세라</div>
-                            <div class="cb-account"><span class="cb-bank">[하나은행]</span> 923-910167-34807</div>
-                        </div>
-                        <div class="cb-actions">
-                            <button type="button" class="cb-copy" onclick="copyAccount('하나은행 923-910167-34807', this)">복사</button>
-                            <a href="tel:010-2932-1819" class="cb-phone">전화하기</a>
+                            <div class="cb-account"><span class="cb-bank">[하나은행]</span> 923-910167-34807
+                                <button class="copy-address-btn copy-account-btn" data-account="하나은행 923-910167-34807" title="계좌 복사" aria-label="계좌 복사">
+                                    <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <span class="copy-tooltip">복사됨!</span>
+                                </button>
+                            </div>
+                            <div class="cb-phone-num">010-2932-1819</div>
                         </div>
                     </div>
                     <div class="cb-item">
                         <div class="cb-info">
                             <div class="cb-name">오삼환</div>
-                            <div class="cb-account"><span class="cb-bank">[농협은행]</span> 352-2161-3235-73</div>
-                        </div>
-                        <div class="cb-actions">
-                            <button type="button" class="cb-copy" onclick="copyAccount('농협은행 352-2161-3235-73', this)">복사</button>
-                            <a href="tel:010-3083-3131" class="cb-phone">전화하기</a>
+                            <div class="cb-account"><span class="cb-bank">[농협은행]</span> 352-2161-3235-73
+                                <button class="copy-address-btn copy-account-btn" data-account="농협은행 352-2161-3235-73" title="계좌 복사" aria-label="계좌 복사">
+                                    <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <span class="copy-tooltip">복사됨!</span>
+                                </button>
+                            </div>
+                            <div class="cb-phone-num">010-3083-3131</div>
                         </div>
                     </div>
                     <div class="cb-item">
                         <div class="cb-info">
                             <div class="cb-name">조화숙</div>
-                            <div class="cb-account"><span class="cb-bank">[국민은행]</span> 245302-04-099108</div>
-                        </div>
-                        <div class="cb-actions">
-                            <button type="button" class="cb-copy" onclick="copyAccount('국민은행 245302-04-099108', this)">복사</button>
-                            <a href="tel:010-3478-6030" class="cb-phone">전화하기</a>
+                            <div class="cb-account"><span class="cb-bank">[국민은행]</span> 245302-04-099108
+                                <button class="copy-address-btn copy-account-btn" data-account="국민은행 245302-04-099108" title="계좌 복사" aria-label="계좌 복사">
+                                    <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <span class="copy-tooltip">복사됨!</span>
+                                </button>
+                            </div>
+                            <div class="cb-phone-num">010-3478-6030</div>
                         </div>
                     </div>
                 </div>
@@ -1698,6 +1726,10 @@
                                 웨딩홀 주차장 만차 시<br>
                                 웨딩홀 뒷편의 공용 주차장에<br>
                                 <strong>1시간 무료 주차</strong>가 가능합니다.
+                            </div>
+                            <div class="custom-map-guide" style="text-align: center; margin-top: 24px;">
+                                <p style="font-weight: bold; font-size: 1.1em; color: #5d7a63; margin-bottom: 15px;">[ 약 도 ]</p>
+                                <img src="asset/image/map.jpg" alt="약도" style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
                             </div>
                         </div>
                         
@@ -2033,29 +2065,9 @@
             document.getElementById('lightbox-img').src = galleryImages[currentImgIndex];
         }
 
-        // 마음 전하실 곳 아코디언 + 계좌 복사
+        // 마음 전하실 곳 아코디언
         function toggleAccount(btn) {
             btn.closest('.cb-accordion').classList.toggle('open');
-        }
-        function copyAccount(text, btn) {
-            function done() {
-                var old = btn.textContent;
-                btn.textContent = '복사됨';
-                setTimeout(function() { btn.textContent = old; }, 1500);
-            }
-            function fallback() {
-                var ta = document.createElement('textarea');
-                ta.value = text;
-                ta.style.position = 'fixed';
-                ta.style.opacity = '0';
-                document.body.appendChild(ta);
-                ta.select();
-                try { document.execCommand('copy'); done(); } catch (e) {}
-                document.body.removeChild(ta);
-            }
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(done, function() { fallback(); });
-            } else { fallback(); }
         }
 
         function switchInfoTab(index) {
@@ -2085,13 +2097,6 @@
             // 실시간 카운트다운
             const weddingDate = new Date('2026-10-17T18:00:00').getTime();
 
-            function updateTopDday(d){
-                var el = document.getElementById('topDday');
-                if (!el) return;
-                if (d > 0) el.textContent = 'D-' + String(d).padStart(2, '0');
-                else if (d === 0) el.textContent = 'D-Day';
-                else el.textContent = 'D+' + String(Math.abs(d)).padStart(2, '0');
-            }
             setInterval(() => {
             const now = new Date().getTime();
             const distance = weddingDate - now;
@@ -2106,15 +2111,7 @@
             document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
             document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
             document.getElementById('days-total').textContent = days;
-            updateTopDday(days);
             }, 1000);
-            // 초기 1회 즉시 반영
-            (function(){
-                var now = new Date().getTime();
-                var distance = weddingDate - now;
-                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                updateTopDday(days);
-            })();
         });
     </script>
     <script>
@@ -2145,6 +2142,34 @@
                     btn.classList.add('copied');
                     setTimeout(function() { btn.classList.remove('copied'); }, 2000);
                 }
+            });
+        })();
+        // 계좌번호 복사 버튼 (주소 복사와 동일한 아이콘 동작)
+        (function() {
+            document.querySelectorAll('.copy-account-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var text = btn.getAttribute('data-account') || '';
+                    function showCopied() {
+                        btn.classList.add('copied');
+                        setTimeout(function() { btn.classList.remove('copied'); }, 2000);
+                    }
+                    function fallbackCopy() {
+                        var ta = document.createElement('textarea');
+                        ta.value = text;
+                        ta.style.position = 'fixed';
+                        ta.style.opacity = '0';
+                        document.body.appendChild(ta);
+                        ta.select();
+                        try { document.execCommand('copy'); } catch(e) {}
+                        document.body.removeChild(ta);
+                        showCopied();
+                    }
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(text).then(showCopied, fallbackCopy);
+                    } else {
+                        fallbackCopy();
+                    }
+                });
             });
         })();
     </script>
