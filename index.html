@@ -2015,7 +2015,7 @@
                 path.style.fillOpacity = '0';
                 setTimeout(function() {
                     path.style.transition = 'stroke-dashoffset 0.55s ease, fill-opacity 0.4s ease 0.45s';
-                    path.style.strokeDashoffset = '0';
+                    path.style.strokeDashoffset = String(2 * len);
                     path.style.fillOpacity = '1';
                 }, 400 + idx * 220);
             });
