@@ -396,20 +396,26 @@
         }
         .mosaic-gallery {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            flex-direction: row;
+            gap: 6px;
             margin-bottom: 15px;
         }
         .mosaic-item {
+            flex: 1;
+            min-width: 0;
             overflow: hidden;
             border-radius: 8px;
             cursor: zoom-in;
             background: #f8f6f1;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .mosaic-item img {
-            width: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
             height: auto;
             object-fit: contain;
             display: block;
@@ -438,7 +444,7 @@
         .pager-btn.prev { left: 10px; }
         .pager-btn.next { right: 10px; }
         @media (max-width: 480px) {
-            .mosaic-gallery { gap: 8px; }
+            .mosaic-gallery { gap: 4px; }
         }
         .lightbox {
             position: fixed;
