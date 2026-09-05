@@ -2006,7 +2006,7 @@
                 path.style.strokeDasharray = len;
                 path.style.strokeDashoffset = len;
                 path.style.fillOpacity = '0';
-                return { path: path, len: len, t0: 400 + idx * 220 };
+                return { path: path, len: len, t0: 400 + idx * 500 };
             });
             var tStart = performance.now();
             function frame(now) {
@@ -2016,10 +2016,10 @@
                     var it = items[i];
                     var e = t - it.t0;
                     if (e < 0) { alive = true; continue; }
-                    var p = Math.min(e / 550, 1);
+                    var p = Math.min(e / 1000, 1);
                     var ez = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
                     it.path.style.strokeDashoffset = it.len * (1 - ez);
-                    var f = Math.max(0, Math.min(1, (e - 450) / 400));
+                    var f = Math.max(0, Math.min(1, (e - 800) / 500));
                     it.path.style.fillOpacity = f;
                     if (p < 1 || f < 1) alive = true;
                 }
@@ -2027,7 +2027,7 @@
             }
             requestAnimationFrame(frame);
             // 글씨 완성 후 3초간 가만히 있으면 자동 클릭처럼 넘김
-            var finishAt = 400 + (items.length - 1) * 220 + 550 + 400;
+            var finishAt = 400 + (items.length - 1) * 500 + 1000 + 500;
             autoAdvanceTimer = setTimeout(autoAdvance, finishAt + 3000);
         }
         playHandwrite();
