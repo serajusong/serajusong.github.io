@@ -2005,7 +2005,7 @@
 
         // gemini.md 필기체 SVG 한 획씩 그리기
         function playHandwrite() {
-            var paths = document.querySelectorAll('#handwriteOverlay .typing-svg path');
+            var paths = Array.prototype.slice.call(document.querySelectorAll('#handwriteOverlay .typing-svg path')).reverse();
             if (!paths.length) return;
             paths.forEach(function(path, idx) {
                 var len;
