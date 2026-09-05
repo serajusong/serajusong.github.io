@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>이주송❤️ 오세라</title>       
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&amp;family=Cormorant+Garamond:wght@500;600;700&amp;family=Great+Vibes&amp;family=Noto+Serif+KR:wght@300;400;700&amp;family=Nanum+Myeongjo:wght@400;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Noto+Serif+KR:wght@300;400;700&amp;family=Nanum+Myeongjo:wght@400;700&amp;display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css" rel="stylesheet">
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=f9zb7s7erg"></script>
     <style>
@@ -1650,7 +1650,16 @@
             volumeBar.style.height = ratio * 100 + '%';   
         });
 
+        var autoAdvanceTimer = null;
+        function autoAdvance() {
+            var wrapper = document.getElementById('ticket-wrapper');
+            var ticket = document.getElementById('image-ticket');
+            if (wrapper && ticket && !ticket.classList.contains('opening')) {
+                startOpening();
+            }
+        }
         function startOpening() {
+            if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
             const ticket = document.getElementById('image-ticket');
             ticket.classList.add('opening');
             
@@ -1825,6 +1834,9 @@
                     path.style.fillOpacity = '1';
                 }, 400 + idx * 220);
             });
+            // 글씨 완성 후 3초간 가만히 있으면 자동 클릭처럼 넘김
+            var finishAt = 400 + (paths.length - 1) * 220 + 550 + 400;
+            autoAdvanceTimer = setTimeout(autoAdvance, finishAt + 3000);
         }
         playHandwrite();
 
