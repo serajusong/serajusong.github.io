@@ -380,36 +380,87 @@
             display: block;
         }
 
-        /* 갤러리 트리 차트 – 누른 사진이 커지고 나머지는 작아짐 */
-        .tree-gallery {
-            display: flex;
-            gap: 6px;
-            height: 320px;
+        /* 갤러리 페이저 – 하나씩 넘기기 + 전체화면 */
+        .pager-gallery {
+            position: relative;
             margin-bottom: 15px;
-            align-items: stretch;
         }
-        .tree-item {
-            flex: 1;
-            min-width: 0;
+        .pager-stage {
+            width: 100%;
+            aspect-ratio: 1 / 0.8;
             overflow: hidden;
             border-radius: 8px;
-            cursor: pointer;
-            background: #f8f6f1;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: flex 0.45s ease;
+            background: #f8f6f1;
+            position: relative;
+            display: block;
+            cursor: zoom-in;
         }
-        .tree-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .pager-stage img {
+            position: absolute;
+            inset: 0;
+            margin: auto;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
             display: block;
         }
-        .tree-item.active {
-            flex: 3.2;
+        .pager-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0,0,0,0.35);
+            color: #fff;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        @media (max-width: 480px) {
-            .tree-gallery { height: 220px; }
+        .pager-btn.prev { left: 10px; }
+        .pager-btn.next { right: 10px; }
+        .pager-count {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #888;
+            letter-spacing: 0.08em;
         }
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox img {
+            max-width: 92vw;
+            max-height: 88vh;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 14px;
+            right: 20px;
+            color: #fff;
+            font-size: 34px;
+            line-height: 1;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .lightbox .pager-btn.prev { left: 12px; }
+        .lightbox .pager-btn.next { right: 12px; }
         .profile-label {
             font-size: 0.72rem;
             letter-spacing: 0.08em;
@@ -864,6 +915,17 @@
             right: 10px;
             z-index: 100;
         }
+        /* 모바일에서 플레이어와 날짜 텍스트 겹침 방지 */
+        @media (max-width: 480px) {
+            .top-info-bar {
+                padding-top: 44px;
+            }
+            .audio-player-wrapper {
+                top: 8px;
+                right: 50%;
+                transform: translateX(50%);
+            }
+        }
 
         .audio.green-audio-player {
             width: 140px;
@@ -1285,12 +1347,19 @@
                 <section class="gallery">
             <h2>갤러리</h2>
             <div class="gallery-container">
-                <div class="tree-gallery" id="tree-gallery">
-                    <div class="tree-item active" onclick="expandGalleryImage(0)"><img src="asset/image/편집본/1.jpg" alt="갤러리 1"></div>
-                    <div class="tree-item" onclick="expandGalleryImage(1)"><img src="asset/image/편집본/2.jpg" alt="갤러리 2"></div>
-                    <div class="tree-item" onclick="expandGalleryImage(2)"><img src="asset/image/편집본/3.jpg" alt="갤러리 3"></div>
-                    <div class="tree-item" onclick="expandGalleryImage(3)"><img src="asset/image/편집본/4.png" alt="갤러리 4"></div>
-                    <div class="tree-item" onclick="expandGalleryImage(4)"><img src="asset/image/편집본/5.jpg" alt="갤러리 5"></div>
+                <div class="pager-gallery" id="pager-gallery">
+                    <div class="pager-stage" id="pager-stage" onclick="openLightbox()">
+                        <img id="pager-img" src="asset/image/편집본/1.jpg" alt="갤러리">
+                    </div>
+                    <button class="pager-btn prev" onclick="galleryPrev()" aria-label="이전 사진">‹</button>
+                    <button class="pager-btn next" onclick="galleryNext()" aria-label="다음 사진">›</button>
+                    <div class="pager-count" id="pager-count">1 / 5</div>
+                </div>
+                <div class="lightbox hidden" id="lightbox" onclick="closeLightbox()">
+                    <span class="lightbox-close" onclick="closeLightbox()">×</span>
+                    <button class="pager-btn prev" onclick="event.stopPropagation();lightboxNav(-1)" aria-label="이전 사진">‹</button>
+                    <img id="lightbox-img" src="" alt="갤러리 전체화면" onclick="event.stopPropagation()">
+                    <button class="pager-btn next" onclick="event.stopPropagation();lightboxNav(1)" aria-label="다음 사진">›</button>
                 </div>
             </div>
         </section>
@@ -1456,14 +1525,14 @@
                 <div class="cb-item">
                     <div class="cb-info">
                         <div class="cb-name">이주송</div>
-                        <div class="cb-account"><span class="cb-bank">[은행명]</span> [계좌번호] <span style="color:#999;"></span></div>
+                        <div class="cb-account"><span class="cb-bank">[농협은행]</span> 352-0221-7305-53 <span style="color:#999;"></span></div>
                     </div>
                     <a href="tel:010-5682-8295" class="cb-phone">전화하기</a>
                 </div>
                 <div class="cb-item">
                     <div class="cb-info">
                         <div class="cb-name">오세라</div>
-                        <div class="cb-account"><span class="cb-bank">[은행명]</span> [계좌번호] <span style="color:#999;"></span></div>
+                        <div class="cb-account"><span class="cb-bank">[하나은행]</span> 923-910167-34807 <span style="color:#999;"></span></div>
                     </div>
                     <a href="tel:010-2932-1819" class="cb-phone">전화하기</a>
                 </div>
@@ -1482,7 +1551,7 @@
                 <div class="cb-item">
                     <div class="cb-info">
                         <div class="cb-name">오삼환</div>
-                        <div class="cb-account"><span class="cb-bank">[은행명]</span> [계좌번호] <span style="color:#999;"></span></div>
+                        <div class="cb-account"><span class="cb-bank">[농협은행]</span> 352-2161-3235-73 <span style="color:#999;"></span></div>
                     </div>
                     <a href="tel:010-3083-3131" class="cb-phone">전화하기</a>
                 </div>
@@ -1840,42 +1909,46 @@
         }
         playHandwrite();
 
-        function expandGalleryImage(index) {
-            currentImgIndex = index;
-            document.querySelectorAll('#tree-gallery .tree-item').forEach(function(el, i) {
-                if (i === index) el.classList.add('active'); else el.classList.remove('active');
-            });
+        // 갤러리 페이저 – 하나씩 넘기기 + 전체화면
+        function renderPager() {
+            document.getElementById('pager-img').src = galleryImages[currentImgIndex];
+            document.getElementById('pager-count').textContent = (currentImgIndex + 1) + ' / ' + galleryImages.length;
         }
-
-        function selectGalleryImage(index) {
-            currentImgIndex = index;
-            document.getElementById('main-gallery-img').src = galleryImages[index];
-            updateGalleryUI();
-        }
-
-        function prevImage() {
+        function galleryPrev() {
             currentImgIndex = (currentImgIndex - 1 + galleryImages.length) % galleryImages.length;
-            selectGalleryImage(currentImgIndex);
+            renderPager();
         }
-
-        function nextImage() {
+        function galleryNext() {
             currentImgIndex = (currentImgIndex + 1) % galleryImages.length;
-            selectGalleryImage(currentImgIndex);
+            renderPager();
         }
-
-        function updateGalleryUI() {
-            const thumbnails = document.querySelectorAll('#thumb-list img');
-            thumbnails.forEach((thumb, index) => {
-                if (index === currentImgIndex) {
-                    thumb.style.border = '2px solid #5d7a63';
-                    thumb.classList.add('active');
-                    try { thumb.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'}); } catch(e){}
-                } else {
-                    thumb.style.border = '2px solid transparent';
-                    thumb.classList.remove('active');
-                }
+        function openLightbox() {
+            document.getElementById('lightbox-img').src = galleryImages[currentImgIndex];
+            document.getElementById('lightbox').classList.remove('hidden');
+            document.body.classList.add('modal-open');
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.add('hidden');
+            document.body.classList.remove('modal-open');
+        }
+        function lightboxNav(d) {
+            currentImgIndex = (currentImgIndex + d + galleryImages.length) % galleryImages.length;
+            renderPager();
+            document.getElementById('lightbox-img').src = galleryImages[currentImgIndex];
+        }
+        (function initPagerSwipe() {
+            var stage = document.getElementById('pager-stage');
+            if (!stage) return;
+            var sx = null;
+            stage.addEventListener('touchstart', function(e) { sx = e.touches[0].clientX; }, {passive: true});
+            stage.addEventListener('touchend', function(e) {
+                if (sx === null) return;
+                var dx = e.changedTouches[0].clientX - sx;
+                sx = null;
+                if (Math.abs(dx) < 40) return;
+                if (dx < 0) galleryNext(); else galleryPrev();
             });
-        }
+        })();
 
         function switchInfoTab(index) {
             // 모든 탭 제목의 active 제거 및 선택 탭 active 추가
