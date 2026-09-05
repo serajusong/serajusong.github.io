@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>이주송❤️ 오세라</title>       
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&amp;family=Cormorant+Garamond:wght@500;600;700&amp;family=Great+Vibes&amp;family=Noto+Serif+KR:wght@300;400;700&amp;family=Nanum+Myeongjo:wght@400;700&amp;display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css" rel="stylesheet">
@@ -10,6 +10,22 @@
     <style>
         *, *:before, *:after {
             box-sizing: border-box;
+        }
+
+        /* 캡처 방지용 (완전 차단은 불가, 저장·복사 억제) */
+        html, body {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        img {
+            -webkit-touch-callout: none;
+            -webkit-user-drag: none;
+            user-select: none;
+            pointer-events: none;
+        }
+        a, button {
+            -webkit-touch-callout: none;
         }
 
         /* 모든 글씨체 페이퍼로지 */
@@ -1785,6 +1801,11 @@
             'asset/image/편집본/4.png',
             'asset/image/편집본/5.jpg'
         ];
+
+        // 저장·복사 억제 (롱프레스 메뉴, 드래그, 선택 차단)
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        document.addEventListener('selectstart', function(e) { e.preventDefault(); });
+        document.addEventListener('dragstart', function(e) { if (e.target && e.target.tagName === 'IMG') e.preventDefault(); });
 
         function expandGalleryImage(index) {
             currentImgIndex = index;
