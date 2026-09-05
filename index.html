@@ -12,21 +12,7 @@
             box-sizing: border-box;
         }
 
-        /* 캡처 방지용 (완전 차단은 불가, 저장·복사 억제) */
-        html, body {
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-        img {
-            -webkit-touch-callout: none;
-            -webkit-user-drag: none;
-            user-select: none;
-            pointer-events: none;
-        }
-        a, button {
-            -webkit-touch-callout: none;
-        }
+
 
         /* 모든 글씨체 페이퍼로지 */
         html, body, input, button, textarea, select,
@@ -415,7 +401,6 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            pointer-events: none;
         }
         .tree-item.active {
             flex: 3.2;
@@ -1801,11 +1786,6 @@
             'asset/image/편집본/4.png',
             'asset/image/편집본/5.jpg'
         ];
-
-        // 저장·복사 억제 (롱프레스 메뉴, 드래그, 선택 차단)
-        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-        document.addEventListener('selectstart', function(e) { e.preventDefault(); });
-        document.addEventListener('dragstart', function(e) { if (e.target && e.target.tagName === 'IMG') e.preventDefault(); });
 
         function expandGalleryImage(index) {
             currentImgIndex = index;
