@@ -1289,7 +1289,7 @@
 </head>
 <body class="ticket-open modal-open">
     <div id="ticket-wrapper">
-        <video id="intro-video" autoplay style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;z-index:100;background:#000;" playsinline muted>
+        <video id="intro-video" autoplay preload="auto" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;z-index:100;background:#000;" playsinline muted>
             <source src="asset/image/Video Project 6.mp4" type="video/mp4">
         </video>
         <div id="image-ticket" class="ticket-animation-container" onclick="startOpening()">
@@ -1826,7 +1826,20 @@
             if (introVideo) {
                 introVideo.playbackRate = 1.5;
                 introVideo.style.transition = 'opacity 1s ease';
-                introVideo.play().catch(function() {});
+                var playPromise = introVideo.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(function() {
+                        // 아이폰 등 자동재생 차단 시 탭 유도
+                        var overlay = document.createElement('div');
+                        overlay.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);cursor:pointer;';
+                        overlay.innerHTML = '<span style="color:#fff;font-size:1.5rem;font-weight:600;">탭하여 재생</span>';
+                        overlay.addEventListener('click', function() {
+                            introVideo.play();
+                            overlay.remove();
+                        });
+                        introVideo.parentElement.appendChild(overlay);
+                    });
+                }
                 introVideo.addEventListener('ended', function() {
                     introVideo.style.opacity = '0';
                     setTimeout(function() {
