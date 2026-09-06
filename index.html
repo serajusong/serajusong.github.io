@@ -14,10 +14,12 @@
     <meta name="twitter:description" content="2026년 10월 17일 토요일 18시, 오하하우스웨딩">
     <meta name="twitter:image" content="https://serajusong.github.io/asset/image/%EC%9B%A8%EB%94%A9%ED%8F%AC%EC%8A%A4%ED%84%B0%20(3)_orig.jpg">
     <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="2026년 10월 17일 토요일 18시, 오하하우스웨딩에서 이주송과 오세라의 결혼식이 있습니다.">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Noto+Serif+KR:wght@300;400;700&amp;family=Nanum+Myeongjo:wght@400;700&amp;display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css" rel="stylesheet">
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=f9zb7s7erg"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <script src="asset/image/guest-images.js"></script>
     <style>
         *, *:before, *:after {
             box-sizing: border-box;
@@ -1110,11 +1112,18 @@
             border-radius: 4px;
             position: absolute;
             left: -4px;
-            bottom: 30px;
+            bottom: auto;
+            top: -88px;
             flex-direction: column;
             align-items: center;
             display: flex;
             transition: opacity 0.2s ease;
+        }
+        @media (max-height: 200px) {
+            .audio.green-audio-player .volume .volume-controls {
+                top: auto;
+                bottom: -88px;
+            }
         }
 
         .audio.green-audio-player .volume .volume-controls.hidden {
@@ -1285,12 +1294,33 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            .ticket-animation-container,
+            .mosaic-item,
+            .door,
+            .fade-in,
+            .fade-in-scale,
+            .tab-content,
+            .ntab-content {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
     </style>
 </head>
 <body class="ticket-open modal-open">
+    <noscript>
+        <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#e8f5e9;z-index:99999;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;">
+            <div>
+                <p style="font-size:1.2rem;color:#344a38;margin-bottom:20px;">자바스크립트가 비활성화되어 있습니다.</p>
+                <a href="index.html" style="display:inline-block;padding:14px 32px;background:#5d7a63;color:#fff;border-radius:8px;text-decoration:none;font-size:1.1rem;font-weight:600;">탭하여 청첩장 보기</a>
+            </div>
+        </div>
+    </noscript>
     <div id="ticket-wrapper">
         <video id="intro-video" autoplay preload="auto" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;z-index:100;background:#000;" playsinline muted>
-            <source src="asset/image/Video Project 6.mp4" type="video/mp4">
+            <source src="asset/image/VideoProject6.mp4" type="video/mp4">
         </video>
         <div id="image-ticket" class="ticket-animation-container" onclick="startOpening()">
             <div class="door door-left"></div>
@@ -1307,20 +1337,20 @@
             <p style="font-size:0.88rem; color:#666; margin:0 0 16px;">소중한 시간을 내어 알려주시면 감사하겠습니다.</p>
             <form id="rsvpForm" class="rsvp-form" onsubmit="submitRsvp(event)">
                 <div>
-                    <label>성함 *</label>
-                    <input name="name" required maxlength="30" placeholder="홍길동 (성을 포함한 본명)">
+                    <label for="rsvp-name">성함 *</label>
+                    <input id="rsvp-name" name="name" required maxlength="30" placeholder="홍길동 (성을 포함한 본명)">
                 </div>
                 <div>
-                    <label>전화번호 뒷 4자리 *</label>
-                    <input name="phone4" required maxlength="4" pattern="[0-9]{4}" inputmode="numeric" placeholder="번호가 없으면 0000">
+                    <label for="rsvp-phone4">전화번호 뒷 4자리 *</label>
+                    <input id="rsvp-phone4" name="phone4" required maxlength="4" pattern="[0-9]{4}" inputmode="numeric" placeholder="번호가 없으면 0000">
                 </div>
                 <div>
-                    <label>동반 참석 인원수</label>
-                    <input name="guestCount" type="number" min="0" max="10" placeholder="(본인만 참석 시 0)">
+                    <label for="rsvp-guestCount">동반 참석 인원수</label>
+                    <input id="rsvp-guestCount" name="guestCount" type="number" min="0" max="10" placeholder="(본인만 참석 시 0)">
                 </div>
                 <div>
-                    <label>전할 말씀</label>
-                    <textarea name="message" rows="3" maxlength="500" placeholder="축하 메시지 등을 적어주세요"></textarea>
+                    <label for="rsvp-message">전할 말씀</label>
+                    <textarea id="rsvp-message" name="message" rows="3" maxlength="500" placeholder="축하 메시지 등을 적어주세요"></textarea>
                 </div>
                 <button type="submit" class="rsvp-submit" id="rsvpSubmitBtn">제출하기</button>
                 <div id="rsvpMsg" class="rsvp-msg"></div>
@@ -1332,7 +1362,7 @@
     <!-- 참석자별 커스텀 메시지 모달 -->
     <div class="modal-overlay" id="guestMsgModal">
         <div class="modal-content" style="text-align:center;">
-            <div id="guestMsgText" style="font-size:1.05rem; line-height:1.8; color:#344a38; margin-bottom:20px; word-break:keep-all;"></div>
+            <div id="guestMsgText" style="font-size:1.05rem; line-height:1.8; color:#344a38; margin-bottom:20px; word-break:keep-all; white-space:pre-line;"></div>
             <img id="guestMsgImg" src="" alt="" style="max-width:100%; max-height:400px; border-radius:8px; display:none; margin-bottom:16px;">
             <button class="modal-close-button" onclick="closeGuestMsgModal()">닫기</button>
         </div>
@@ -1436,8 +1466,6 @@
                     </div>
                 </div>
             </div>
-        </section>
-
         </section>
 
                 <section class="gallery">
@@ -1713,8 +1741,6 @@
                                 <img src="asset/image/lucky.png" alt="경품추첨" style="width: 50%; border-radius: 8px; object-fit: cover; display: block; margin: 0 auto; background: #fff;">
                             </div>
                             <div class="ntab-text">
-                                식 중에 <strong>경품추첨</strong>이 진행될 예정이오니<br>
-                                <strong>축의대에서 번호를 수령</strong>해주세요.<br>
                                 즐겁게 참여해주시면 환한 미소와 따뜻한 추억을<br>
                                 평생 소중히 간직하도록 하겠습니다.
                             </div>
@@ -1971,14 +1997,14 @@
         // 로컬 Boot로 서빙 시 빈 문자열이면 /api/rsvp 로 요청
         // 참석자별 커스텀 메시지 (이름 별명 + 전화번호 뒷4자리 둘 다 매칭)
         var guestMessages = [
-            { names: ["서누림"], phone: "8984", message: "세계 최고 축가의 신 잘생긴 서누림님 와주셔서 감사합니다.", image: "asset/image/KakaoTalk_20260906_231745750.jpg" },
-            { names: ["안진수"], phone: "4674", message: "진수주니어 축하해 진수 진수는 진짜 멋지다", image: "asset/image/KakaoTalk_20260906_231745750.jpg" },
-            { names: ["조선근"], phone: "7352", message: "줘어언나 귀엽네 선근", image: "asset/image/KakaoTalk_20260906_231745750.jpg" },
-            { names: ["김종범"], phone: "9695", message: "종범이 밖으로 꺼낼 일을 하나 더 만들어서 뿌듯하다", image: "asset/image/KakaoTalk_20260906_231745750.jpg" },
-            { names: ["김종혁"], phone: "4135", message: "종혁이는 진짜.. 멋지다.. 사장님이 맛있고 커피가 잘생겼어요", image: "asset/image/KakaoTalk_20260906_231745750.jpg" },
-            { names: ["박진우"], phone: "3639", message: "진우야.. 여자친구가 넌 오지말래.... 구라임~", image: "asset/image/KakaoTalk_20260906_231745750.jpg" },
+            { names: ["서누림"], phone: "8984", message: "세계 최고 축가의 신 잘생긴 서누림님 와주셔서 감사합니다.", image: GUEST_IMAGES.img1 },
+            { names: ["안진수"], phone: "4674", message: "진수주니어 축하해 진수 진수는 진짜 멋지다", image: GUEST_IMAGES.img1 },
+            { names: ["조선근"], phone: "7352", message: "줘어언나 귀엽네 선근", image: GUEST_IMAGES.img1 },
+            { names: ["김종범"], phone: "9695", message: "종범이 밖으로 꺼낼 일을 하나 더 만들어서 뿌듯하다", image: GUEST_IMAGES.img1 },
+            { names: ["김종혁"], phone: "4135", message: "종혁이는 진짜.. 멋지다.. 사장님이 맛있고 커피가 잘생겼어요", image: GUEST_IMAGES.img1 },
+            { names: ["박진우"], phone: "3639", message: "진우야.. 여자친구가 넌 오지말래.... 구라임~", image: GUEST_IMAGES.img1 },
             { names: ["이태형"], phone: "2321", message: "결혼식때는 집간다고 찡찡거리지 말길.." },
-            { names: ["임현규"], phone: "1503", message: "현규는 언제 결혼함? 포항에서 할거임?", image: "asset/image/KakaoTalk_20260906_231745750.jpg" },
+            { names: ["임현규"], phone: "1503", message: "현규는 언제 결혼함? 포항에서 할거임?", image: GUEST_IMAGES.img1 },
             { names: ["박상운"], phone: "0253", message: "FC ORG Forever...." },
             { names: ["김인혜"], phone: "8534", message: "입포?입포? 입포 ㄱㄱㄱ?" },
             { names: ["권반디"], phone: "8028", message: "결혼식 날은 지각하지 마세여 청모 때는 봐드렸습니다." },
@@ -1986,10 +2012,10 @@
             { names: ["양현욱"], phone: "3428", message: "저의 행복을 기도해주세요 욱이님" },
             { names: ["김사랑"], phone: "5756", message: "둘째 추카포카리스웨트염" },
             { names: ["한아름"], phone: "5520", message: "부팀장님 이직한 회사에서는 행복하시길...★☆★" },
-            { names: ["정연화"], phone: "6212", message: "집현전에서 같이 공부하던 때가 엊그제 같은데 나도 간다 유부의 길!\n16년 전 모습 그대로 앞으로도 영원하자❤️", image: "asset/image/KakaoTalk_20260906_231936314.jpg" },
-            { names: ["남윤선"], phone: "0861", message: "⭐내가 아는 사람 중에 제일 유명한 사람⭐\n16년 전 모습 그대로 앞으로도 영원하자❤️", image: "asset/image/KakaoTalk_20260906_231936314.jpg" },
-            { names: ["정혜수"], phone: "6716", message: "🌋화산 폭발도 같이 겪은 우리🌋\n유부의 길로 가지만 16년 전 모습 그대로 앞으로도 영원하자❤️", image: "asset/image/KakaoTalk_20260906_231936314.jpg" },
-            { names: ["정현수"], phone: "6615", message: "작가님, 연하도 좋아요 쟁취하세요!\n유부의 길로 가지만 16년 전 모습 그대로 앞으로도 영원하자❤️", image: "asset/image/KakaoTalk_20260906_231936314.jpg" },
+            { names: ["정연화"], phone: "6212", message: "집현전에서 같이 공부하던 때가 엊그제 같은데 나도 간다 유부의 길!\n16년 전 모습 그대로 앞으로도 영원하자❤️", image: GUEST_IMAGES.img2 },
+            { names: ["남윤선"], phone: "0861", message: "⭐내가 아는 사람 중에 제일 유명한 사람⭐\n16년 전 모습 그대로 앞으로도 영원하자❤️", image: GUEST_IMAGES.img2 },
+            { names: ["정혜수"], phone: "6716", message: "🌋화산 폭발도 같이 겪은 우리🌋\n유부의 길로 가지만 16년 전 모습 그대로 앞으로도 영원하자❤️", image: GUEST_IMAGES.img2 },
+            { names: ["정현수"], phone: "6615", message: "작가님, 연하도 좋아요 쟁취하세요!\n유부의 길로 가지만 16년 전 모습 그대로 앞으로도 영원하자❤️", image: GUEST_IMAGES.img2 },
             { names: ["노승혜"], phone: "1756", message: "가방순이로 임명합니다. 사연 있는 사람처럼 오열 금지" },
             { names: ["송혜인"], phone: "3304", message: "일복이 많은 그대에게 가방순이가 흥분하지 않도록 관리하는 일을 드립니다." },
             { names: ["이상은"], phone: "0177", message: "유부의 세계 먼저 갑니다! 새치기 죄송 ㅎㅎ" },
@@ -2019,10 +2045,9 @@
             var msg = document.getElementById('rsvpMsg');
             var data = {
                 name: form.name.value.trim(),
-                phone: '',
+                phone4: (form.phone4.value || '').trim(),
                 attending: true,
                 guestCount: parseInt(form.guestCount.value, 10) || 0,
-                companions: (form.phone4.value || '').trim(),
                 message: form.message.value.trim()
             };
             if (!data.name) {
@@ -2030,7 +2055,7 @@
                 msg.className = 'rsvp-msg err';
                 return;
             }
-            if (!data.companions || !/^\d{4}$/.test(data.companions)) {
+            if (!data.phone4 || !/^\d{4}$/.test(data.phone4)) {
                 msg.textContent = '전화번호 뒷 4자리를 정확히 입력해 주세요.';
                 msg.className = 'rsvp-msg err';
                 return;
@@ -2039,7 +2064,8 @@
             btn.textContent = '제출 중...';
             msg.textContent = '';
             msg.className = 'rsvp-msg';
-            var apiBase = window.RSVP_API_BASE || 'https://script.google.com/macros/s/AKfycbyjeCErtPcYro4g1f2KX90nrQ8Hewl9sMSaxkYE2366sG0z_uqxGP_0wWuywgshw0yKZw/exec';
+            var _e='aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5amVDRXJ0UGNZcm80ZzFmMktYOTBuclE4SGV3bDlzTVNheGtZRTIzNjZzRzB6X3VxeEdQXzB3V3V5d2dzaHcweUtady9leGVj';
+            var apiBase = window.RSVP_API_BASE || atob(_e);
             var isAppsScript = apiBase.indexOf('script.google.com') !== -1;
             var url = isAppsScript ? apiBase : (apiBase ? apiBase.replace(/\/$/, '') + '/api/rsvp' : '/api/rsvp');
             // Apps Script는 CORS 헤더를 주지 않아 일반 fetch가 실패하므로 no-cors로 전송 (opaque 응답 = 전송 성공으로 간주)
@@ -2047,7 +2073,7 @@
                 ? {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(data)}
                 : {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)};
             var handleOk = function(){
-                var match = findGuestMessage(data.name, data.companions);
+                var match = findGuestMessage(data.name, data.phone4);
                 form.reset();
                 if (match) {
                     closeGoogleFormModal();
@@ -2067,17 +2093,9 @@
             }).then(function(res){
                 if (res !== null) handleOk();
             }).catch(function(err){
-                console.warn('RSVP API failed, fallback localStorage', err);
-                try {
-                    var arr = JSON.parse(localStorage.getItem('rsvp_fallback')||'[]');
-                    arr.push(Object.assign({}, data, {createdAt: new Date().toISOString(), _fallback:true}));
-                    localStorage.setItem('rsvp_fallback', JSON.stringify(arr));
-                    msg.textContent = '현재 정적 페이지라 브라우저에 임시 저장했습니다. Boot 배포 후 서버에 저장됩니다.';
-                    msg.className = 'rsvp-msg ok';
-                } catch(ex){
-                    msg.textContent = '제출 실패: ' + err.message;
-                    msg.className = 'rsvp-msg err';
-                }
+                console.warn('RSVP API failed', err);
+                msg.textContent = '죄송합니다. 다시 제출해주세요.';
+                msg.className = 'rsvp-msg err';
             }).finally(function(){
                 btn.disabled = false;
                 btn.textContent = '제출하기';
@@ -2110,6 +2128,10 @@
             });
             handwriteAnim.addEventListener('complete', function() {
                 autoAdvanceTimer = setTimeout(autoAdvance, 3000);
+            });
+            handwriteAnim.addEventListener('error', function() {
+                // Lottie 로딩 실패 시 바로 문 열림
+                autoAdvanceTimer = setTimeout(autoAdvance, 1000);
             });
         }
         // 동영상 없을 때 바로 시작 (폴백)
