@@ -1308,6 +1308,10 @@
                     <input name="name" required maxlength="30" placeholder="홍길동">
                 </div>
                 <div>
+                    <label>전화번호 뒷 4자리 *</label>
+                    <input name="phone4" required maxlength="4" pattern="[0-9]{4}" inputmode="numeric" placeholder="번호가 없으면 0000">
+                </div>
+                <div>
                     <label>전할 말씀</label>
                     <textarea name="message" rows="3" maxlength="500" placeholder="축하 메시지 등을 적어주세요"></textarea>
                 </div>
@@ -1315,6 +1319,14 @@
                 <div id="rsvpMsg" class="rsvp-msg"></div>
             </form>
             <button class="modal-close-button" onclick="closeGoogleFormModal()">닫기</button>
+        </div>
+    </div>
+
+    <!-- 참석자별 커스텀 메시지 모달 -->
+    <div class="modal-overlay" id="guestMsgModal">
+        <div class="modal-content" style="text-align:center;">
+            <div id="guestMsgText" style="font-size:1.05rem; line-height:1.8; color:#344a38; margin-bottom:20px; white-space:pre-line;"></div>
+            <button class="modal-close-button" onclick="closeGuestMsgModal()">닫기</button>
         </div>
     </div>
 
@@ -1898,24 +1910,59 @@
             document.body.classList.remove('modal-open'); 
         }
 
+        function openGuestMsgModal(text) {
+            document.getElementById('guestMsgText').textContent = text;
+            document.getElementById('guestMsgModal').classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeGuestMsgModal() {
+            document.getElementById('guestMsgModal').classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+
         // RSVP API base – Pages에서는 Boot 서버 주소로 교체하세요. 예: window.RSVP_API_BASE='https://your-boot.onrender.com'
         // 로컬 Boot로 서빙 시 빈 문자열이면 /api/rsvp 로 요청
+        // 참석자별 커스텀 메시지 (이름/별명 → 메시지)
+        var guestMessages = [
+            { names: ["TEST", "테스트"], message: "TEST입니다" }
+            // 여기에 30명 추가: { names: ["홍길동", "길동"], message: "커스텀 메시지" },
+        ];
+
+        function findGuestMessage(inputName) {
+            var name = inputName.trim();
+            for (var i = 0; i < guestMessages.length; i++) {
+                var entry = guestMessages[i];
+                for (var j = 0; j < entry.names.length; j++) {
+                    var alias = entry.names[j].trim();
+                    if (name.indexOf(alias) !== -1 || alias.indexOf(name) !== -1) {
+                        return entry.message;
+                    }
+                }
+            }
+            return null;
+        }
+
         function submitRsvp(e){
             e.preventDefault();
             var form = e.target;
             var btn = document.getElementById('rsvpSubmitBtn');
             var msg = document.getElementById('rsvpMsg');
-            var guestCount = Math.max(1, Math.min(10, parseInt(form.guestCount.value,10) || 1));
             var data = {
                 name: form.name.value.trim(),
                 phone: '',
                 attending: true,
                 guestCount: 1,
-                companions: '',
+                companions: (form.phone4.value || '').trim(),
                 message: form.message.value.trim()
             };
             if (!data.name) {
                 msg.textContent = '성함을 입력해 주세요.';
+                msg.className = 'rsvp-msg err';
+                return;
+            }
+            if (!data.companions || !/^\d{4}$/.test(data.companions)) {
+                msg.textContent = '전화번호 뒷 4자리를 정확히 입력해 주세요.';
                 msg.className = 'rsvp-msg err';
                 return;
             }
@@ -1931,10 +1978,18 @@
                 ? {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(data)}
                 : {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)};
             var handleOk = function(){
-                msg.textContent = '감사합니다! 정상적으로 전달되었습니다.';
-                msg.className = 'rsvp-msg ok';
+                var customMsg = findGuestMessage(data.name);
                 form.reset();
-                setTimeout(closeGoogleFormModal, 1400);
+                if (customMsg) {
+                    closeGoogleFormModal();
+                    setTimeout(function() {
+                        openGuestMsgModal(customMsg);
+                    }, 400);
+                } else {
+                    msg.textContent = '감사합니다! 정상적으로 전달되었습니다.';
+                    msg.className = 'rsvp-msg ok';
+                    setTimeout(closeGoogleFormModal, 1400);
+                }
             };
             fetch(url, fetchOpt).then(function(r){
                 if (isAppsScript || r.type === 'opaque') { handleOk(); return null; }
