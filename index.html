@@ -222,11 +222,6 @@
             display: none !important;
         }
 
-        /* container는 뒷배경에 미리 렌더링되도록 display: none 제거 */
-        .container {
-            /* display: none; */
-        }
-
         .rsvp-button {
             background-color: #5d7a63;
             color: white;
@@ -509,6 +504,39 @@
             .profile-label { font-size: 0.68rem; }
             .profile-role { font-size: 0.86rem; }
             .profile-details { font-size: 0.78rem; padding: 0 6px; }
+            .top-info-bar .top-datetime {
+                font-size: clamp(0.68rem, 3vw, 0.85rem);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .ntab-title {
+                font-size: clamp(0.8rem, 3vw, 0.95rem);
+                white-space: nowrap;
+            }
+            .ntab-contents { padding: 20px 6px; }
+            .notice-tab-wrap .m-subtitle {
+                font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+            }
+            .notice-tab-wrap .greetings-title {
+                font-size: clamp(1.1rem, 4vw, 1.4rem);
+                white-space: nowrap;
+            }
+            .profile-album-note {
+                font-size: clamp(0.68rem, 2.8vw, 0.82rem);
+                white-space: nowrap;
+            }
+            .header-poem {
+                font-size: clamp(0.82rem, 3vw, 1rem);
+            }
+            .modal-content {
+                max-width: 95%;
+                padding: 16px;
+            }
+            .rsvp-form label { font-size: clamp(0.82rem, 3vw, 0.95rem); }
+            .rsvp-form input, .rsvp-form textarea { font-size: clamp(0.85rem, 3vw, 0.95rem); padding: 8px 10px; }
+            .rsvp-submit { font-size: clamp(0.88rem, 3vw, 1rem); padding: 10px; }
+            .rsvp-survey .rsvp-button { font-size: clamp(0.82rem, 3vw, 0.95rem); padding: 10px 20px; }
         }
 
         .invitation-text {
@@ -570,60 +598,22 @@
         }
 
         .copy-address-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: none;
+            display: inline-block;
+            background: #5d7a63;
+            color: #fff;
             border: none;
             cursor: pointer;
-            padding: 4px 6px;
-            margin-left: 6px;
+            padding: 8px 20px;
             border-radius: 6px;
-            color: #9b8ea0;
-            transition: background 0.2s, color 0.2s, transform 0.15s;
-            vertical-align: middle;
-            position: relative;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: background 0.2s;
         }
         .copy-address-btn:hover {
-            background: rgba(155, 142, 160, 0.15);
-            color: #7a5c8a;
-            transform: scale(1.15);
+            background: #4a634f;
         }
-        .copy-address-btn svg {
-            width: 18px;
-            height: 18px;
-            display: block;
-            transition: opacity 0.2s;
-        }
-        .copy-address-btn .icon-check {
-            display: none;
-            color: #6ab04c;
-        }
-        .copy-address-btn.copied .icon-copy {
-            display: none;
-        }
-        .copy-address-btn.copied .icon-check {
-            display: block;
-        }
-        .copy-tooltip {
-            position: absolute;
-            bottom: calc(100% + 6px);
-            left: 50%;
-            transform: translateX(-50%) translateY(4px);
-            background: #3d3340;
-            color: #fff;
-            font-size: 0.72em;
-            padding: 4px 10px;
-            border-radius: 8px;
-            white-space: nowrap;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.2s, transform 0.2s;
-            z-index: 100;
-        }
-        .copy-address-btn.copied .copy-tooltip {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        .copy-address-btn.copied {
+            background: #6ab04c;
         }
 
         .map-container {
@@ -1275,7 +1265,7 @@
             display: block;
         }
         .ntab-text {
-            font-size: 1.05em;
+            font-size: clamp(0.88rem, 3vw, 1.1em);
             line-height: 1.8;
             color: #555;
             text-align: center;
@@ -1389,7 +1379,8 @@
             <div style="text-align:center; margin-bottom:18px; line-height:1.75; color:#4a4a4a; font-size:0.93rem;">
                 이운수 이명희의 장남 <strong style="color:#333; font-weight:700;">이주송</strong><br>
                 오삼환 조화숙의 차녀 <strong style="color:#333; font-weight:700;">오세라</strong><br><br>
-                <span class="profile-album-note" style="font-size:0.82rem; color:#999; margin-top:4px;">아래 사진은 서로의 앨범에서 우연히 찾은 사진입니다. 이때부터 운명이었을지도..?</span>
+                <span class="profile-album-note" style="font-size:0.82rem; color:#999; margin-top:4px;">아래 사진은 서로의 앨범에서 우연히 찾은 사진입니다.<br>
+                    이때부터 운명이었을지도..?</span>
             </div>
             <div class="profile-card">
                 <div class="profile-grid">
@@ -1434,11 +1425,11 @@
             <div class="gallery-container">
                 <p class="gallery-notice">사진을 클릭하시면 전체 화면 보기가 가능합니다</p>
                 <div class="mosaic-gallery" id="mosaic-gallery">
-                    <div class="mosaic-item" onclick="openLightbox(0)"><img src="asset/image/편집본/1.jpg" alt="갤러리 1"></div>
-                    <div class="mosaic-item" onclick="openLightbox(1)"><img src="asset/image/편집본/2.jpg" alt="갤러리 2"></div>
-                    <div class="mosaic-item mosaic-tall" onclick="openLightbox(2)"><img src="asset/image/편집본/3.jpg" alt="갤러리 3"></div>
-                    <div class="mosaic-item" onclick="openLightbox(3)"><img src="asset/image/편집본/4.png" alt="갤러리 4"></div>
-                    <div class="mosaic-item" onclick="openLightbox(4)"><img src="asset/image/편집본/5.jpg" alt="갤러리 5"></div>
+                    <div class="mosaic-item" onclick="openLightbox(0)"><img src="asset/image/실사용/1.jpg" alt="갤러리 1"></div>
+                    <div class="mosaic-item" onclick="openLightbox(1)"><img src="asset/image/실사용/2.jpg" alt="갤러리 2"></div>
+                    <div class="mosaic-item mosaic-tall" onclick="openLightbox(2)"><img src="asset/image/실사용/3.jpg" alt="갤러리 3"></div>
+                    <div class="mosaic-item" onclick="openLightbox(3)"><img src="asset/image/실사용/4.jpg" alt="갤러리 4"></div>
+                    <div class="mosaic-item" onclick="openLightbox(4)"><img src="asset/image/실사용/5.jpg" alt="갤러리 5"></div>
                 </div>
                 <div class="lightbox hidden" id="lightbox" onclick="closeLightbox()">
                     <span class="lightbox-close" onclick="closeLightbox()">×</span>
@@ -1569,17 +1560,10 @@
                 2026년 10월 17일 토요일 18시<br>
                 오하 하우스 웨딩<br>
                 (경기 안성시 서운면 신능길 83-15)
-                <button class="copy-address-btn" id="copyAddressBtn" title="주소 복사" aria-label="주소 복사">
-                    <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <span class="copy-tooltip">복사됨!</span>
-                </button>
             </p>
+            <div style="text-align:center; margin-top:10px;">
+                <button class="copy-address-btn" id="copyAddressBtn" title="주소 복사" aria-label="주소 복사">주소 복사하기</button>
+            </div>
             <div id="map" class="map-container"></div>
             <div class="c-map-navi-wrapper">
                 <a href="https://map.naver.com/v5/search/%EC%98%A4%ED%95%98%ED%95%98%EC%9A%B0%EC%8A%A4%EC%9B%A8%EB%94%A9" target="_blank" class="c-map-navi-item">
@@ -1978,11 +1962,11 @@
 
         let currentImgIndex = 0;
         const galleryImages = [
-            'asset/image/편집본/1.jpg',
-            'asset/image/편집본/2.jpg',
-            'asset/image/편집본/3.jpg',
-            'asset/image/편집본/4.png',
-            'asset/image/편집본/5.jpg'
+            'asset/image/실사용/1.jpg',
+            'asset/image/실사용/2.jpg',
+            'asset/image/실사용/3.jpg',
+            'asset/image/실사용/4.jpg',
+            'asset/image/실사용/5.jpg'
         ];
 
         // Lottie 필기체 애니메이션 ("저희 둘 결혼합니다")
@@ -2094,8 +2078,10 @@
                     showCopied();
                 }
                 function showCopied() {
+                    var old = btn.textContent;
+                    btn.textContent = '복사됨!';
                     btn.classList.add('copied');
-                    setTimeout(function() { btn.classList.remove('copied'); }, 2000);
+                    setTimeout(function() { btn.textContent = old; btn.classList.remove('copied'); }, 1500);
                 }
             });
         })();
