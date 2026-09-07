@@ -1368,6 +1368,16 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="bgmModal">
+        <div class="modal-content" style="text-align:center; padding:24px 16px;">
+            <h3 style="margin:0 0 24px; color:#344a38; font-size:clamp(1rem, 4vw, 1.15rem);">배경 음악을 재생할까요?</h3>
+            <div style="display:flex; gap:12px; justify-content:center; width:100%;">
+                <button onclick="bgmPlay()" style="flex:1; max-width:140px; padding:14px 0; background:#5d7a63; color:#fff; border:none; border-radius:8px; font-size:clamp(0.95rem, 3.5vw, 1.05rem); font-weight:600; cursor:pointer;">재생</button>
+                <button onclick="bgmStop()" style="flex:1; max-width:140px; padding:14px 0; background:#aaa; color:#fff; border:none; border-radius:8px; font-size:clamp(0.95rem, 3.5vw, 1.05rem); font-weight:600; cursor:pointer;">정지</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="top-info-bar">
             <div class="top-datetime">2026년 10월 17일 토요일 18시, 오하하우스웨딩</div>
@@ -1429,7 +1439,7 @@
             <div style="text-align:center; margin-bottom:18px; line-height:1.75; color:#4a4a4a; font-size:0.93rem;">
                 이운수 이명희의 장남 <strong style="color:#333; font-weight:700;">이주송</strong><br>
                 오삼환 조화숙의 차녀 <strong style="color:#333; font-weight:700;">오세라</strong><br><br>
-                <span class="profile-album-note" style="font-size:0.82rem; color:#999; margin-top:4px;">아래 사진은 서로의 앨범에서 우연히 찾은 사진입니다.<br>
+                <span class="profile-album-note" style="font-size:0.82rem; color:#999; margin-top:4px;">서로의 앨범에서 찾은 사진입니다.<strong style="color:#333;">(AI 절대 아님)</strong><br>
                     이때부터 운명이었을지도..?</span>
             </div>
             <div class="profile-card">
@@ -1963,6 +1973,7 @@
                     map.setCenter(new naver.maps.LatLng(37.0373, 127.2464));
                 }
             }, 500);
+            setTimeout(openBgmModal, 600);
         }
 
         function openGoogleFormModal() {
@@ -1991,6 +2002,29 @@
         function closeGuestMsgModal() {
             document.getElementById('guestMsgModal').classList.remove('active');
             document.body.classList.remove('modal-open');
+        }
+
+        function openBgmModal() {
+            document.getElementById('bgmModal').classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeBgmModal() {
+            document.getElementById('bgmModal').classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+
+        function bgmPlay() {
+            var audio = document.getElementById('bgm');
+            if (audio) {
+                audio.play().catch(function(){});
+                updatePlayIcon();
+            }
+            closeBgmModal();
+        }
+
+        function bgmStop() {
+            closeBgmModal();
         }
 
         // RSVP API base – Pages에서는 Boot 서버 주소로 교체하세요. 예: window.RSVP_API_BASE='https://your-boot.onrender.com'
@@ -2045,9 +2079,10 @@
             var msg = document.getElementById('rsvpMsg');
             var data = {
                 name: form.name.value.trim(),
-                phone4: (form.phone4.value || '').trim(),
+                phone: '',
                 attending: true,
                 guestCount: parseInt(form.guestCount.value, 10) || 0,
+                companions: (form.phone4.value || '').trim(),
                 message: form.message.value.trim()
             };
             if (!data.name) {
@@ -2055,7 +2090,7 @@
                 msg.className = 'rsvp-msg err';
                 return;
             }
-            if (!data.phone4 || !/^\d{4}$/.test(data.phone4)) {
+            if (!data.companions || !/^\d{4}$/.test(data.companions)) {
                 msg.textContent = '전화번호 뒷 4자리를 정확히 입력해 주세요.';
                 msg.className = 'rsvp-msg err';
                 return;
@@ -2073,7 +2108,7 @@
                 ? {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(data)}
                 : {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)};
             var handleOk = function(){
-                var match = findGuestMessage(data.name, data.phone4);
+                var match = findGuestMessage(data.name, data.companions);
                 form.reset();
                 if (match) {
                     closeGoogleFormModal();
