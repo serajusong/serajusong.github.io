@@ -20,6 +20,7 @@
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=f9zb7s7erg"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <script src="asset/image/guest-images.js"></script>
+    <script src="asset/image/guest-data.js"></script>
     <style>
         *, *:before, *:after {
             box-sizing: border-box;
@@ -2006,32 +2007,9 @@
         // RSVP API base – Pages에서는 Boot 서버 주소로 교체하세요. 예: window.RSVP_API_BASE='https://your-boot.onrender.com'
         // 로컬 Boot로 서빙 시 빈 문자열이면 /api/rsvp 로 요청
         // 참석자별 커스텀 메시지 (이름 별명 + 전화번호 뒷4자리 둘 다 매칭)
-        var guestMessages = [
-            { names: ["서누림"], phone: "8984", message: "⭐세계 최고 축가의 신⭐\n잘생긴 서누림님 와주셔서 감사합니다.", image: GUEST_IMAGES.img1 },
-            { names: ["안진수"], phone: "4674", message: "⭐진수주니어 축하⭐ 진수는 진짜 멋지다", image: GUEST_IMAGES.img1 },
-            { names: ["조선근"], phone: "7352", message: "줘어언나 귀엽네 선근", image: GUEST_IMAGES.img1 },
-            { names: ["김종범"], phone: "9695", message: "종범이 집 밖으로 꺼낼 일을 하나 더 만들어서 뿌듯하다", image: GUEST_IMAGES.img1 },
-            { names: ["김종혁"], phone: "4135", message: "종혁이는 진짜 멋지다...\n사장님이 맛있고 커피가 잘생겼어요", image: GUEST_IMAGES.img1 },
-            { names: ["박진우"], phone: "3639", message: "진우야.. 여자친구가 넌 오지말래....\n구라임~", image: GUEST_IMAGES.img1 },
-            { names: ["이태형"], phone: "2321", message: "나의 가장 친한 친구 태형이......" },
-            { names: ["임현규"], phone: "1503", message: "현규는 언제 결혼함? 포항에서 할거임?", image: GUEST_IMAGES.img1 },
-            { names: ["박상운"], phone: "0253", message: "FC ORG Forever...." },
-            { names: ["김인혜"], phone: "8534", message: "입포?입포? 입포 ㄱㄱㄱ?" },
-            { names: ["권반디"], phone: "8028", message: "결혼식 날은 지각하지 마세여 청모 때는 봐드렸습니다." },
-            { names: ["채윤주"], phone: "0818", message: "감사합니다. ⭐인플루언서⭐님이 와주신다니 영광입니다." },
-            { names: ["양현욱"], phone: "3428", message: "저의 행복을 기도해주세요 욱이님" },
-            { names: ["김사랑"], phone: "5756", message: "둘째 추카포카리스웨트염" },
-            { names: ["한아름"], phone: "5520", message: "부팀장님 이직한 회사에서는 행복하시길...★☆★" },
-            { names: ["정연화"], phone: "6212", message: "집현전에서 같이 공부하던 때가 엊그제 같은데 나도 간다 유부의 길!\n16년 전 모습 그대로 앞으로도 영원하자❤️", image: GUEST_IMAGES.img2 },
-            { names: ["남윤선"], phone: "0861", message: "⭐내가 아는 사람 중에 제일 유명한 사람⭐\n16년 전 모습 그대로 앞으로도 영원하자❤️", image: GUEST_IMAGES.img2 },
-            { names: ["정혜수"], phone: "6716", message: "🌋화산 폭발도 같이 겪은 우리🌋\n유부의 길로 가지만 16년 전 모습 그대로 앞으로도 영원하자❤️", image: GUEST_IMAGES.img2 },
-            { names: ["정현수"], phone: "6615", message: "작가님, 연하도 좋아요 쟁취하세요!\n유부의 길로 가지만 16년 전 모습 그대로 앞으로도 영원하자❤️", image: GUEST_IMAGES.img2 },
-            { names: ["노승혜"], phone: "1756", message: "가방순이로 임명합니다. 사연 있는 사람처럼 오열 금지" },
-            { names: ["송혜인"], phone: "3304", message: "일복이 많은 그대에게 가방순이가 흥분하지 않도록 관리하는 일을 드립니다." },
-            { names: ["이상은"], phone: "0177", message: "유부의 세계 먼저 갑니다! 새치기 죄송 ㅎㅎ" },
-            { names: ["박초희"], phone: "8015", message: "중학생 때 만나서 둘 다 유부녀가 되다니...\n육아의 세계로 나도 얼른 갈게 기다려❤️"  },
-            { names: ["노채윤"], phone: "5031", message: "리르리르님! 복숭아가 결혼을 하면...? 웨딩피치🍑" }
-        ];
+        var guestMessages = JSON.parse(atob(_gd));
+
+        var _imgMap = { img1: GUEST_IMAGES.img1, img2: GUEST_IMAGES.img2 };
 
         function findGuestMessage(inputName, phone4) {
             var name = inputName.trim();
@@ -2042,7 +2020,8 @@
                 for (var j = 0; j < entry.names.length; j++) {
                     var alias = entry.names[j].trim();
                     if (name.indexOf(alias) !== -1 || alias.indexOf(name) !== -1) {
-                        return { message: entry.message, image: entry.image || null };
+                        var img = entry.image ? (_imgMap[entry.image] || null) : null;
+                        return { message: entry.message, image: img };
                     }
                 }
             }
