@@ -1,5 +1,0 @@
-배포 ID
-AKfycbxZVqJ72uZrW7HxGCkyIaSVS5Hpv0CZOuOisIH7dmQkdEM01UhaE96xUehIM5Wj0bZ0NA
-
-URL
-https://script.google.com/macros/s/AKfycbxZVqJ72uZrW7HxGCkyIaSVS5Hpv0CZOuOisIH7dmQkdEM01UhaE96xUehIM5Wj0bZ0NA/exec
