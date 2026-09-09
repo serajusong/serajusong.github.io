@@ -2007,7 +2007,9 @@
         // RSVP API base – Pages에서는 Boot 서버 주소로 교체하세요. 예: window.RSVP_API_BASE='https://your-boot.onrender.com'
         // 로컬 Boot로 서빙 시 빈 문자열이면 /api/rsvp 로 요청
         // 참석자별 커스텀 메시지 (이름 별명 + 전화번호 뒷4자리 둘 다 매칭)
-        var guestMessages = JSON.parse(atob(_gd));
+        // base64 디코딩 (한글 UTF-8 지원)
+        var _decoded = decodeURIComponent(escape(atob(_gd)));
+        var guestMessages = JSON.parse(_decoded);
 
         var _imgMap = { img1: GUEST_IMAGES.img1, img2: GUEST_IMAGES.img2 };
 
